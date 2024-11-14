@@ -147,7 +147,7 @@ argsWithPar
     ;
 
 args
-    : expertion (Comma args)*
+    : expression (Comma args)*
     ;
 
 statementWithBrace
@@ -163,13 +163,52 @@ statement
     ;
 
 initialayzer
-    : Assign expertion
+    : Assign expression
     ;
 
-// TODO
-expertion
-    : IntegerLiteral
+// expression
+// test: int a = 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
+expression : logicalOr ;
+
+logicalOr
+    : logicalAnd (OrOr logicalAnd)*
+    ;
+
+logicalAnd
+    : equality (AndAnd equality)*
+    ;
+
+equality
+    : relational ((Equal | NotEqual) relational)*
+    ;
+
+relational
+    : additive ((Less | Greater) additive)*
+    ;
+
+additive
+    : multiplicative ((Plus | Minus) multiplicative)*
+    ;
+
+multiplicative
+    : unary ((Star | Div | Mod) unary)*
+    ;
+
+unary
+    : (PlusPlus | MinusMinus | Not | Minus) unary
+    | postfix
+    ;
+
+postfix
+    : terminal (PlusPlus | MinusMinus)?
+    ;
+
+terminal
+    : LeftParen expression RightParen
     | New Identifier argsWithPar
+    | IntegerLiteral
+    | Identifier LeftBracket expression RightBracket
+    | Identifier
     ;
 
 type
