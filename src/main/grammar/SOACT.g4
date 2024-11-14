@@ -47,8 +47,8 @@ Greater: '>';
 Comma: ',';
 
 // advanced values
-DecimalLiteral: NONZERODIGIT DIGIT*;
 IntegerLiteral: '0' | DecimalLiteral;
+DecimalLiteral: NONZERODIGIT DIGIT*;
 BoolLiteral: True | False;
 
 // types
@@ -56,13 +56,13 @@ Bool: 'bool';
 Int: 'int';
 String: 'string';
 Id: 'ID';
-List: 'List';
-Set: 'Set';
 Actor: 'Actor';
 Primitive: 'primitive';
 MsgRcv: 'msgRcv';
 MsgObs: 'msgObs';
 ActorVars: 'actorVars';
+List: 'List';
+Set: 'Set';
 
 // keywords
 Break: 'break';
@@ -107,12 +107,75 @@ DIGIT: [0-9];
 StringChar: ~ ["\\\r\n];
 
 
-// TODO
-
 // Parser rules
 // The parser rules start with the program rule, which defines the overall structure of a
 // valid program. They then specify how tokens can be combined to form declarations, control
 // structures, expressions, assignments, function calls, and other constructs within a program.
 // The parser rules collectively define the syntax of the language.
 
+start
+    : declarationseq? EOF
+    ;
+
+declarationseq
+    : declaration+
+    ;
+
+declaration
+    : main
+//    | class
+    ;
+
+main
+    : Main argsWithPar statementWithBrace
+    ;
+
+argsWithPar
+    : LeftParen args RightParen
+    ;
+
 // TODO
+args
+    :
+    ;
+
+statementWithBrace
+    : LeftBrace statementSeq? RightBrace
+    ;
+
+statementSeq
+    : statement+
+    ;
+
+statement
+    : type Identifier initialayzer? Semi
+    ;
+
+initialayzer
+    : Assign expertion
+    ;
+
+// TODO
+expertion
+    : IntegerLiteral
+    ;
+
+type
+    : builtInType
+    | Identifier
+    ;
+
+// TODO
+builtInType
+    : Bool
+    | Int
+    | String
+    | Id
+    | Actor
+    | Primitive
+    | MsgRcv
+    | MsgObs
+    | ActorVars
+//    | list
+//    | set
+    ;
