@@ -127,16 +127,27 @@ declaration
     ;
 
 main
-    : Main argsWithPar statementWithBrace
+    : Main decArgsWithPar statementWithBrace
+    ;
+
+decArgsWithPar
+    : LeftParen decArgs? RightParen
+    ;
+
+decArgs
+    : decArg (Comma decArgs)*
+    ;
+
+decArg
+    : type Identifier
     ;
 
 argsWithPar
-    : LeftParen args RightParen
+    : LeftParen args? RightParen
     ;
 
-// TODO
 args
-    :
+    : expertion (Comma args)*
     ;
 
 statementWithBrace
@@ -158,6 +169,7 @@ initialayzer
 // TODO
 expertion
     : IntegerLiteral
+    | New Identifier argsWithPar
     ;
 
 type
