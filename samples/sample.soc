@@ -1,0 +1,66 @@
+% Actor communication where Actor X sends a message to Actor Y, and Actor Z observes this message
+
+Actor X {
+    actorVars {
+        string name;
+        int id;
+    }
+
+    % Constructor
+    X(string name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    % Method to send message to Y, observed by Z
+    msgRcv sendMessage(string msgContent, ID receiver, ID observer) {
+        print(name + " sends message to " + receiver + ": " + msgContent);
+        
+        % Send the message to Y’s queue as the recipient and Z’s queue as the observer
+        receiver.receiveMessage(msgContent) @observers(private(observer, null));
+    }
+}
+
+Actor Y {
+    actorVars {
+        string name;
+        int id;
+    }
+
+    % Constructor
+    Y(string name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    % Handler to receive a message
+    msgRcv receiveMessage(string msgContent) {
+    }
+}
+
+Actor Z {
+    actorVars {
+        string name;
+        int id;
+    }
+
+    % Constructor
+    Z(string name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    % Observer handler to log observed messages
+    msgRcv observeMessage(string msgContent) {
+    }
+}
+
+main() {
+    % Instantiation of actors X, Y, and Z
+    X senderActor = new X("Alice", 101);
+    Y receiverActor = new Y("Bob", 102);
+    Z observerActor = new Z("Charlie", 103);
+
+    % Alice sends message "Hello, Bob!" to Bob, observed by Charlie
+    senderActor.sendMessage("Hello, Bob!", receiverActor, observerActor);
+}

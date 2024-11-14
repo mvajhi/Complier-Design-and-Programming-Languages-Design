@@ -1,0 +1,16 @@
+Operator:=
+Operator:=
+Handler:sendMessage
+Built-In: PRINT
+Operator:+
+Operator:+
+Operator:+
+Operator:+
+Built-In: PRIVATE
+Operator:=
+Operator:=
+Handler:receiveMessage
+Operator:=
+Operator:=
+Handler:observeMessage
+MAIN
