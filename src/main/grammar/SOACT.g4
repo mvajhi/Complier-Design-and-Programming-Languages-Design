@@ -9,10 +9,13 @@ grammar SOACT;
 WS : [ \t\r\n]+ -> skip;
 COMMENT : '%' ~[\r\n]* -> skip;
 
+// advanced values
+StringLiteral: '"' StringChar* '"';
+
 // symbols
 Semi: ';';
-Colon: ':';
 Doublecolon: '::';
+Colon: ':';
 Dot: '.';
 AT: '@';
 LeftBrace: '{';
@@ -20,6 +23,12 @@ RightBrace: '}';
 
 // operators
 Pipe: '<|';
+PlusPlus: '++';
+MinusMinus: '--';
+Equal: '==';
+NotEqual: '!=';
+AndAnd: '&&';
+OrOr: '||';
 LeftParen: '(';
 RightParen: ')';
 LeftBracket: '[';
@@ -33,30 +42,13 @@ And: '&';
 Or: '|';
 Not: '!';
 Assign: '=';
-PlusPlus: '++';
-MinusMinus: '--';
 Less: '<';
 Greater: '>';
-Equal: '==';
-NotEqual: '!=';
-AndAnd: '&&';
-OrOr: '||';
 Comma: ',';
-
-// values
-NONDIGIT: [a-zA-Z_];
-NONZERODIGIT: [1-9];
-DIGIT: [0-9];
-StringChar: ~ ["\\\r\n];
-True: 'true';
-False: 'false';
-Null: 'null';
 
 // advanced values
 DecimalLiteral: NONZERODIGIT DIGIT*;
-Identifier: NONDIGIT (NONDIGIT | DIGIT)*;
 IntegerLiteral: '0' | DecimalLiteral;
-StringLiteral: '"' StringChar* '"';
 BoolLiteral: True | False;
 
 // types
@@ -100,6 +92,19 @@ Remove: 'remove';
 Length: 'length';
 Private: 'private';
 Public: 'public';
+
+// values
+True: 'true';
+False: 'false';
+Null: 'null';
+
+Identifier: NONDIGIT (NONDIGIT | DIGIT)*;
+
+// values
+NONDIGIT: [a-zA-Z_];
+NONZERODIGIT: [1-9];
+DIGIT: [0-9];
+StringChar: ~ ["\\\r\n];
 
 
 // TODO
