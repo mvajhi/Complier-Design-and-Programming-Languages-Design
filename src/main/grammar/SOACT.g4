@@ -37,7 +37,7 @@ Plus: '+';
 Minus: '-';
 Star: '*';
 Div: '/';
-Mod: '%';
+Mod: 'mod';
 And: '&';
 Or: '|';
 Not: '!';
