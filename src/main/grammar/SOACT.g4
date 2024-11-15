@@ -123,7 +123,7 @@ declarationseq
 
 declaration
     : main
-//    | class
+//    | actor
     | record
     | decPrimitive
     ;
@@ -187,11 +187,16 @@ statementSeq
 
 statement
     : declareVarStatement
-    | methodCall Semi
+    | methodCall
+    | ifStatement
+    ;
+
+ifStatement
+    : If expression statementWithBrace (Else statementWithBrace)?
     ;
 
 methodCall
-    : (Identifier | Self) Dot Identifier argsWithPar observers?
+    : (Identifier | Self) Dot Identifier argsWithPar observers? Semi
     ;
 
 observers
@@ -263,7 +268,7 @@ postfix
 terminal
     : expressionWithPar
     | methodCall
-    | classInstance
+    | actorInstance
     | array
     | recordInstance
     | primitiveUse
@@ -282,8 +287,8 @@ expressionWithPar
     : LeftParen expression RightParen
     ;
 
-classInstance
-    : New Identifier argsWithPar
+actorInstance
+    : New? Identifier argsWithPar
     ;
 
 array
