@@ -157,6 +157,7 @@ main
     : Main decArgsWithPar statementWithBrace
     ;
 
+// args
 decArgsWithPar
     : LeftParen decArgs? RightParen
     ;
@@ -177,6 +178,14 @@ args
     : expression (Comma expression)*
     ;
 
+recordArgs
+    : recordArg (Comma recordArg)*
+    ;
+
+recordArg
+    : Identifier Colon expression
+    ;
+
 statementWithBrace
     : LeftBrace statementSeq? RightBrace
     ;
@@ -195,24 +204,39 @@ ifStatement
     : If expression statementWithBrace (Else statementWithBrace)?
     ;
 
+// method call
 methodCall
     : (Identifier | Self) Dot Identifier argsWithPar observers? Semi
     ;
 
 observers
-    : AT Observers LeftParen (private_ | public_) RightParen
+    : AT Observers LeftParen collectionOperators RightParen
+    ;
+
+// public and private
+collectionOperators
+    : private_
+    | public_
+    | collection
     ;
 
 private_
-    : Private twoSetArgs
+    : Private twoCollectionArgs
     ;
 
 public_
-    : Public twoSetArgs
+    : Public twoCollectionArgs
     ;
 
-twoSetArgs
-    : LeftParen Identifier Comma Identifier RightParen
+twoCollectionArgs
+    : LeftParen collection Comma collection RightParen
+    ;
+
+collection
+    : Null
+    | private_
+    | public_
+    | Identifier
     ;
 
 /* test:
@@ -301,14 +325,6 @@ arrayIndex
 
 recordInstance
     : Identifier LeftBrace recordArgs RightBrace
-    ;
-
-recordArgs
-    : recordArg (Comma recordArg)*
-    ;
-
-recordArg
-    : Identifier Colon expression
     ;
 
 type
