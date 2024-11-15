@@ -68,6 +68,11 @@ main() {
 %--------------------------------------------------------------
 % My test code
 
+Actor Y {
+    msgRcv @authorized(public(a,private(b,c))) receiveMessage(string msgContent) {
+    }
+}
+
 primitive D {
     hi,
     bye
@@ -117,4 +122,6 @@ main() {
         continue;
         break;
     }
+
+    Y.receiveMessage("hi") @observers(public(a,private(b,c)));
 }

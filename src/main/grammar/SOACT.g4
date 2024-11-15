@@ -151,7 +151,11 @@ actorConstructor
     ;
 
 actorMethod
-    : type Identifier decArgsWithPar statementWithBrace
+    : type authorized? Identifier decArgsWithPar statementWithBrace
+    ;
+
+authorized
+    : AT Authorized argsWithPar
     ;
 
 actorVars
