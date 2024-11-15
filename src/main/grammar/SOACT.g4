@@ -72,7 +72,7 @@ Else: 'else';
 For: 'for';
 While: 'while';
 Join: 'join';
-Record: 'record';
+Record: 'Record';
 In: 'in';
 New: 'new';
 Self: 'self';
@@ -124,9 +124,22 @@ declarationseq
 declaration
     : main
 //    | class
-//    | record
+    | record
     | decPrimitive
     ;
+
+record
+    : Record Identifier varsRecordWithBrace
+    ;
+
+varsRecordWithBrace
+    : LeftBrace varsRecords RightBrace
+    ;
+
+varsRecords
+    : decArg Semi varsRecords?
+    ;
+
 
 decPrimitive
     : Primitive Identifier varsPrimitiveWithBrace
