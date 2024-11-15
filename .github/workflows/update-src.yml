@@ -15,7 +15,7 @@ jobs:
 
       - name: Clone org repo and copy src
         run: |
-          git clone https://github.com/PLC-UT/phase-1-null.git org-repo
+          git clone https://mvajhi:$ORG_TOKEN@github.com/PLC-UT/phase-1-null.git org-repo
           rm -rf org-repo/src/
           cp -r src/* org-repo/src/
           cd org-repo
