@@ -296,10 +296,6 @@ ifStatement
     ;
 
 // method call
-methodCallStatement
-    : methodCall Semi
-    ;
-
 methodCall
     : (Identifier | Self) Dot Identifier argsWithPar observers?
     ;
@@ -308,13 +304,12 @@ observers
     : AT Observers argsWithPar
     ;
 
-/* test:
-    int a = 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
-    Set<ID> b = new B(1,2);
-    T c[5 + 23 mod 3] = T{a: 1 + 2, b: "hi"};
-*/
 declareVarStatement
     : type Identifier arraySize? initialayzer? Semi
+    ;
+
+arraySize
+    : LeftBracket expression RightBracket
     ;
 
 initialayzer
@@ -322,7 +317,10 @@ initialayzer
     ;
 
 // expression
-// test: 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
+expressionWithPar
+    : LeftParen expression RightParen
+    ;
+
 expression : logicalOr ;
 
 logicalOr
@@ -371,6 +369,7 @@ pipe
     : terminal (Pipe pipe)?
     ;
 
+// terminal
 terminal
     : methodCall
     | actorInstance
@@ -388,22 +387,15 @@ primitiveUse
     : Identifier DoubleColon Identifier
     ;
 
-expressionWithPar
-    : LeftParen expression RightParen
-    ;
-
 actorInstance
     : New Identifier argsWithPar
-    ;
-
-arraySize
-    : LeftBracket expression RightBracket
     ;
 
 recordInstance
     : Identifier LeftBrace recordArgs RightBrace
     ;
 
+// types
 type
     : builtInType
     | Identifier
