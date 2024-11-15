@@ -255,27 +255,27 @@ initialayzer
 expression : logicalOr ;
 
 logicalOr
-    : logicalAnd (OrOr logicalAnd)*
+    : logicalAnd (OrOr logicalOr)?
     ;
 
 logicalAnd
-    : equality (AndAnd equality)*
+    : equality (AndAnd logicalAnd)?
     ;
 
 equality
-    : relational ((Equal | NotEqual) relational)*
+    : relational ((Equal | NotEqual) equality)?
     ;
 
 relational
-    : additive ((Less | Greater) additive)*
+    : additive ((Less | Greater) relational)?
     ;
 
 additive
-    : multiplicative ((Plus | Minus) multiplicative)*
+    : multiplicative ((Plus | Minus) additive)?
     ;
 
 multiplicative
-    : unary ((Star | Div | Mod) unary)*
+    : unary ((Star | Div | Mod) multiplicative)?
     ;
 
 unary
@@ -311,7 +311,7 @@ expressionWithPar
     ;
 
 actorInstance
-    : New? Identifier argsWithPar
+    : New Identifier argsWithPar
     ;
 
 array
