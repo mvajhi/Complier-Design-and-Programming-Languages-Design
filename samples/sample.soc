@@ -98,4 +98,11 @@ main() {
     % Alice sends message "Hello, Bob!" to Bob, observed by Charlie
     senderActor.sendMessage("Hello, Bob!", receiverActor, observerActor) @observers(public(null,public(b,c)));
     x + y * z - b / c;
+
+    P a = P{a: 1, b: "hi"};
+
+    for (i in a)
+    {
+        a = 1;
+    }
 }

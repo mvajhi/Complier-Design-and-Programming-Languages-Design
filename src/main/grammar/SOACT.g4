@@ -231,6 +231,19 @@ statement
     | expressionStatement
     | setVarStatement
     | ifStatement
+    | forStatement
+    ;
+
+forStatement
+    : For forArgWithPar statementWithBrace
+    ;
+
+forArgWithPar
+    : LeftParen forArg RightParen
+    ;
+
+forArg
+    : Identifier In expression
     ;
 
 setVarStatement
