@@ -274,10 +274,14 @@ builtInType
     | MsgRcv
     | MsgObs
     | ActorVars
-//    | list
+    | list
     | set
     ;
 
 set
     : Set Less type Greater
+    ;
+
+list
+    : List Less type Greater
     ;
