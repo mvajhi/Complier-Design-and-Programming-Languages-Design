@@ -96,7 +96,7 @@ main() {
     }
     else
     {
-        if (a == 25+6)
+        if (!a.include(1))
         {
             a.pint("hi");
         }

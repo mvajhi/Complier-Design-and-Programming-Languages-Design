@@ -273,18 +273,29 @@ setVarStatement
     : (Self Dot)? Identifier Assign expression Semi
     ;
 
+builtInFunctionName
+    : ToLower
+    | ToUpper
+    | Reverse
+    | Print
+    | Private
+    | Public
+    | Range
+    ;
+
 builtInFunction
-    : ToLower argsWithPar
-    | ToUpper argsWithPar
-    | Reverse argsWithPar
-    | Print argsWithPar
-    | Add argsWithPar
-    | Include argsWithPar
-    | Remove argsWithPar
-    | Length argsWithPar
-    | Private argsWithPar
-    | Public argsWithPar
-    | Range argsWithPar
+    : builtInFunctionName argsWithPar
+    ;
+
+builtInFunctionList
+    : builtInFunctionListName argsWithPar
+    ;
+
+builtInFunctionListName
+    : Add
+    | Remove
+    | Include
+    | Length
     ;
 
 expressionStatement
@@ -377,7 +388,7 @@ terminal
     | primitiveUse
     | builtInFunction
     | (Self Dot)? StringLiteral
-    | Identifier
+    | Identifier (Dot builtInFunctionList)?
     | IntegerLiteral
     | BoolLiteral
     | Null
