@@ -1,0 +1,29 @@
+name: Sync src to org repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout your repo
+        uses: actions/checkout@v3
+
+      - name: Clone org repo and copy src
+        run: |
+          git clone https://github.com/PLC-UT/phase-1-null.git org-repo
+          rm -rf org-repo/src/
+          cp -r src/* org-repo/src/
+          cd org-repo
+          git config user.name "GitHub Action"
+          git config user.email "mvajhimv@gmail.com"
+          git add src/
+          git commit -m "Auto-sync src folder from personal repo"
+          git push https://$ORG_TOKEN@github.com/PLC-UT/phase-1-null.git main
+        env:
+          ORG_TOKEN: ${{ secrets.ORG_TOKEN }}
+
