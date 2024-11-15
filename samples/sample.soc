@@ -69,7 +69,12 @@ main() {
 % My test code
 
 Actor Y {
-    msgRcv @authorized(public(a,private(b,c))) receiveMessage(string msgContent) {
+    msgRcv @authorized(public(a,private(b,c))) receiveMessage(string msgContent)
+    {
+     result = result
+                    |> self.observeMessage(msgContent)
+                    |> self.observeMessage(msgContent)
+                    |> self.observeMessage(msgContent);
     }
 }
 

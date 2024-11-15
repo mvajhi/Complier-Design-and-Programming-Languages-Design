@@ -22,7 +22,7 @@ LeftBrace: '{';
 RightBrace: '}';
 
 // operators
-Pipe: '<|';
+Pipe: '|>';
 PlusPlus: '++';
 MinusMinus: '--';
 Equal: '==';
@@ -230,8 +230,7 @@ statementSeq
     ;
 
 statement
-    : methodCall
-    | declareVarStatement
+    : declareVarStatement
     | expressionStatement
     | setVarStatement
     | ifStatement
@@ -288,12 +287,16 @@ expressionStatement
     ;
 
 ifStatement
-    : If expression statementWithBrace (Else statementWithBrace)?
+    : If expressionWithPar statementWithBrace (Else statementWithBrace)?
     ;
 
 // method call
+methodCallStatement
+    : methodCall Semi
+    ;
+
 methodCall
-    : (Identifier | Self) Dot Identifier argsWithPar observers? Semi
+    : (Identifier | Self) Dot Identifier argsWithPar observers?
     ;
 
 observers
@@ -306,7 +309,7 @@ observers
     T c[5 + 23 mod 3] = T{a: 1 + 2, b: "hi"};
 */
 declareVarStatement
-    : type Identifier arrayIndex? initialayzer? Semi
+    : type Identifier arraySize? initialayzer? Semi
     ;
 
 initialayzer
@@ -347,14 +350,25 @@ unary
     ;
 
 postfix
-    : terminal (PlusPlus | MinusMinus)?
+    : arrayIndex (PlusPlus | MinusMinus)?
+    ;
+
+arrayIndex
+    : expressionPar (LeftBracket expression RightBracket)?
+    ;
+
+expressionPar
+    : LeftParen expression RightParen
+    | pipe
+    ;
+
+pipe
+    : terminal (Pipe pipe)?
     ;
 
 terminal
-    : expressionWithPar
-    | methodCall
+    : methodCall
     | actorInstance
-    | array
     | recordInstance
     | primitiveUse
     | builtInFunction
@@ -377,11 +391,7 @@ actorInstance
     : New Identifier argsWithPar
     ;
 
-array
-    : Identifier arrayIndex
-    ;
-
-arrayIndex
+arraySize
     : LeftBracket expression RightBracket
     ;
 
