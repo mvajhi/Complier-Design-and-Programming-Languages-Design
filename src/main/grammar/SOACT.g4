@@ -228,5 +228,9 @@ builtInType
     | MsgObs
     | ActorVars
 //    | list
-//    | set
+    | set
+    ;
+
+set
+    : Set Less type Greater
     ;
