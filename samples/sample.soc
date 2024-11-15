@@ -129,4 +129,9 @@ main() {
     }
 
     Y.receiveMessage("hi") @observers(public(a,private(b,c)));
+
+    join {
+        a = 1;
+        print("hi");
+    }
 }

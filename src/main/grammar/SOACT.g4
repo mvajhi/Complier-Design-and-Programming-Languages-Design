@@ -236,7 +236,12 @@ statement
     | ifStatement
     | forStatement
     | whileStatement
+    | joinStatement
     | otherStatement
+    ;
+
+joinStatement
+    : Join statementWithBrace
     ;
 
 otherStatement
