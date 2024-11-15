@@ -86,21 +86,22 @@ main() {
     }
     else
     {
+        if (a == 25+6)
+        {
+            a.pint("hi");
+        }
+        else
+        {
+            a.pint("hi");
+        }
     }
-    int a = D::hi;
-    % Instantiation of actors X, Y, and Z
-    X senderActor = new X("Alice", 101);
-    Y receiverActor = new Y("Bob", 102);
-    Z observerActor = new Z("Charlie", 103);
 
-     int a = 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
-     Set<ID> b = new B(1,2);
-     T c[5 + 23 mod 3] = T{a: 1 + 2, b: "hi"};
+    boolean a = D::hi;
 
-    i[5]++;
+    int a = 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
+    Set<ID> b = new B(1,2);
+    T c[5 + 23 mod 3] = T{a: 1 + 2, b: "hi"};
 
-    % Alice sends message "Hello, Bob!" to Bob, observed by Charlie
-    senderActor.sendMessage("Hello, Bob!", receiverActor, observerActor) @observers(public(null,public(b,c)));
     x + y * z - b / c;
 
     P a = P{a: 1, b: "hi"};
@@ -113,5 +114,7 @@ main() {
     while (a < 10)
     {
         a++;
+        continue;
+        break;
     }
 }

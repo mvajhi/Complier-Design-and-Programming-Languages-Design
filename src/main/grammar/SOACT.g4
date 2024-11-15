@@ -233,6 +233,12 @@ statement
     | ifStatement
     | forStatement
     | whileStatement
+    | otherStatement
+    ;
+
+otherStatement
+    : Break Semi
+    | Continue Semi
     ;
 
 whileStatement
