@@ -186,6 +186,7 @@ recordArg
     : Identifier Colon expression
     ;
 
+// statement
 statementWithBrace
     : LeftBrace statementSeq? RightBrace
     ;
@@ -196,8 +197,13 @@ statementSeq
 
 statement
     : declareVarStatement
+    | expressionStatement
     | methodCall
     | ifStatement
+    ;
+
+expressionStatement
+    : expression Semi
     ;
 
 ifStatement
@@ -210,16 +216,10 @@ methodCall
     ;
 
 observers
-    : AT Observers LeftParen collectionOperators RightParen
+    : AT Observers LeftParen collection RightParen
     ;
 
 // public and private
-collectionOperators
-    : private_
-    | public_
-    | collection
-    ;
-
 private_
     : Private twoCollectionArgs
     ;
