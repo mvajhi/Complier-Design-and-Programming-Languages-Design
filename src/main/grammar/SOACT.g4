@@ -137,7 +137,7 @@ decArgsWithPar
     ;
 
 decArgs
-    : decArg (Comma decArgs)*
+    : decArg (Comma decArg)*
     ;
 
 decArg
@@ -149,7 +149,7 @@ argsWithPar
     ;
 
 args
-    : expression (Comma args)*
+    : expression (Comma expression)*
     ;
 
 statementWithBrace
@@ -251,7 +251,7 @@ recordInstance
     ;
 
 recordArgs
-    : recordArg (Comma recordArgs)*
+    : recordArg (Comma recordArg)*
     ;
 
 recordArg
@@ -263,7 +263,6 @@ type
     | Identifier
     ;
 
-// TODO
 builtInType
     : Bool
     | Int
