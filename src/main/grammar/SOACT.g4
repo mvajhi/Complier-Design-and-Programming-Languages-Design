@@ -280,6 +280,7 @@ builtInFunction
     | Length argsWithPar
     | Private argsWithPar
     | Public argsWithPar
+    | Range argsWithPar
     ;
 
 expressionStatement
