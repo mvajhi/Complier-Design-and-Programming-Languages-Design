@@ -124,6 +124,8 @@ declarationseq
 declaration
     : main
 //    | class
+//    | record
+//    | primitive
     ;
 
 main
@@ -159,6 +161,20 @@ statementSeq
     ;
 
 statement
+    : declareVarStatement
+    | methodCall Semi
+    ;
+
+methodCall
+    : (Identifier | Self) Dot Identifier argsWithPar
+    ;
+
+/* test:
+    int a = 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
+    Set<ID> b = new B(1,2);
+    T c[5 + 23 mod 3] = T{a: 1 + 2, b: "hi"};
+*/
+declareVarStatement
     : type Identifier arrayIndex? initialayzer? Semi
     ;
 
@@ -167,7 +183,7 @@ initialayzer
     ;
 
 // expression
-// test: int a = 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
+// test: 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
 expression : logicalOr ;
 
 logicalOr
@@ -204,13 +220,18 @@ postfix
     ;
 
 terminal
-    : LeftParen expression RightParen
+    : expressionWithPar
+    | methodCall
     | classInstance
-    | IntegerLiteral
     | array
     | recordInstance
-    | Identifier
     | StringLiteral
+    | Identifier
+    | IntegerLiteral
+    ;
+
+expressionWithPar
+    : LeftParen expression RightParen
     ;
 
 classInstance
