@@ -166,7 +166,23 @@ statement
     ;
 
 methodCall
-    : (Identifier | Self) Dot Identifier argsWithPar
+    : (Identifier | Self) Dot Identifier argsWithPar observers?
+    ;
+
+observers
+    : AT Observers LeftParen (private_ | public_) RightParen
+    ;
+
+private_
+    : Private twoSetArgs
+    ;
+
+public_
+    : Public twoSetArgs
+    ;
+
+twoSetArgs
+    : LeftParen Identifier Comma Identifier RightParen
     ;
 
 /* test:
@@ -228,6 +244,8 @@ terminal
     | StringLiteral
     | Identifier
     | IntegerLiteral
+    | BoolLiteral
+    | Null
     ;
 
 expressionWithPar
