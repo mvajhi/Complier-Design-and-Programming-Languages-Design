@@ -93,6 +93,10 @@ main() {
     Y receiverActor = new Y("Bob", 102);
     Z observerActor = new Z("Charlie", 103);
 
+     int a = 1 || 2 && 3 == 4 > 5 + 6 / --7++ mod x[(8 + 9)];
+     Set<ID> b = new B(1,2);
+     T c[5 + 23 mod 3] = T{a: 1 + 2, b: "hi"};
+
     i[5]++;
 
     % Alice sends message "Hello, Bob!" to Bob, observed by Charlie
