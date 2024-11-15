@@ -232,6 +232,15 @@ statement
     | setVarStatement
     | ifStatement
     | forStatement
+    | whileStatement
+    ;
+
+whileStatement
+    : While whileArgWithPar statementWithBrace
+    ;
+
+whileArgWithPar
+    : LeftParen expression RightParen
     ;
 
 forStatement
