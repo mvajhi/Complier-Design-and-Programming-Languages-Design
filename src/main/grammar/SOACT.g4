@@ -159,7 +159,7 @@ statementSeq
     ;
 
 statement
-    : type Identifier initialayzer? Semi
+    : type Identifier arrayIndex? initialayzer? Semi
     ;
 
 initialayzer
@@ -205,10 +205,36 @@ postfix
 
 terminal
     : LeftParen expression RightParen
-    | New Identifier argsWithPar
+    | classInstance
     | IntegerLiteral
-    | Identifier LeftBracket expression RightBracket
+    | array
+    | recordInstance
     | Identifier
+    | StringLiteral
+    ;
+
+classInstance
+    : New Identifier argsWithPar
+    ;
+
+array
+    : Identifier arrayIndex
+    ;
+
+arrayIndex
+    : LeftBracket expression RightBracket
+    ;
+
+recordInstance
+    : Identifier LeftBrace recordArgs RightBrace
+    ;
+
+recordArgs
+    : recordArg (Comma recordArgs)*
+    ;
+
+recordArg
+    : Identifier Colon expression
     ;
 
 type
