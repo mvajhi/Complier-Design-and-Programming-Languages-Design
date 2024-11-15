@@ -196,10 +196,28 @@ statementSeq
     ;
 
 statement
-    : declareVarStatement
+    : methodCall
+    | declareVarStatement
+    | builtInFunctionStatement
     | expressionStatement
-    | methodCall
     | ifStatement
+    ;
+
+builtInFunctionStatement
+    : builtInFunction Semi
+    ;
+
+builtInFunction
+    : ToLower argsWithPar
+    | ToUpper argsWithPar
+    | Reverse argsWithPar
+    | Print argsWithPar
+    | Add argsWithPar
+    | Include argsWithPar
+    | Remove argsWithPar
+    | Length argsWithPar
+    | Private argsWithPar
+    | Public argsWithPar
     ;
 
 expressionStatement
@@ -216,27 +234,7 @@ methodCall
     ;
 
 observers
-    : AT Observers LeftParen collection RightParen
-    ;
-
-// public and private
-private_
-    : Private twoCollectionArgs
-    ;
-
-public_
-    : Public twoCollectionArgs
-    ;
-
-twoCollectionArgs
-    : LeftParen collection Comma collection RightParen
-    ;
-
-collection
-    : Null
-    | private_
-    | public_
-    | Identifier
+    : AT Observers argsWithPar
     ;
 
 /* test:
@@ -296,6 +294,7 @@ terminal
     | array
     | recordInstance
     | primitiveUse
+    | builtInFunction
     | StringLiteral
     | Identifier
     | IntegerLiteral
