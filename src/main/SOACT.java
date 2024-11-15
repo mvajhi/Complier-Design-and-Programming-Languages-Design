@@ -1,3 +1,5 @@
+package main;
+
 import main.grammar.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
