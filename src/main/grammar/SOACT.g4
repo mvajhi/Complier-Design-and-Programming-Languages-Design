@@ -14,7 +14,7 @@ StringLiteral: '"' StringChar* '"';
 
 // symbols
 Semi: ';';
-Doublecolon: '::';
+DoubleColon: '::';
 Colon: ':';
 Dot: '.';
 AT: '@';
@@ -125,7 +125,19 @@ declaration
     : main
 //    | class
 //    | record
-//    | primitive
+    | decPrimitive
+    ;
+
+decPrimitive
+    : Primitive Identifier varsPrimitiveWithBrace
+    ;
+
+varsPrimitiveWithBrace
+    : LeftBrace varsPrimitives RightBrace
+    ;
+
+varsPrimitives
+    : Identifier (Comma Identifier)*
     ;
 
 main
@@ -241,11 +253,16 @@ terminal
     | classInstance
     | array
     | recordInstance
+    | primitiveUse
     | StringLiteral
     | Identifier
     | IntegerLiteral
     | BoolLiteral
     | Null
+    ;
+
+primitiveUse
+    : Identifier DoubleColon Identifier
     ;
 
 expressionWithPar
