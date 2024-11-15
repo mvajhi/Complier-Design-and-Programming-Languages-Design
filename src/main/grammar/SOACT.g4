@@ -123,16 +123,46 @@ declarationseq
 
 declaration
     : main
-//    | actor
+    | actor
     | record
     | decPrimitive
     ;
 
-record
-    : Record Identifier varsRecordWithBrace
+actor
+    : Actor Identifier actorComponentsWithBrace
     ;
 
-varsRecordWithBrace
+actorComponentsWithBrace
+    : LeftBrace actorComponents? RightBrace
+    ;
+
+actorComponents
+    : actorComponent+
+    ;
+
+actorComponent
+    : actorVars
+    | actorConstructor
+    | actorMethod
+    ;
+
+actorConstructor
+    : Identifier decArgsWithPar statementWithBrace
+    ;
+
+actorMethod
+    : type Identifier decArgsWithPar statementWithBrace
+    ;
+
+actorVars
+    : ActorVars decVarsWithBrace
+    ;
+
+record
+    : Record Identifier decVarsWithBrace
+    ;
+
+decVarsWithBrace
     : LeftBrace varsRecords RightBrace
     ;
 
@@ -198,13 +228,13 @@ statementSeq
 statement
     : methodCall
     | declareVarStatement
-    | builtInFunctionStatement
     | expressionStatement
+    | setVarStatement
     | ifStatement
     ;
 
-builtInFunctionStatement
-    : builtInFunction Semi
+setVarStatement
+    : (Self Dot)? Identifier Assign expression Semi
     ;
 
 builtInFunction
@@ -295,7 +325,7 @@ terminal
     | recordInstance
     | primitiveUse
     | builtInFunction
-    | StringLiteral
+    | (Self Dot)? StringLiteral
     | Identifier
     | IntegerLiteral
     | BoolLiteral
