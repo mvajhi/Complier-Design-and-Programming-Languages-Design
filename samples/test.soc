@@ -1,0 +1,29 @@
+main()
+{
+    if(true)
+{
+    x = 1+2;
+}
+
+else if(true)
+{
+    x = 1+2;
+}
+
+else if(true)
+{
+    x = 1+2;
+}
+else if(true)
+{
+    x = 1+2;
+}
+else if(true)
+{
+    x = 1+2;
+}
+else
+{
+    x=5;
+}
+}

@@ -151,7 +151,11 @@ actorConstructor
     ;
 
 actorMethod
-    : type authorized? Identifier decArgsWithPar statementWithBrace
+    : type authorized? Identifier decArgsWithPar statementWithBrace {
+        if ($type.is_handler) {
+            System.out.println("Handler:" + $Identifier.getText());
+        }
+    }
     ;
 
 authorized
@@ -163,7 +167,11 @@ actorVars
     ;
 
 record
-    : Record Identifier decVarsWithBrace
+    : Record
+    {
+    System.out.println("Record");
+    }
+    Identifier decVarsWithBrace
     ;
 
 decVarsWithBrace
@@ -188,7 +196,9 @@ varsPrimitives
     ;
 
 main
-    : Main decArgsWithPar statementWithBrace
+    : Main decArgsWithPar statementWithBrace {
+    System.out.println("MAIN");
+    }
     ;
 
 // args
@@ -241,16 +251,32 @@ statement
     ;
 
 joinStatement
-    : Join statementWithBrace
+    : Join
+    {
+    System.out.println("Join");
+    }
+    statementWithBrace
     ;
 
 otherStatement
-    : Break Semi
-    | Continue Semi
+    : Break
+     {
+        System.out.println("Control: BREAK");
+     }
+     Semi
+    | Continue
+     {
+        System.out.println("Control: CONTINUE");
+     }
+     Semi
     ;
 
 whileStatement
-    : While whileArgWithPar statementWithBrace
+    : While
+    {
+    System.out.println("Loop: WHILE");
+    }
+    whileArgWithPar statementWithBrace
     ;
 
 whileArgWithPar
@@ -258,7 +284,11 @@ whileArgWithPar
     ;
 
 forStatement
-    : For forArgWithPar statementWithBrace
+    : For
+    {
+    System.out.println("Loop: FOR");
+    }
+    forArgWithPar statementWithBrace
     ;
 
 forArgWithPar
@@ -275,26 +305,69 @@ setVarStatement
 
 builtInFunction
     : ToLower argsWithPar
+        {
+            System.out.println("Built-In: LOWER");
+        }
     | ToUpper argsWithPar
+        {
+            System.out.println("Built-In: UPPER");
+        }
     | Reverse argsWithPar
+        {
+            System.out.println("Built-In: REVERSE");
+        }
     | Print argsWithPar
+        {
+            System.out.println("Built-In: PRINT");
+        }
     | Add argsWithPar
+        {
+            System.out.println("Built-In: ADD");
+        }
     | Include argsWithPar
+        {
+            System.out.println("Built-In: INCLUDE");
+        }
     | Remove argsWithPar
+        {
+            System.out.println("Built-In: REMOVE");
+        }
     | Length argsWithPar
+        {
+            System.out.println("Built-In: LEN");
+        }
     | Private argsWithPar
+        {
+            System.out.println("Built-In: PRIVATE");
+        }
     | Public argsWithPar
+        {
+            System.out.println("Built-In: PUBLIC");
+        }
     | Range argsWithPar
+        {
+            System.out.println("Built-In: RANGE");
+        }
     ;
 
 expressionStatement
     : expression Semi
     ;
 
-ifStatement
-    : If expressionWithPar statementWithBrace (Else statementWithBrace)?
+ifStatement//i did some changes in here
+    : If expressionWithPar statementWithBrace
+        {
+            System.out.println("Decision:IF");
+        }
+        (Else If expressionWithPar statementWithBrace
+        {
+            System.out.println("Decision:ELSE IF");
+        })*
+        (Else statementWithBrace
+        {
+            System.out.println("Decision:ELSE");
+        })?
     ;
-
 // method call
 methodCall
     : (Identifier | Self) Dot Identifier argsWithPar observers?
@@ -396,20 +469,26 @@ recordInstance
     ;
 
 // types
-type
-    : builtInType
+type returns [boolean is_handler = false]
+    : builtInType {
+        $is_handler = $builtInType.is_handler;
+    }
     | Identifier
     ;
 
-builtInType
+builtInType returns [boolean is_handler = false]
     : Bool
     | Int
     | String
     | Id
     | Actor
     | Primitive
-    | MsgRcv
-    | MsgObs
+    | MsgRcv {
+        $is_handler = true;
+    }
+    | MsgObs {
+        $is_handler = true;
+    }
     | ActorVars
     | list
     | set
