@@ -467,6 +467,16 @@ public interface SOACTListener extends ParseTreeListener {
 	 */
 	void exitDeclareVarStatement(SOACTParser.DeclareVarStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SOACTParser#function}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction(SOACTParser.FunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SOACTParser#function}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction(SOACTParser.FunctionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SOACTParser#arraySize}.
 	 * @param ctx the parse tree
 	 */

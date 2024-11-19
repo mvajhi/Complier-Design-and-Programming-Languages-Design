@@ -246,7 +246,7 @@ statementSeq
 
 statement
     : declareVarStatement
-    | functionCall Semi
+    | function
     | expressionStatement
     | setVarStatement
     | ifStatement
@@ -306,7 +306,7 @@ forArg
     ;
 
 setVarStatement
-    : (Self Dot)? Identifier Assign expression {System.out.println("Line " + $Assign.getLine() + " : Assignment");} Semi
+    : ((Self|Identifier) Dot)? Identifier Assign expression {System.out.println("Line " + $Assign.getLine() + " : Assignment");} Semi
     ;
 
 builtInFunctionName
@@ -416,6 +416,10 @@ declareVarStatement
     )? Semi
     ;
 
+function
+    : functionCall Semi
+    ;
+
 arraySize
     : LeftBracket expression RightBracket
     ;
@@ -460,8 +464,8 @@ relational
     ;
 
 additive
-    : multiplicative (Plus  additive {System.out.println("Line " + $Plus.getLine() + " : Operator:+");}
-    |Minus additive {System.out.println("Line " + $Minus.getLine() + " : Operator:-");}
+    : multiplicative (Plus  {System.out.println("Line " + $Plus.getLine() + " : Operator:+");} additive
+    |Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} additive
     )?
     ;
 
@@ -501,8 +505,8 @@ pipe
 
 // terminal
 terminal
-    : methodCall
-    | objectCall
+    : objectCall
+    | methodCall
     | actorInstance
     | recordInstance
     | primitiveUse

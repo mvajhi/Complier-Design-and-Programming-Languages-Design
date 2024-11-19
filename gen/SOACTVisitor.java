@@ -286,6 +286,12 @@ public interface SOACTVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDeclareVarStatement(SOACTParser.DeclareVarStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SOACTParser#function}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction(SOACTParser.FunctionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SOACTParser#arraySize}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
