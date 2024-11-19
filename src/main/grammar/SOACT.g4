@@ -371,19 +371,19 @@ expressionStatement
 ifStatement//i did some changes in here
     : If
         {
-            System.out.println("Line " + $If.getLine() + " : Decision:IF");
+            System.out.println("Line " + $If.getLine() + " : Decision: IF");
         }
         expressionWithPar statementWithBrace
         (
         Else If//check here
         {
-            System.out.println("Line " + $If.getLine() + " : Decision:ELSE IF");
+            System.out.println("Line " + $If.getLine() + " : Decision: ELSE IF");
         }
         expressionWithPar statementWithBrace
         )*
         (Else
         {
-            System.out.println("Line " + $Else.getLine() + " : Decision:ELSE");
+            System.out.println("Line " + $Else.getLine() + " : Decision: ELSE");
         }
         statementWithBrace
         )?
@@ -473,7 +473,7 @@ multiplicative
 unary
     : PlusPlus {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");} unary
     | MinusMinus {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");} unary
-    | Not  unary {System.out.println("Line " + $Not.getLine() + " : Operator:!");}
+    | Not {System.out.println("Line " + $Not.getLine() + " : Operator:!");} unary
     | Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} unary
     | postfix
     ;
