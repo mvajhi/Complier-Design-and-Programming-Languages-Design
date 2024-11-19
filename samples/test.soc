@@ -1,22 +1,48 @@
+Record Person {
+    string name;
+    int age;
+    string address;
+}
+
+Actor PersonManager {
+    actorVars {
+        Person person;
+    }
+
+    % Message handler to create a new Person record
+    msgRcv createPerson(string name, int age, string address) {
+        Person person = Person{name: name, age: age, address: address};
+        print("Person created: " + person);
+        sender.updatePerson(person);
+    }
+
+    % Message handler to update the address of a Person record
+    msgRcv updateAddress(Person person, string newAddress) {
+        Person updatedPerson = person{address: newAddress}; % Record update syntax
+        print("Updated person: " + updatedPerson);
+        sender.updatePerson(person);
+    }
+
+    % Message handler to display a Persons details
+    msgRcv displayPerson(Person person) {
+        print("Name: " + person.name + ", Age: " + person.age + ", Address: " + person.address);
+    }
+
+    msgRcv updatePerson(Person person) {
+        self.person = person;
+    }
+}
+
 main() {
+    % Sample instantiation and message passing
+    PersonManager manager = PersonManager();
 
-    % For loops works like python (can use range or any other iterable)
+    % Create a new Person
+    Person john = manager.createPerson("John Doe", 30, "123 Main St");
 
-    % For simple iterations we just use range without defining n beforehand
-    for (n in range(0,10)) {
-        % Maow
-    }
+    % Update the address
+    john = manager.updateAddress(john, "456 Elm St");
 
-    Set<string> names;
-    for (n in names) {
-        % Maow
-    }
-
-    int n = 0;
-    % while loops
-    while (n < 100) {
-        n = n + 1;
-        % Maow
-    }
-
+    % Display the updated Person record
+    manager.displayPerson(john);  % Output: Name: John Doe, Age: 30, Address: 456 Elm St
 }

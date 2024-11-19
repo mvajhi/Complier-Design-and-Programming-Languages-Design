@@ -401,12 +401,16 @@ methodCall
      Identifier)
     ;
 
+objectCall
+    : (Identifier | Self) Dot Identifier
+    ;
+
 observers
     : AT Observers argsWithPar
     ;
 
 declareVarStatement
-    : type Identifier arraySize? initialayzer? Semi
+    : type Identifier arraySize? initialayzer? functionCall? Semi
     ;
 
 arraySize
@@ -417,12 +421,21 @@ initialayzer
     : Assign expression {System.out.println( "Line " + $Assign.getLine() + " : Assignment");}
     ;
 
+functionCall
+    : Assign Identifier argsWithPar
+    {
+    System.out.println( "Line " + $Identifier.getLine() + " : Send Message");
+    System.out.println( "Line " + $Assign.getLine() + " : Assignment");
+    }
+    ;
+
+
 // expression
 expressionWithPar
     : LeftParen expression RightParen
     ;
 
-expression : logicalOr ;
+expression : logicalOr;
 
 logicalOr
     : logicalAnd (OrOr {System.out.println("Line " + $OrOr.getLine() + " : Operator:||");} logicalOr )?
@@ -484,6 +497,7 @@ pipe
 // terminal
 terminal
     : methodCall
+    | objectCall
     | actorInstance
     | recordInstance
     | primitiveUse

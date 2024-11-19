@@ -437,6 +437,16 @@ public interface SOACTListener extends ParseTreeListener {
 	 */
 	void exitMethodCall(SOACTParser.MethodCallContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SOACTParser#objectCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterObjectCall(SOACTParser.ObjectCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SOACTParser#objectCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitObjectCall(SOACTParser.ObjectCallContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SOACTParser#observers}.
 	 * @param ctx the parse tree
 	 */
@@ -476,6 +486,16 @@ public interface SOACTListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInitialayzer(SOACTParser.InitialayzerContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SOACTParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCall(SOACTParser.FunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SOACTParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCall(SOACTParser.FunctionCallContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SOACTParser#expressionWithPar}.
 	 * @param ctx the parse tree

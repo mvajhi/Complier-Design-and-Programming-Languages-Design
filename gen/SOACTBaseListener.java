@@ -532,6 +532,18 @@ public class SOACTBaseListener implements SOACTListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterObjectCall(SOACTParser.ObjectCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitObjectCall(SOACTParser.ObjectCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterObservers(SOACTParser.ObserversContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -575,6 +587,18 @@ public class SOACTBaseListener implements SOACTListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInitialayzer(SOACTParser.InitialayzerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionCall(SOACTParser.FunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionCall(SOACTParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

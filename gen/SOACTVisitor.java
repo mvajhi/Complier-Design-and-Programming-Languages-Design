@@ -268,6 +268,12 @@ public interface SOACTVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMethodCall(SOACTParser.MethodCallContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SOACTParser#objectCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitObjectCall(SOACTParser.ObjectCallContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SOACTParser#observers}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -291,6 +297,12 @@ public interface SOACTVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInitialayzer(SOACTParser.InitialayzerContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SOACTParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(SOACTParser.FunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SOACTParser#expressionWithPar}.
 	 * @param ctx the parse tree
