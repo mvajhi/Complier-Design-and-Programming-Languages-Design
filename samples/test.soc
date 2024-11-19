@@ -1,3 +1,4 @@
+
 Actor X {
     actorVars {
         string name;

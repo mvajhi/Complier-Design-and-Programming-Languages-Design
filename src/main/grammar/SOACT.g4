@@ -113,7 +113,7 @@ StringChar: ~ ["\\\r\n];
 // structures, expressions, assignments, function calls, and other constructs within a program.
 // The parser rules collectively define the syntax of the language.
 
-start
+soact
     : declarationseq? EOF
     ;
 
