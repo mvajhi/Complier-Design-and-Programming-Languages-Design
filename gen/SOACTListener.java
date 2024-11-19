@@ -367,6 +367,16 @@ public interface SOACTListener extends ParseTreeListener {
 	 */
 	void exitSetVarStatement(SOACTParser.SetVarStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SOACTParser#builtInFunctionName}.
+	 * @param ctx the parse tree
+	 */
+	void enterBuiltInFunctionName(SOACTParser.BuiltInFunctionNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SOACTParser#builtInFunctionName}.
+	 * @param ctx the parse tree
+	 */
+	void exitBuiltInFunctionName(SOACTParser.BuiltInFunctionNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SOACTParser#builtInFunction}.
 	 * @param ctx the parse tree
 	 */
@@ -376,6 +386,26 @@ public interface SOACTListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBuiltInFunction(SOACTParser.BuiltInFunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SOACTParser#builtInFunctionList}.
+	 * @param ctx the parse tree
+	 */
+	void enterBuiltInFunctionList(SOACTParser.BuiltInFunctionListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SOACTParser#builtInFunctionList}.
+	 * @param ctx the parse tree
+	 */
+	void exitBuiltInFunctionList(SOACTParser.BuiltInFunctionListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SOACTParser#builtInFunctionListName}.
+	 * @param ctx the parse tree
+	 */
+	void enterBuiltInFunctionListName(SOACTParser.BuiltInFunctionListNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SOACTParser#builtInFunctionListName}.
+	 * @param ctx the parse tree
+	 */
+	void exitBuiltInFunctionListName(SOACTParser.BuiltInFunctionListNameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SOACTParser#expressionStatement}.
 	 * @param ctx the parse tree

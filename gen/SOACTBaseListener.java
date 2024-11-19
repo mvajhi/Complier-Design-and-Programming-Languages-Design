@@ -448,6 +448,18 @@ public class SOACTBaseListener implements SOACTListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBuiltInFunctionName(SOACTParser.BuiltInFunctionNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBuiltInFunctionName(SOACTParser.BuiltInFunctionNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBuiltInFunction(SOACTParser.BuiltInFunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -455,6 +467,30 @@ public class SOACTBaseListener implements SOACTListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBuiltInFunction(SOACTParser.BuiltInFunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBuiltInFunctionList(SOACTParser.BuiltInFunctionListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBuiltInFunctionList(SOACTParser.BuiltInFunctionListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBuiltInFunctionListName(SOACTParser.BuiltInFunctionListNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBuiltInFunctionListName(SOACTParser.BuiltInFunctionListNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

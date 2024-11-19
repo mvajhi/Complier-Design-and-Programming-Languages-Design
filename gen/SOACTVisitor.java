@@ -226,11 +226,29 @@ public interface SOACTVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSetVarStatement(SOACTParser.SetVarStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SOACTParser#builtInFunctionName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBuiltInFunctionName(SOACTParser.BuiltInFunctionNameContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SOACTParser#builtInFunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBuiltInFunction(SOACTParser.BuiltInFunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SOACTParser#builtInFunctionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBuiltInFunctionList(SOACTParser.BuiltInFunctionListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SOACTParser#builtInFunctionListName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBuiltInFunctionListName(SOACTParser.BuiltInFunctionListNameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SOACTParser#expressionStatement}.
 	 * @param ctx the parse tree

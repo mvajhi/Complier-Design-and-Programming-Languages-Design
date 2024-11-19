@@ -153,8 +153,11 @@ actorConstructor
 actorMethod
     : type authorized? Identifier
         {
-            if ($type.is_handler) {
-                System.out.println("Handler:" + $Identifier.getText());
+            if ($type.is_msgrcv) {
+                System.out.println("Line " + $Identifier.getLine() + " : msgRcv: " + $Identifier.getText());
+            }
+            else if($type.is_msgobs){
+                System.out.println("Line " + $Identifier.getLine() + " : msgObs: " + $Identifier.getText());
             }
         }
     decArgsWithPar statementWithBrace
@@ -172,7 +175,7 @@ actorVars
 record
     : Record
     {
-    System.out.println("Record");
+    System.out.println("Line " + $Record.getLine() + " : Record");
     }
     Identifier decVarsWithBrace
     ;
@@ -199,7 +202,7 @@ varsPrimitives
     ;
 
 main
-    : Main {System.out.println("MAIN");} decArgsWithPar statementWithBrace
+    : Main {System.out.println("Line " + $Main.getLine() + " : MAIN");} decArgsWithPar statementWithBrace
 
     ;
 
@@ -255,7 +258,7 @@ statement
 joinStatement
     : Join
     {
-    System.out.println("Join");
+    System.out.println("Line " + $Join.getLine() + " : Join");
     }
     statementWithBrace
     ;
@@ -268,7 +271,7 @@ otherStatement
      Semi
     | Continue
      {
-        System.out.println("Control: CONTINUE");
+        System.out.println("Line " + $Continue.getLine() + " : Control: CONTINUE");
      }
      Semi
     ;
@@ -276,7 +279,7 @@ otherStatement
 whileStatement
     : While
     {
-    System.out.println("Loop: WHILE");
+    System.out.println("Line " + $While.getLine() + " : Loop: WHILE");
     }
     whileArgWithPar statementWithBrace
     ;
@@ -288,7 +291,7 @@ whileArgWithPar
 forStatement
     : For
     {
-    System.out.println("Loop: FOR");
+    System.out.println("Line " + $For.getLine() + " : Loop: FOR");
     }
     forArgWithPar statementWithBrace
     ;
@@ -302,37 +305,37 @@ forArg
     ;
 
 setVarStatement
-    : (Self Dot)? Identifier Assign expression {System.out.println("Operator:=");} Semi
+    : (Self Dot)? Identifier Assign expression {System.out.println("Line " + $Assign.getLine() + " : Operator:=");} Semi
     ;
 
 builtInFunctionName
     : ToLower
         {
-            System.out.println("Built-In: LOWER");
+            System.out.println("Line " + $ToLower.getLine() + " : Built-In: LOWER");
         }
     | ToUpper
         {
-            System.out.println("Built-In: UPPER");
+            System.out.println("Line " + $ToUpper.getLine() + " : Built-In: UPPER");
         }
     | Reverse
         {
-            System.out.println("Built-In: REVERSE");
+            System.out.println("Line " + $Reverse.getLine() + " : Built-In: REVERSE");
         }
     | Print
         {
-            System.out.println("Built-In: PRINT");
+            System.out.println("Line " + $Print.getLine() + " : Built-In: PRINT");
         }
     | Private
         {
-            System.out.println("Built-In: PRIVATE");
+            System.out.println("Line " + $Private.getLine() + " : Built-In: PRIVATE");
         }
     | Public
         {
-            System.out.println("Built-In: PUBLIC");
+            System.out.println("Line " + $Public.getLine() + " : Built-In: PUBLIC");
         }
     | Range
         {
-            System.out.println("Built-In: RANGE");
+            System.out.println("Line " + $Range.getLine() + " : Built-In: RANGE");
         }
     ;
 
@@ -347,19 +350,19 @@ builtInFunctionList
 builtInFunctionListName
     : Add
         {
-            System.out.println("Built-In: ADD");
+            System.out.println("Line " + $Add.getLine() + " : Built-In: ADD");
         }
     | Include
         {
-            System.out.println("Built-In: INCLUDE");
+            System.out.println("Line " + $Include.getLine() + " : Built-In: INCLUDE");
         }
     | Remove
         {
-            System.out.println("Built-In: REMOVE");
+            System.out.println("Line " + $Remove.getLine() + " : Built-In: REMOVE");
         }
     | Length
         {
-            System.out.println("Built-In: LEN");
+            System.out.println("Line " + $Length.getLine() + " : Built-In: LEN");
         }
     ;
 
@@ -406,7 +409,7 @@ arraySize
     ;
 
 initialayzer
-    : Assign expression {System.out.println("Operator:=");}
+    : Assign expression {System.out.println( "Line " + $Assign.getLine() + " : Assignment");}
     ;
 
 // expression
@@ -491,14 +494,15 @@ recordInstance
     ;
 
 // types
-type returns [boolean is_handler = false]
+type returns [boolean is_msgobs = false , boolean is_msgrcv = false]
     : builtInType {
-        $is_handler = $builtInType.is_handler;
+        $is_msgrcv = $builtInType.is_msgrcv;
+        $is_msgobs = $builtInType.is_msgobs;
     }
     | Identifier
     ;
 
-builtInType returns [boolean is_handler = false]
+builtInType returns [boolean is_msgrcv = false , boolean is_msgobs]
     : Bool
     | Int
     | String
@@ -506,10 +510,10 @@ builtInType returns [boolean is_handler = false]
     | Actor
     | Primitive
     | MsgRcv {
-        $is_handler = true;
+        $is_msgrcv = true;
     }
     | MsgObs {
-        $is_handler = true;
+        $is_msgobs = true;
     }
     | ActorVars
     | list
