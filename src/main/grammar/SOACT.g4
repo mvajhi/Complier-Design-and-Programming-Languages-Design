@@ -464,8 +464,8 @@ relational
     ;
 
 additive
-    : multiplicative (Plus  {System.out.println("Line " + $Plus.getLine() + " : Operator:+");} additive
-    |Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} additive
+    : multiplicative (Plus  additive {System.out.println("Line " + $Plus.getLine() + " : Operator:+");}
+    |Minus additive {System.out.println("Line " + $Minus.getLine() + " : Operator:-");}
     )?
     ;
 
