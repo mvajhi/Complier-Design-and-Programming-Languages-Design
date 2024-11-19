@@ -7,15 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface SOACTListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link SOACTParser#start}.
+	 * Enter a parse tree produced by {@link SOACTParser#soact}.
 	 * @param ctx the parse tree
 	 */
-	void enterStart(SOACTParser.StartContext ctx);
+	void enterSoact(SOACTParser.SoactContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SOACTParser#start}.
+	 * Exit a parse tree produced by {@link SOACTParser#soact}.
 	 * @param ctx the parse tree
 	 */
-	void exitStart(SOACTParser.StartContext ctx);
+	void exitSoact(SOACTParser.SoactContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SOACTParser#declarationseq}.
 	 * @param ctx the parse tree

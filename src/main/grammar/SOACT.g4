@@ -395,7 +395,7 @@ ifStatement//i did some changes in here
 methodCall
     : (Identifier | Self) Dot Identifier (argsWithPar
      {
-        System.out.println("Line " + $Dot.getLine() + " : send message");
+        System.out.println("Line " + $Dot.getLine() + " : Send Message");
      }
      observers? | Assign
      {

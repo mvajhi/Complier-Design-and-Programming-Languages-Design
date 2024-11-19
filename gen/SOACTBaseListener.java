@@ -16,13 +16,13 @@ public class SOACTBaseListener implements SOACTListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStart(SOACTParser.StartContext ctx) { }
+	@Override public void enterSoact(SOACTParser.SoactContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStart(SOACTParser.StartContext ctx) { }
+	@Override public void exitSoact(SOACTParser.SoactContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

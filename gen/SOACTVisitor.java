@@ -10,11 +10,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface SOACTVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link SOACTParser#start}.
+	 * Visit a parse tree produced by {@link SOACTParser#soact}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStart(SOACTParser.StartContext ctx);
+	T visitSoact(SOACTParser.SoactContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SOACTParser#declarationseq}.
 	 * @param ctx the parse tree

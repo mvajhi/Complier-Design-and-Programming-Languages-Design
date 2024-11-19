@@ -29,7 +29,7 @@ public class SOACTParser extends Parser {
 		Length=70, Private=71, Public=72, True=73, False=74, Null=75, Identifier=76, 
 		NONDIGIT=77, NONZERODIGIT=78, DIGIT=79, StringChar=80;
 	public static final int
-		RULE_start = 0, RULE_declarationseq = 1, RULE_declaration = 2, RULE_actor = 3, 
+		RULE_soact = 0, RULE_declarationseq = 1, RULE_declaration = 2, RULE_actor = 3, 
 		RULE_actorComponentsWithBrace = 4, RULE_actorComponents = 5, RULE_actorComponent = 6, 
 		RULE_actorConstructor = 7, RULE_actorMethod = 8, RULE_authorized = 9, 
 		RULE_actorVars = 10, RULE_record = 11, RULE_decVarsWithBrace = 12, RULE_varsRecords = 13, 
@@ -51,7 +51,7 @@ public class SOACTParser extends Parser {
 		RULE_type = 64, RULE_builtInType = 65, RULE_set = 66, RULE_list = 67;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"start", "declarationseq", "declaration", "actor", "actorComponentsWithBrace", 
+			"soact", "declarationseq", "declaration", "actor", "actorComponentsWithBrace", 
 			"actorComponents", "actorComponent", "actorConstructor", "actorMethod", 
 			"authorized", "actorVars", "record", "decVarsWithBrace", "varsRecords", 
 			"decPrimitive", "varsPrimitiveWithBrace", "varsPrimitives", "main", "decArgsWithPar", 
@@ -151,33 +151,33 @@ public class SOACTParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class StartContext extends ParserRuleContext {
+	public static class SoactContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(SOACTParser.EOF, 0); }
 		public DeclarationseqContext declarationseq() {
 			return getRuleContext(DeclarationseqContext.class,0);
 		}
-		public StartContext(ParserRuleContext parent, int invokingState) {
+		public SoactContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_start; }
+		@Override public int getRuleIndex() { return RULE_soact; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SOACTListener ) ((SOACTListener)listener).enterStart(this);
+			if ( listener instanceof SOACTListener ) ((SOACTListener)listener).enterSoact(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SOACTListener ) ((SOACTListener)listener).exitStart(this);
+			if ( listener instanceof SOACTListener ) ((SOACTListener)listener).exitSoact(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SOACTVisitor ) return ((SOACTVisitor<? extends T>)visitor).visitStart(this);
+			if ( visitor instanceof SOACTVisitor ) return ((SOACTVisitor<? extends T>)visitor).visitSoact(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final StartContext start() throws RecognitionException {
-		StartContext _localctx = new StartContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_start);
+	public final SoactContext soact() throws RecognitionException {
+		SoactContext _localctx = new SoactContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_soact);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

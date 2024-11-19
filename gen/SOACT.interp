@@ -165,7 +165,7 @@ DIGIT
 StringChar
 
 rule names:
-start
+soact
 declarationseq
 declaration
 actor
