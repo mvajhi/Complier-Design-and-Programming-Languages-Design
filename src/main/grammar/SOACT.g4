@@ -151,11 +151,14 @@ actorConstructor
     ;
 
 actorMethod
-    : type authorized? Identifier decArgsWithPar statementWithBrace {
-        if ($type.is_handler) {
-            System.out.println("Handler:" + $Identifier.getText());
+    : type authorized? Identifier
+        {
+            if ($type.is_handler) {
+                System.out.println("Handler:" + $Identifier.getText());
+            }
         }
-    }
+    decArgsWithPar statementWithBrace
+
     ;
 
 authorized
@@ -196,9 +199,8 @@ varsPrimitives
     ;
 
 main
-    : Main decArgsWithPar statementWithBrace {
-    System.out.println("MAIN");
-    }
+    : Main {System.out.println("MAIN");} decArgsWithPar statementWithBrace
+
     ;
 
 // args
@@ -300,54 +302,65 @@ forArg
     ;
 
 setVarStatement
-    : (Self Dot)? Identifier Assign expression Semi
+    : (Self Dot)? Identifier Assign expression {System.out.println("Operator:=");} Semi
     ;
 
 builtInFunction
-    : ToLower argsWithPar
-        {
-            System.out.println("Built-In: LOWER");
-        }
-    | ToUpper argsWithPar
+    : ToLower
+    {
+        System.out.println("Built-In: LOWER");
+    }
+    argsWithPar
+    | ToUpper
         {
             System.out.println("Built-In: UPPER");
         }
-    | Reverse argsWithPar
+    argsWithPar
+    | Reverse
         {
             System.out.println("Built-In: REVERSE");
         }
-    | Print argsWithPar
+    argsWithPar
+    | Print
         {
             System.out.println("Built-In: PRINT");
         }
-    | Add argsWithPar
+    argsWithPar
+    | Add
         {
             System.out.println("Built-In: ADD");
         }
-    | Include argsWithPar
+    argsWithPar
+    | Include
         {
             System.out.println("Built-In: INCLUDE");
         }
-    | Remove argsWithPar
+    argsWithPar
+    | Remove
         {
             System.out.println("Built-In: REMOVE");
         }
-    | Length argsWithPar
+    argsWithPar
+    | Length
         {
             System.out.println("Built-In: LEN");
         }
-    | Private argsWithPar
+    argsWithPar
+    | Private
         {
             System.out.println("Built-In: PRIVATE");
         }
-    | Public argsWithPar
+    argsWithPar
+    | Public
         {
             System.out.println("Built-In: PUBLIC");
         }
-    | Range argsWithPar
+    argsWithPar
+    | Range
         {
             System.out.println("Built-In: RANGE");
         }
+    argsWithPar
     ;
 
 expressionStatement
@@ -355,18 +368,24 @@ expressionStatement
     ;
 
 ifStatement//i did some changes in here
-    : If expressionWithPar statementWithBrace
+    : If
         {
             System.out.println("Decision:IF");
         }
-        (Else If expressionWithPar statementWithBrace
+        expressionWithPar statementWithBrace
+        (
+        Else If
         {
             System.out.println("Decision:ELSE IF");
-        })*
-        (Else statementWithBrace
+        }
+        expressionWithPar statementWithBrace
+        )*
+        (Else
         {
             System.out.println("Decision:ELSE");
-        })?
+        }
+        statementWithBrace
+        )?
     ;
 // method call
 methodCall
@@ -386,7 +405,7 @@ arraySize
     ;
 
 initialayzer
-    : Assign expression
+    : Assign expression {System.out.println("Operator:=");}
     ;
 
 // expression
@@ -397,36 +416,38 @@ expressionWithPar
 expression : logicalOr ;
 
 logicalOr
-    : logicalAnd (OrOr logicalOr)?
+    : logicalAnd (OrOr {System.out.println("Operator:||");} logicalOr )?
     ;
 
 logicalAnd
-    : equality (AndAnd logicalAnd)?
+    : equality (AndAnd {System.out.println("Operator:&&");} logicalAnd)?
     ;
 
 equality
-    : relational ((Equal | NotEqual) equality)?
+    : relational (Equal {System.out.println("Operator:==");} equality | NotEqual {System.out.println("Operator:!=");} equality)?
     ;
 
 relational
-    : additive ((Less | Greater) relational)?
+    : additive (Less {System.out.println("Operator:<");} relational| Greater {System.out.println("Operator:>");} relational)?
     ;
 
 additive
-    : multiplicative ((Plus | Minus) additive)?
+    : multiplicative (Plus {System.out.println("Operator:+");} additive | Minus {System.out.println("Operator:-");} additive)?
     ;
 
 multiplicative
-    : unary ((Star | Div | Mod) multiplicative)?
+    : unary (Star {System.out.println("Operator:*");} multiplicative | Div {System.out.println("Operator:/");} multiplicative |
+    Mod {System.out.println("Operator:%");} multiplicative )?
     ;
 
 unary
-    : (PlusPlus | MinusMinus | Not | Minus) unary
+    : PlusPlus {System.out.println("Operator:++");} unary | MinusMinus {System.out.println("Operator:--");} unary
+    | Not {System.out.println("Operator:!");} unary| Minus {System.out.println("Operator:-");} unary
     | postfix
     ;
 
 postfix
-    : arrayIndex (PlusPlus | MinusMinus)?
+    : arrayIndex (PlusPlus {System.out.println("Operator:++");} | MinusMinus {System.out.println("Operator:--");})?
     ;
 
 arrayIndex
@@ -439,7 +460,7 @@ expressionPar
     ;
 
 pipe
-    : terminal (Pipe pipe)?
+    : terminal (Pipe pipe {System.out.println("Operator:|>");})?
     ;
 
 // terminal

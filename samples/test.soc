@@ -1,29 +1,6 @@
 main()
 {
-    if(true)
-{
-    x = 1+2;
+x + y * z - b / c;
 }
 
-else if(true)
-{
-    x = 1+2;
-}
-
-else if(true)
-{
-    x = 1+2;
-}
-else if(true)
-{
-    x = 1+2;
-}
-else if(true)
-{
-    x = 1+2;
-}
-else
-{
-    x=5;
-}
-}
+% *+/-
