@@ -1,24 +1,23 @@
 
+
+
+
 Actor LinkedInUser {
     actorVars {
         Set<ID> Followers;
         Set<ID> Followings;
         Set<ID> Block;
-
         List<string> posts;
         List<string> closeFriendPosts;
-
         string name;
         int age;
     }
-
     % Receive Policy
     msgRcv @authorized(public(Block, null)) FollowRequest() {
         % The @authorized primitive specifies which actors are allowed to call our handler
         % This does not mean that our handler is observer or servers it just decides which actors can call it
         ageCompare(age);
     }
-
     msgRcv ageCompare (int senderAge) {
         if (senderAge > age) {
             accept() @observers(private(sender,null));
@@ -27,29 +26,24 @@ Actor LinkedInUser {
             Block.add(sender);
         }
     }
-
     msgRcv acceptFollow() {
         if (!Followings.include(sender)) {
             Followings.add(sender);
         }
     }
-
     msgRcv accept() {
         if (!Followers.include(sender)) {
             Followers.add(sender);
         }
     }
-
     msgObs accept() {
         print("PASANDIDE SHOD");
     }
-
     msgRcv Post(string s) {
         if (sender!=self) {
             % Post sending logic
         }
     }
 }
-
 main () {
 }
