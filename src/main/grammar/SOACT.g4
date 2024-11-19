@@ -305,62 +305,62 @@ setVarStatement
     : (Self Dot)? Identifier Assign expression {System.out.println("Operator:=");} Semi
     ;
 
-builtInFunction
+builtInFunctionName
     : ToLower
-    {
-        System.out.println("Built-In: LOWER");
-    }
-    argsWithPar
+        {
+            System.out.println("Built-In: LOWER");
+        }
     | ToUpper
         {
             System.out.println("Built-In: UPPER");
         }
-    argsWithPar
     | Reverse
         {
             System.out.println("Built-In: REVERSE");
         }
-    argsWithPar
     | Print
         {
             System.out.println("Built-In: PRINT");
         }
-    argsWithPar
-    | Add
-        {
-            System.out.println("Built-In: ADD");
-        }
-    argsWithPar
-    | Include
-        {
-            System.out.println("Built-In: INCLUDE");
-        }
-    argsWithPar
-    | Remove
-        {
-            System.out.println("Built-In: REMOVE");
-        }
-    argsWithPar
-    | Length
-        {
-            System.out.println("Built-In: LEN");
-        }
-    argsWithPar
     | Private
         {
             System.out.println("Built-In: PRIVATE");
         }
-    argsWithPar
     | Public
         {
             System.out.println("Built-In: PUBLIC");
         }
-    argsWithPar
     | Range
         {
             System.out.println("Built-In: RANGE");
         }
-    argsWithPar
+    ;
+
+builtInFunction
+    : builtInFunctionName argsWithPar
+    ;
+
+builtInFunctionList
+    : builtInFunctionListName argsWithPar
+    ;
+
+builtInFunctionListName
+    : Add
+        {
+            System.out.println("Built-In: ADD");
+        }
+    | Include
+        {
+            System.out.println("Built-In: INCLUDE");
+        }
+    | Remove
+        {
+            System.out.println("Built-In: REMOVE");
+        }
+    | Length
+        {
+            System.out.println("Built-In: LEN");
+        }
     ;
 
 expressionStatement
@@ -387,6 +387,7 @@ ifStatement//i did some changes in here
         statementWithBrace
         )?
     ;
+
 // method call
 methodCall
     : (Identifier | Self) Dot Identifier argsWithPar observers?
@@ -471,7 +472,7 @@ terminal
     | primitiveUse
     | builtInFunction
     | (Self Dot)? StringLiteral
-    | Identifier
+    | Identifier (Dot builtInFunctionList)?
     | IntegerLiteral
     | BoolLiteral
     | Null
