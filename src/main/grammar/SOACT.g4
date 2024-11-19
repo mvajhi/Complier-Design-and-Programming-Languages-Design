@@ -334,9 +334,6 @@ builtInFunctionName
             System.out.println("Line " + $Public.getLine() + " : Built-In: PUBLIC");
         }
     | Range
-        {
-            System.out.println("Line " + $Range.getLine() + " : Built-In: RANGE");
-        }
     ;
 
 builtInFunction
