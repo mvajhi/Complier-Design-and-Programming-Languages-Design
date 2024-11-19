@@ -246,6 +246,7 @@ statementSeq
 
 statement
     : declareVarStatement
+    | functionCall Semi
     | expressionStatement
     | setVarStatement
     | ifStatement
@@ -410,7 +411,9 @@ observers
     ;
 
 declareVarStatement
-    : type Identifier arraySize? initialayzer? functionCall? Semi
+    : type Identifier arraySize? initialayzer? (Assign functionCall
+    {System.out.println( "Line " + $Assign.getLine() + " : Assignment");}
+    )? Semi
     ;
 
 arraySize
@@ -422,11 +425,11 @@ initialayzer
     ;
 
 functionCall
-    : Assign Identifier argsWithPar
+    : Identifier argsWithPar
     {
     System.out.println( "Line " + $Identifier.getLine() + " : Send Message");
-    System.out.println( "Line " + $Assign.getLine() + " : Assignment");
     }
+    observers?
     ;
 
 
@@ -504,6 +507,7 @@ terminal
     | builtInFunction
     | (Self Dot)? StringLiteral
     | Identifier (Dot builtInFunctionList)?
+    | Self
     | IntegerLiteral
     | BoolLiteral
     | Null
