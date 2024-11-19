@@ -305,7 +305,7 @@ forArg
     ;
 
 setVarStatement
-    : (Self Dot)? Identifier Assign expression {System.out.println("Line " + $Assign.getLine() + " : Operator:=");} Semi
+    : (Self Dot)? Identifier Assign expression {System.out.println("Line " + $Assign.getLine() + " : Assignment");} Semi
     ;
 
 builtInFunctionName
@@ -373,19 +373,19 @@ expressionStatement
 ifStatement//i did some changes in here
     : If
         {
-            System.out.println("Decision:IF");
+            System.out.println("Line " + $If.getLine() + " : Decision:IF");
         }
         expressionWithPar statementWithBrace
         (
-        Else If
+        Else If//check here
         {
-            System.out.println("Decision:ELSE IF");
+            System.out.println("Line " + $If.getLine() + " : Decision:ELSE IF");
         }
         expressionWithPar statementWithBrace
         )*
         (Else
         {
-            System.out.println("Decision:ELSE");
+            System.out.println("Line " + $Else.getLine() + " : Decision:ELSE");
         }
         statementWithBrace
         )?
@@ -393,7 +393,15 @@ ifStatement//i did some changes in here
 
 // method call
 methodCall
-    : (Identifier | Self) Dot Identifier argsWithPar observers?
+    : (Identifier | Self) Dot Identifier (argsWithPar
+     {
+        System.out.println("Line " + $Dot.getLine() + " : send message");
+     }
+     observers? | Assign
+     {
+        System.out.println("Line " + $Assign.getLine() + " : Assignment");
+     }
+     Identifier)
     ;
 
 observers
@@ -420,38 +428,47 @@ expressionWithPar
 expression : logicalOr ;
 
 logicalOr
-    : logicalAnd (OrOr {System.out.println("Operator:||");} logicalOr )?
+    : logicalAnd (OrOr {System.out.println("Line " + $OrOr.getLine() + " : Operator:||");} logicalOr )?
     ;
 
 logicalAnd
-    : equality (AndAnd {System.out.println("Operator:&&");} logicalAnd)?
+    : equality (AndAnd {System.out.println("Line " + $AndAnd.getLine() + " : Operator:&&");} logicalAnd)?
     ;
 
 equality
-    : relational (Equal {System.out.println("Operator:==");} equality | NotEqual {System.out.println("Operator:!=");} equality)?
+    : relational (Equal {System.out.println("Line " + $Equal.getLine() + " : Operator:==");} equality
+    | NotEqual {System.out.println("Line " + $NotEqual.getLine() + " : Operator:!=");} equality)?
     ;
 
 relational
-    : additive (Less {System.out.println("Operator:<");} relational| Greater {System.out.println("Operator:>");} relational)?
+    : additive (Less {System.out.println("Line " + $Less.getLine() + " : Operator:<");} relational
+    | Greater {System.out.println("Line " + $Greater.getLine() + " : Operator:>");} relational)?
     ;
 
 additive
-    : multiplicative (Plus {System.out.println("Operator:+");} additive | Minus {System.out.println("Operator:-");} additive)?
+    : multiplicative (Plus {System.out.println("Line " + $Plus.getLine() + " : Operator:+");} additive |
+     Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} additive)?
     ;
 
 multiplicative
-    : unary (Star {System.out.println("Operator:*");} multiplicative | Div {System.out.println("Operator:/");} multiplicative |
-    Mod {System.out.println("Operator:%");} multiplicative )?
+    : unary (Star {System.out.println("Line " + $Star.getLine() + " : Operator:*");} multiplicative
+    | Div {System.out.println("Line " + $Div.getLine() + " : Operator:/");} multiplicative
+    | Mod {System.out.println("Line " + $Mod.getLine() + " : Operator:%");}
+    multiplicative )?
     ;
 
 unary
-    : PlusPlus {System.out.println("Operator:++");} unary | MinusMinus {System.out.println("Operator:--");} unary
-    | Not {System.out.println("Operator:!");} unary| Minus {System.out.println("Operator:-");} unary
+    : PlusPlus {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");} unary
+    | MinusMinus {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");} unary
+    | Not {System.out.println("Line " + $Not.getLine() + " : Operator:!");} unary
+    | Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} unary
     | postfix
     ;
 
 postfix
-    : arrayIndex (PlusPlus {System.out.println("Operator:++");} | MinusMinus {System.out.println("Operator:--");})?
+    : arrayIndex (
+    PlusPlus {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");}
+    | MinusMinus {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");})?
     ;
 
 arrayIndex
@@ -464,7 +481,7 @@ expressionPar
     ;
 
 pipe
-    : terminal (Pipe pipe {System.out.println("Operator:|>");})?
+    : terminal (Pipe pipe {System.out.println("Line " + $Pipe.getLine() + " : Operator:|>");})?
     ;
 
 // terminal
