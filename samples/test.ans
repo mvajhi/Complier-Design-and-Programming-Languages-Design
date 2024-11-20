@@ -1,17 +1,21 @@
           Line 11 : Assignment
-          Line 15 : msgRcv: factorial
-          Line 16 : Decision: IF
-          Line 16 : Operator:==
-          Line 17 : Assignment
-          Line 18 : Join
-          Line 19 : Built-In: PRINT
-          Line 19 : Kir
-          Line 19 : Operator:+
-          Line 21 : Decision: ELSE
-          Line 23 : Moz
-          Line 23 : Operator:-
-          Line 23 : Operator:*
-          Line 27 : msgRcv: toStr
-          Line 33 : MAIN
-          Line 35 : Assignment
-          Line 38 : Moz
+          Line 12 : Assignment
+          Line 16 : msgRcv: sendMessage
+          Line 17 : Built-In: PRINT
+          Line 17 : Operator:+
+          Line 17 : Operator:+
+          Line 17 : Operator:+
+          Line 17 : Operator:+
+          Line 20 : Send Message
+          Line 20 : Built-In: PRIVATE
+          Line 32 : Assignment
+          Line 33 : Assignment
+          Line 37 : msgRcv: receiveMessage
+          Line 49 : Assignment
+          Line 50 : Assignment
+          Line 54 : msgRcv: observeMessage
+          Line 58 : MAIN
+          Line 60 : Assignment
+          Line 61 : Assignment
+          Line 62 : Assignment
+          Line 65 : Send Message

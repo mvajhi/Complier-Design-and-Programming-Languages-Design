@@ -339,9 +339,6 @@ builtInFunctionName
 
 builtInFunction
     : builtInFunctionName
-    {
-        System.out.println("a");
-    }
     argsWithPar
     ;
 
@@ -431,7 +428,7 @@ initialayzer
 functionCall
     : (builtInFunctionListName | Identifier)
     {
-        System.out.println( "Line " + $Identifier.getLine() + " : c");
+        System.out.println( "Line " + $Identifier.getLine() + " : Send Message");
     }
     argsWithPar
     observers?
