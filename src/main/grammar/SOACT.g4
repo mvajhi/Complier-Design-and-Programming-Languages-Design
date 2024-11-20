@@ -338,7 +338,11 @@ builtInFunctionName
     ;
 
 builtInFunction
-    : builtInFunctionName argsWithPar
+    : builtInFunctionName
+    {
+        System.out.println("a");
+    }
+    argsWithPar
     ;
 
 builtInFunctionList
@@ -391,15 +395,11 @@ ifStatement//i did some changes in here
 
 // method call
 methodCall
-    : (Identifier | Self) Dot (builtInFunctionName | Identifier) (argsWithPar
+    : (Identifier | Self) Dot (builtInFunctionName | Identifier) argsWithPar
      {
         System.out.println("Line " + $Dot.getLine() + " : Send Message");
      }
-     observers? | Assign
-     {
-        System.out.println("Line " + $Assign.getLine() + " : Assignment");
-     }
-     Identifier)
+     observers?
     ;
 
 objectCall
@@ -429,10 +429,11 @@ initialayzer
     ;
 
 functionCall
-    : Identifier argsWithPar
+    : (builtInFunctionListName | Identifier)
     {
-    System.out.println( "Line " + $Identifier.getLine() + " : Send Message");
+        System.out.println( "Line " + $Identifier.getLine() + " : c");
     }
+    argsWithPar
     observers?
     ;
 
