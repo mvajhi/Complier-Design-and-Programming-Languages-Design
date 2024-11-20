@@ -1,17 +1,24 @@
-          Line 11 : Assignment
-          Line 15 : msgRcv: factorial
-          Line 16 : Decision: IF
-          Line 16 : Operator:==
-          Line 17 : Assignment
-          Line 18 : Join
-          Line 19 : Built-In: PRINT
-          Line 19 : Send Message
-          Line 19 : Operator:+
-          Line 21 : Decision: ELSE
-          Line 23 : Send Message
-          Line 23 : Operator:-
-          Line 23 : Operator:*
-          Line 27 : msgRcv: toStr
-          Line 33 : MAIN
-          Line 35 : Assignment
-          Line 38 : Send Message
+          Line 11 : msgRcv: toLowerCase
+          Line 12 : Built-In: LOWER
+          Line 12 : Assignment
+          Line 17 : msgRcv: inverse
+          Line 18 : Built-In: REVERSE
+          Line 18 : Assignment
+          Line 22 : msgRcv: addSuffix
+          Line 23 : Operator:+
+          Line 23 : Assignment
+          Line 27 : msgRcv: processString
+          Line 28 : Assignment
+          Line 29 : Join
+          Line 31 : Operator:|>
+          Line 31 : Send Message
+          Line 32 : Operator:|>
+          Line 32 : Send Message
+          Line 33 : Operator:|>
+          Line 33 : Send Message
+          Line 34 : Built-In: PRINT
+          Line 34 : Operator:+
+          Line 39 : MAIN
+          Line 41 : Assignment
+          Line 44 : Assignment
+          Line 47 : Send Message

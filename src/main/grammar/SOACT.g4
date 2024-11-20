@@ -306,7 +306,7 @@ forArg
     ;
 
 setVarStatement
-    : ((Self|Identifier) Dot)? Identifier Assign expression {System.out.println("Line " + $Assign.getLine() + " : Assignment");} Semi
+    : ((Self|Identifier) Dot)? Identifier Assign (expression {System.out.println("Line " + $Assign.getLine() + " : Assignment");} ) Semi
     ;
 
 builtInFunctionName
@@ -391,7 +391,7 @@ ifStatement//i did some changes in here
 
 // method call
 methodCall
-    : (Identifier | Self) Dot Identifier (argsWithPar
+    : (Identifier | Self) Dot (builtInFunctionName | Identifier) (argsWithPar
      {
         System.out.println("Line " + $Dot.getLine() + " : Send Message");
      }
@@ -504,7 +504,7 @@ pipe
     ;
 
 // terminal
-terminal
+terminal//change some priorities
     : objectCall
     | methodCall
     | actorInstance
