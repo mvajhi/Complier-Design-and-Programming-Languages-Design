@@ -392,10 +392,12 @@ ifStatement//i did some changes in here
 
 // method call
 methodCall
-    : (Identifier | Self) Dot (builtInFunctionName | Identifier) argsWithPar
+    : (Identifier | Self) Dot (builtInFunctionName | Identifier
      {
         System.out.println("Line " + $Dot.getLine() + " : Send Message");
      }
+     )
+     argsWithPar
      observers?
     ;
 
@@ -498,7 +500,7 @@ expressionPar
     ;
 
 pipe
-    : terminal (Pipe pipe {System.out.println("Line " + $Pipe.getLine() + " : Operator:|>");})?
+    : terminal (Pipe {System.out.println("Line " + $Pipe.getLine() + " : Operator:|>");} pipe)?
     ;
 
 // terminal
