@@ -445,49 +445,48 @@ expressionWithPar
 expression : logicalOr;
 
 logicalOr
-    : logicalAnd (OrOr {System.out.println("Line " + $OrOr.getLine() + " : Operator:||");} logicalOr )?
+    : logicalAnd (OrOr logicalAnd {System.out.println("Line " + $OrOr.getLine() + " : Operator:||");}  )*
     ;
 
 logicalAnd
-    : equality (AndAnd {System.out.println("Line " + $AndAnd.getLine() + " : Operator:&&");} logicalAnd )?
+    : equality (AndAnd equality {System.out.println("Line " + $AndAnd.getLine() + " : Operator:&&");}  )*
     ;
 
 equality
-    : relational (Equal {System.out.println("Line " + $Equal.getLine() + " : Operator:==");} equality
-    | NotEqual {System.out.println("Line " + $NotEqual.getLine() + " : Operator:!=");} equality )?
+    : relational (Equal relational {System.out.println("Line " + $Equal.getLine() + " : Operator:==");}
+    | NotEqual relational {System.out.println("Line " + $NotEqual.getLine() + " : Operator:!=");}  )*
     ;
 
 relational
-    : additive (Less {System.out.println("Line " + $Less.getLine() + " : Operator:<");} relational
-    | Greater {System.out.println("Line " + $Greater.getLine() + " : Operator:>");} relational
-    )?
+    : additive (Less additive {System.out.println("Line " + $Less.getLine() + " : Operator:<");}
+    | Greater additive {System.out.println("Line " + $Greater.getLine() + " : Operator:>");})*
     ;
 
 additive
-    : multiplicative (Plus additive {System.out.println("Line " + $Plus.getLine() + " : Operator:+");}
-    |Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} additive
-    )?
+    : multiplicative (Plus multiplicative {System.out.println("Line " + $Plus.getLine() + " : Operator:+");}
+    |Minus multiplicative {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} )*
     ;
 
 multiplicative
-    : unary (Star {System.out.println("Line " + $Star.getLine() + " : Operator:*");} multiplicative
-    | Div {System.out.println("Line " + $Div.getLine() + " : Operator:/");} multiplicative
-    | Mod {System.out.println("Line " + $Mod.getLine() + " : Operator:%");} multiplicative
-    )?
+    : unary (Star unary {System.out.println("Line " + $Star.getLine() + " : Operator:*");}
+    | Div unary {System.out.println("Line " + $Div.getLine() + " : Operator:/");}
+    | Mod  unary {System.out.println("Line " + $Mod.getLine() + " : Operator:%");}
+    )*
     ;
 
 unary
-    : PlusPlus unary {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");}
-    | MinusMinus unary {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");}
-    | Not unary {System.out.println("Line " + $Not.getLine() + " : Operator:!");}
-    | Minus unary {System.out.println("Line " + $Minus.getLine() + " : Operator:-");}
+    : PlusPlus {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");} unary
+    | MinusMinus {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");} unary
+    | Not {System.out.println("Line " + $Not.getLine() + " : Operator:!");} unary
+    | Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} unary
     | postfix
     ;
 
 postfix
-    : arrayIndex (
+    : postfix (
     PlusPlus {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");}
-    | MinusMinus {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");})?
+    | MinusMinus {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");})
+    | arrayIndex
     ;
 
 arrayIndex
@@ -500,7 +499,7 @@ expressionPar
     ;
 
 pipe
-    : terminal (Pipe pipe {System.out.println("Line " + $Pipe.getLine() + " : Operator:|>");} )?
+    : terminal (Pipe terminal {System.out.println("Line " + $Pipe.getLine() + " : Operator:|>");} )*
     ;
 
 // terminal
