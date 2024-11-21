@@ -1,55 +1,31 @@
-Actor X {
-    actorVars {
-        string name;
-        int id;
-    }
-    % Constructor
-    X(string name, int id) {
-        this.name = name;
-        this.id = id;
-    }
-    % Method to send message to Y, observed by Z
-    msgRcv sendMessage(string msgContent, ID receiver, ID observer) {
-        print(name + " sends message to " + receiver + ": " + msgContent);
-
-        % Send the message to Y’s queue as the recipient and Z’s queue as the observer
-        receiver.receiveMessage(msgContent) @observers(private(observer, null));
-    }
-}
-Actor Y {
-    actorVars {
-        string name;
-        int id;
-    }
-    % Constructor
-    Y(string name, int id) {
-        this.name = name;
-        this.id = id;
-    }
-    % Handler to receive a message
-    msgRcv receiveMessage(string msgContent) {
-    }
-}
-Actor Z {
-    actorVars {
-        string name;
-        int id;
-    }
-    % Constructor
-    Z(string name, int id) {
-        this.name = name;
-        this.id = id;
-    }
-    % Observer handler to log observed messages
-    msgRcv observeMessage(string msgContent) {
-    }
-}
-main() {
-    % Instantiation of actors X, Y, and Z
-    X senderActor = new X("Alice", 101);
-    Y receiverActor = new Y("Bob", 102);
-    Z observerActor = new Z("Charlie", 103);
-    % Alice sends message "Hello, Bob!" to Bob, observed by Charlie
-    senderActor.sendMessage("Hello, Bob!", receiverActor, observerActor);
-}
-
+          Actor FactorialCalculator {
+              % Actor variables
+              actorVars {
+                  int result;
+              }
+              % Constructor
+              FactorialCalculator() {
+                  result = 1;
+              }
+              % Message handler for factorial calculation using tail recursion
+              msgRcv factorial(int n, int accumulator) {
+                  if (n == 1) {
+                      result = accumulator;
+                      join {
+                          print("Factorial result: " + result.toStr());
+                      }
+                  } else {
+                      % Tail recursion: passing updated accumulator
+                      self.factorial(n - 1, accumulator * n);
+                  }
+              }
+              msgRcv toStr(int n) {
+                  % Code that makes int to str
+              }
+          }
+          main() {
+              % Sample instantiation and message passing
+              ID calc = new FactorialCalculator();
+              % Calculate factorial of 5 (starts with accumulator 1)
+              calc.factorial(5, 1);
+          }
