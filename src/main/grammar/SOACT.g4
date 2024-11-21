@@ -1,4 +1,4 @@
-grammar SOACT;
+grammar Program;
 
 // Lexer rules
 // The lexer rules define patterns for recognizing tokens like numbers, booleans, strings,
@@ -113,7 +113,7 @@ StringChar: ~ ["\\\r\n];
 // structures, expressions, assignments, function calls, and other constructs within a program.
 // The parser rules collectively define the syntax of the language.
 
-soact
+s
     : declarationseq? EOF
     ;
 
@@ -464,7 +464,7 @@ relational
     ;
 
 additive
-    : multiplicative (Plus {System.out.println("Line " + $Plus.getLine() + " : Operator:+");} additive
+    : multiplicative (Plus additive {System.out.println("Line " + $Plus.getLine() + " : Operator:+");}
     |Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} additive
     )?
     ;
@@ -500,7 +500,7 @@ expressionPar
     ;
 
 pipe
-    : terminal (Pipe {System.out.println("Line " + $Pipe.getLine() + " : Operator:|>");} pipe)?
+    : terminal (Pipe pipe {System.out.println("Line " + $Pipe.getLine() + " : Operator:|>");} )?
     ;
 
 // terminal
