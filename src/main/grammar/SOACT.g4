@@ -475,10 +475,10 @@ multiplicative
     ;
 
 unary
-    : PlusPlus {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");} unary
-    | MinusMinus {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");} unary
-    | Not {System.out.println("Line " + $Not.getLine() + " : Operator:!");} unary
-    | Minus {System.out.println("Line " + $Minus.getLine() + " : Operator:-");} unary
+    : PlusPlus unary {System.out.println("Line " + $PlusPlus.getLine() + " : Operator:++");}
+    | MinusMinus unary {System.out.println("Line " + $MinusMinus.getLine() + " : Operator:--");}
+    | Not unary {System.out.println("Line " + $Not.getLine() + " : Operator:!");}
+    | Minus unary {System.out.println("Line " + $Minus.getLine() + " : Operator:-");}
     | postfix
     ;
 
