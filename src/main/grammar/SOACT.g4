@@ -1,4 +1,4 @@
-grammar Program;
+grammar SOACT;
 
 // Lexer rules
 // The lexer rules define patterns for recognizing tokens like numbers, booleans, strings,
@@ -113,7 +113,7 @@ StringChar: ~ ["\\\r\n];
 // structures, expressions, assignments, function calls, and other constructs within a program.
 // The parser rules collectively define the syntax of the language.
 
-s
+soact
     : declarationseq? EOF
     ;
 
