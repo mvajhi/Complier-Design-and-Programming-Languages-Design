@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Complier-Design-and-Programming-Languages-Design.iml" filepath="$PROJECT_DIR$/.idea/Complier-Design-and-Programming-Languages-Design.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ca1/ca1.iml" filepath="$PROJECT_DIR$/ca1/ca1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ca2/ca2.iml" filepath="$PROJECT_DIR$/ca2/ca2.iml" />
     </modules>
   </component>
 </project>
