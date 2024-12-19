@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class NameAnalyzer extends Visitor<Void> {
 
+//   visit
     @Override
     public Void visit(Soact soact) {
         SymbolTable.top = new SymbolTable();
@@ -28,19 +29,71 @@ public class NameAnalyzer extends Visitor<Void> {
         return null;
     }
 
-    private void visitAllMainDeclaration(Soact soact) {
-        SymbolTable mainSymbolTable = new SymbolTable(SymbolTable.top);
-        SymbolTable.push(mainSymbolTable);
-        visitAllStatements(soact.getMain());
+    @Override
+    public Void visit(ActorDec actorDec){
+        ActorDecSymbolTableItem actorDecSymbolTableItem = new ActorDecSymbolTableItem(actorDec.getName());
+        checkActorName(actorDec, actorDecSymbolTableItem);
+
+        SymbolTable actorDecSymbolTable = new SymbolTable(SymbolTable.top);
+        actorDec.setSymbolTable(actorDecSymbolTable);
+        SymbolTable.push(actorDecSymbolTable);
+
+        checkActorScope(actorDec);
+
         SymbolTable.pop();
+        return null;
     }
 
+    @Override
+    public Void visit(ObserveHandler handler){
+        handle_visit_handler(handler, "obs_msg");
+        return null;
+    }
+
+    @Override
+    public Void visit(ServiceHandler handler){
+        handle_visit_handler(handler, "serv_msg");
+        return null;
+    }
+
+//  visit all
     private void visitAllStatements(List<Statement> stmts) {
         for (Statement stmt : stmts) {
             if (stmt != null) {
                 stmt.accept(this);
             }
         }
+    }
+
+    private void visitAllMsgHandler(List<Handler> handlers) {
+        for (Handler msgHandler : handlers) {
+            if (msgHandler != null) {
+                msgHandler.accept(this);
+            }
+        }
+    }
+
+    private void visitAllVars(List<VarDeclaration> vars) {
+        for (VarDeclaration varDec : vars) {
+            if (varDec != null) {
+                varDec.accept(this);
+            }
+        }
+    }
+
+    private void visitAllExpression(List<Expression> expressions) {
+        for (Expression exp : expressions) {
+            if (exp != null) {
+                exp.accept(this);
+            }
+        }
+    }
+
+    private void visitAllMainDeclaration(Soact soact) {
+        SymbolTable mainSymbolTable = new SymbolTable(SymbolTable.top);
+        SymbolTable.push(mainSymbolTable);
+        visitAllStatements(soact.getMain());
+        SymbolTable.pop();
     }
 
     private void visitAllRecordDeclaration(Soact soact) {
@@ -59,20 +112,7 @@ public class NameAnalyzer extends Visitor<Void> {
         }
     }
 
-    @Override
-    public Void visit(ActorDec actorDec){
-        ActorDecSymbolTableItem actorDecSymbolTableItem = new ActorDecSymbolTableItem(actorDec.getName());
-        checkActorName(actorDec, actorDecSymbolTableItem);
 
-        SymbolTable actorDecSymbolTable = new SymbolTable(SymbolTable.top);
-        actorDec.setSymbolTable(actorDecSymbolTable);
-        SymbolTable.push(actorDecSymbolTable);
-
-        checkActorScope(actorDec);
-
-        SymbolTable.pop();
-        return null;
-    }
 
     private void checkActorScope(ActorDec actorDec) {
         visitAllVars(actorDec.getVars());
@@ -85,23 +125,6 @@ public class NameAnalyzer extends Visitor<Void> {
         visitAllStatements(actorDec.getConstructorBody());
     }
 
-    private void visitAllMsgHandler(List<Handler> handlers) {
-        for (Handler msgHandler : handlers) {
-            if (msgHandler != null) {
-                msgHandler.accept(this);
-            }
-        }
-    }
-
-    public Void visit(ObserveHandler handler){
-        handle_visit_handler(handler, "obs_msg");
-        return null;
-    }
-
-    public Void visit(ServiceHandler handler){
-        handle_visit_handler(handler, "serv_msg");
-        return null;
-    }
 
     private void handle_visit_handler(Handler handler, String type_hand) {
         MsgHandlerTableItem msgHandlerTableItem = new MsgHandlerTableItem(
@@ -115,9 +138,6 @@ public class NameAnalyzer extends Visitor<Void> {
         visitAllVars(handler.getArgs());
         visitAllStatements(handler.getBody());
         visitAllExpression(handler.getAuthorizationExpressions());
-
-//        TODO: check observe
-
 
         SymbolTable.pop();
     }
@@ -135,22 +155,6 @@ public class NameAnalyzer extends Visitor<Void> {
                     System.out.println("Line:" + handler.getLine() + "-> Redefinition of msgHandler " + handler.getName());
                 }
                 msgHandlerTableItem.setName(msgHandlerTableItem.getName() + "'");
-            }
-        }
-    }
-
-    private void visitAllVars(List<VarDeclaration> vars) {
-        for (VarDeclaration varDec : vars) {
-            if (varDec != null) {
-                varDec.accept(this);
-            }
-        }
-    }
-
-    private void visitAllExpression(List<Expression> expressions) {
-        for (Expression exp : expressions) {
-            if (exp != null) {
-                exp.accept(this);
             }
         }
     }
