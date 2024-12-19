@@ -1,0 +1,43 @@
+% Sample 5 (ERROR-5):
+Actor LinkedInUser {
+    actorVars {
+        Set<ID> Followers;
+        Set<ID> Followings;
+        Set<ID> Block;
+
+        List<string> posts;
+        List<string> closeFriendPosts;
+
+        string name;
+        int age;
+    }
+
+    LinkedInUser(Set<ID> Connections) {
+        ID ac;
+        for (ac in Connections) {
+            % Send Policy (FollowRequest is defined)
+            ac.FollowRequest() @observers(private(Followers, null));
+        }
+    }
+
+    msgRcv FollowRequest() {
+        % add to followers
+    }
+
+    % The msgObs primitive handles the broadcast message type
+    msgObs FollowRequest() {
+        print("FOLLOW SHOD");
+    }
+}
+
+main() {
+    % Instantiate LinkedInUser actor
+    Set<ID> connections;
+    LinkedInUser user = new LinkedInUser(connections);
+
+    % Call a defined message handler
+    user.FollowRequest();
+
+    % Call an undeclared message handler (error)
+    user.UndefinedHandler();  % This handler does not exist
+}

@@ -1,0 +1,3 @@
+Line:3 -> Redefinition of variable id
+Line:14 -> Variable not declared
+Line:17 -> Message Handler name conflicts with Actor name

@@ -1,0 +1,4 @@
+Line:9 -> Variable not declared
+Line:10 -> Redefinition of variable i
+Line:15 -> Redefinition of variable result
+Line:19 -> Redefinition of Message Handler testLoops

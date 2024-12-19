@@ -1,0 +1,39 @@
+% How recursion works
+Actor FactorialCalculator {
+
+    % Actor variables
+    actorVars {
+        int result;
+    }
+
+    % Constructor
+    FactorialCalculator() {
+        result = 1;
+    }
+
+    % Message handler for factorial calculation using tail recursion
+    msgRcv factorial(int n, int accumulator) {
+        if (n == 1) {
+            result = undefinedVar1 + undefinedVar2; % Use of an undeclared variable
+            join {
+                print("Factorial result: " + result.toStr());
+            }
+        } else {
+            % Tail recursion: passing updated accumulator
+            self.factorial(n - 1, accumulator * n);
+        }
+    }
+
+    msgRcv toStr(int n) {
+        % Code that makes int to str
+    }
+
+}
+
+main() {
+    % Sample instantiation and message passing
+    ID calc = new FactorialCalculator();
+
+    % Calculate factorial of 5 (starts with accumulator 1)
+    calc.factorial(5, 1);
+}

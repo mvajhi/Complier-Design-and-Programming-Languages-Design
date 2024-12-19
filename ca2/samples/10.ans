@@ -1,0 +1,4 @@
+Line:4 -> Redefinition of variable data
+Line:9 -> Variable not declared
+Line:12 -> Redefinition of Message Handler processData
+Line:16 -> Message Handler name conflicts with Actor name

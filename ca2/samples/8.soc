@@ -1,0 +1,24 @@
+Record Data {
+    int id;
+    string id; % Duplicate record field
+}
+
+Actor DataManager {
+    actorVars {
+        Data data;
+        string id;
+    }
+
+    msgRcv processData(int id) {
+        data.id = id;
+        undefinedVar = 100; % Undeclared variable
+    }
+
+    msgRcv DataManager(int value) { % Handler name matches actor name
+        data.id = value;
+    }
+}
+
+main() {
+    DataManager manager = new DataManager();
+}

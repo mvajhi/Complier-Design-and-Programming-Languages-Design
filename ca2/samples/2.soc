@@ -1,0 +1,24 @@
+Record Person {
+    string name;
+    int age;
+    string address;
+}
+
+Actor PersonManager {
+    actorVars {
+        Person person;
+    }
+
+    % Message handler to display a Person's details
+    msgRcv displayPerson(Person person) {
+        print("Name: " + person.name + ", Age: " + person.age + ", Address: " + person.address);
+    }
+}
+
+main() {
+    % Instantiation of PersonManager
+    PersonManager john = new PersonManager();  % First variable 'john'
+
+    % Duplicate variable declaration in the same scope
+    string john = "John Doe";  % Second variable 'john' causing conflict
+}

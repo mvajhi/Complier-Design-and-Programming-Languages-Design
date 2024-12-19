@@ -1,0 +1,27 @@
+% Sample 7 (MEDIUM-MULTIPLE-ERROR):
+Actor LoopTester {
+    actorVars {
+        int counter;
+    }
+
+    msgRcv testLoops() {
+        for (i in range(0,5)) {
+            print(undefinedVar); % Undeclared variable
+            int i = 10; % Duplicate variable in the same scope
+        }
+
+        if (true) {
+            int result = 0;
+            string result = "1"; % Duplicate variable
+        }
+    }
+
+    msgRcv testLoops() { % Duplicate handler
+        print("Duplicate testLoops");
+    }
+}
+
+main() {
+    LoopTester tester = new LoopTester();
+    tester.testLoops();
+}

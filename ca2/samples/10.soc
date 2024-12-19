@@ -1,0 +1,24 @@
+Actor DataHandler {
+    actorVars {
+        string data;
+        int data; % Duplicate variable
+    }
+
+    msgRcv processData(string input) {
+        data = input;
+        print(unknownVar); % Undeclared variable
+    }
+
+    msgRcv processData(string input) { % Duplicate handler
+        print("Processing data again");
+    }
+
+    msgRcv DataHandler(string input) { % Handler conflicts with actor name
+        print("Conflict with actor name");
+    }
+}
+
+main() {
+    DataHandler handler = new DataHandler();
+    handler.processData("Test");
+}

@@ -1,0 +1,15 @@
+% Sample 9 (MEDIUM-HAVASESHON-BASHE-ACTOR-MOTEFAVET-NAME-YEKSAN):
+Actor Alpha {
+    msgRcv Beta() {}
+}
+
+Actor Beta {
+    msgRcv Alpha() {}
+}
+
+main() {
+    Alpha alpha = new Alpha();
+    Beta beta = new Beta();
+
+    alpha.Alpha(); % Undeclared handler
+}

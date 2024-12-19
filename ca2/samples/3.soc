@@ -1,0 +1,60 @@
+% Sample 3 (ERROR-3):
+Actor LinkedInUser {
+    actorVars {
+        Set<ID> Followers;
+        Set<ID> Followings;
+        Set<ID> Block;
+
+        List<string> posts;
+        List<string> closeFriendPosts;
+
+        string name;
+        int age;
+    }
+
+    % First message handler with the name 'compare'
+    msgRcv compare(int senderFollowers) {
+        if (senderFollowers == Followers.size()) {
+            accept() @observers(private(sender, null));
+            sender.acceptFollow();
+        } else { 
+            Block.add(sender); % Block users with mismatched follower count
+        }
+    }
+
+    % Second message handler with the same name 'compare' (causes error)
+    msgRcv compare(int senderAge) {
+        if (senderAge > age) {
+            accept() @observers(private(sender, null));
+            sender.acceptFollow();
+        } else { 
+            Block.add(sender); % Block users younger than this user
+        }
+    }
+
+    msgRcv acceptFollow() {
+        if (!Followings.include(sender)) {
+            Followings.add(sender);
+        }
+    }
+
+    msgRcv accept() {
+        if (!Followers.include(sender)) {
+            Followers.add(sender);
+        }
+    }
+
+    msgObs accept() {
+        print("PASANDIDE SHOD");
+    }
+
+    msgRcv Post(string s) {
+        if (sender != self) {
+            % Post sending logic
+        }
+    }
+}
+
+main() {
+    % Empty main function for test case
+}
