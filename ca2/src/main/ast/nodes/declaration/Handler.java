@@ -23,6 +23,7 @@ public abstract class Handler extends Declaration{
     public String getName() { return name.getName(); }
     public List<VarDeclaration> getArgs() { return args; }
     public List<Statement> getBody() { return body; }
+    public List<Expression> getAuthorizationExpressions() { return authorizationExpressions; }
 
     public void setArgs (List<VarDeclaration> _args){
         args.addAll(_args);

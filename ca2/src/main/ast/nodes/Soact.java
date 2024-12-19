@@ -23,10 +23,7 @@ public class Soact extends Node{
     }
 
     public void setMain(List<Statement> _main){
-//        main.addAll(_main);
-        for (Statement s : _main){
-            main.add(s);
-        }
+        main.addAll(_main);
     }
 
     public Soact() {}

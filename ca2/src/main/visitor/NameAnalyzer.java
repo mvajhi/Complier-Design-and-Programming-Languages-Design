@@ -2,12 +2,14 @@ package main.visitor;
 
 import main.ast.nodes.Soact;
 import main.ast.nodes.declaration.*;
+import main.ast.nodes.expression.Expression;
 import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.ActorDecSymbolTableItem;
 import main.symbolTable.items.MsgHandlerTableItem;
 
 import java.util.List;
+import java.util.Objects;
 
 public class NameAnalyzer extends Visitor<Void> {
 
@@ -29,12 +31,16 @@ public class NameAnalyzer extends Visitor<Void> {
     private void visitAllMainDeclaration(Soact soact) {
         SymbolTable mainSymbolTable = new SymbolTable(SymbolTable.top);
         SymbolTable.push(mainSymbolTable);
-        for (Statement stmt : soact.getMain()) {
+        visitAllStatements(soact.getMain());
+        SymbolTable.pop();
+    }
+
+    private void visitAllStatements(List<Statement> stmts) {
+        for (Statement stmt : stmts) {
             if (stmt != null) {
                 stmt.accept(this);
             }
         }
-        SymbolTable.pop();
     }
 
     private void visitAllRecordDeclaration(Soact soact) {
@@ -69,12 +75,18 @@ public class NameAnalyzer extends Visitor<Void> {
     }
 
     private void checkActorScope(ActorDec actorDec) {
-        checkActorVars(actorDec);
-        checkActorMsgHandler(actorDec);
+        visitAllVars(actorDec.getVars());
+        visitAllMsgHandler(actorDec.getMsgHandlers());
+        handleConstructor(actorDec);
     }
 
-    private void checkActorMsgHandler(ActorDec actorDec) {
-        for (Handler msgHandler : actorDec.getMsgHandlers()) {
+    private void handleConstructor(ActorDec actorDec) {
+        visitAllVars(actorDec.getConstructorArgs());
+        visitAllStatements(actorDec.getConstructorBody());
+    }
+
+    private void visitAllMsgHandler(List<Handler> handlers) {
+        for (Handler msgHandler : handlers) {
             if (msgHandler != null) {
                 msgHandler.accept(this);
             }
@@ -83,6 +95,11 @@ public class NameAnalyzer extends Visitor<Void> {
 
     public Void visit(ObserveHandler handler){
         handle_visit_handler(handler, "obs_msg");
+        return null;
+    }
+
+    public Void visit(ServiceHandler handler){
+        handle_visit_handler(handler, "serv_msg");
         return null;
     }
 
@@ -95,18 +112,20 @@ public class NameAnalyzer extends Visitor<Void> {
         handler.setSymbolTable(msgDecSymbolTable);
         SymbolTable.push(msgDecSymbolTable);
 
+        visitAllVars(handler.getArgs());
+        visitAllStatements(handler.getBody());
+        visitAllExpression(handler.getAuthorizationExpressions());
 
-//        TODO: check args name
-        for (VarDeclaration arg : handler.getArgs()) {
-            arg.accept(this);
-        }
+//        TODO: check observe
 
-//        TODO: check scope
 
         SymbolTable.pop();
     }
 
     private void checkMsgName(Handler handler, MsgHandlerTableItem msgHandlerTableItem) {
+        if (Objects.equals(handler.getName(), handler.getClass().getName())) {
+            System.out.println("Line:" + handler.getLine() + "-> Massage Handler name conflicts with Actor name");
+        }
         while (true) {
             try {
                 SymbolTable.top.put(msgHandlerTableItem);
@@ -120,10 +139,18 @@ public class NameAnalyzer extends Visitor<Void> {
         }
     }
 
-    private void checkActorVars(ActorDec actorDec) {
-        for (VarDeclaration varDec : actorDec.getVars()) {
+    private void visitAllVars(List<VarDeclaration> vars) {
+        for (VarDeclaration varDec : vars) {
             if (varDec != null) {
                 varDec.accept(this);
+            }
+        }
+    }
+
+    private void visitAllExpression(List<Expression> expressions) {
+        for (Expression exp : expressions) {
+            if (exp != null) {
+                exp.accept(this);
             }
         }
     }
