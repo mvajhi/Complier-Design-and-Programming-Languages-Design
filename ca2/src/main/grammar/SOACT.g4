@@ -4,6 +4,7 @@ grammar SOACT;
     import main.ast.nodes.*;
     import main.ast.nodes.declaration.*;
     import main.ast.nodes.expression.*;
+    import main.ast.nodes.expression.operators.*;
     import main.utils.*;
     import main.ast.nodes.statements.*;
     import main.ast.nodes.expression.value.*;
@@ -86,9 +87,9 @@ init returns [VarDeclaration varRet]:
     )
 ;
 
-arrayIndex:
+arrayIndex returns [IntValue intValueRet]:
     LBRACK
-    INT_VALUE
+    value = INT_VALUE { $intValueRet = new IntValue(Integer.parseInt($value.text), $value.line); }
     RBRACK
 ;
 
@@ -417,83 +418,205 @@ observeStatement returns [ObserveStatement observeRet]:
 
 ;
 
+// TODO fix expression arr to expression
 expression returns [ArrayList<Expression> expRet]:
     {$expRet = new ArrayList<>();}
-    expComma |
-    expComma
+    e1 = expComma { $expRet.add($e1.expRet); } |
+    e2 = expComma { $expRet.add($e2.expRet); }
     COMMA
-    expression
+    es = expression { $expRet.addAll($es.expRet); }
 ;
 
-expComma: expOr | expOr OR expComma {System.out.println("Line " + $OR.getLine() + " : " + "Operator:||");};
-
-expOr: expAnd | expAnd AND expOr {System.out.println("Line " + $AND.getLine() + " : " + "Operator:&&");};
-
-expAnd: expEquals expAndPrim;
-
-expAndPrim: (equals_name = (NOT_EQUAL | EQUAL)  expEquals {System.out.println("Line " + $equals_name.getLine() + " : " + "Operator:" + $equals_name.text);} expAndPrim)?;
-
-expEquals: expCompare expEqualsPrim;
-
-expEqualsPrim: (than_name = (LESS_THAN | GREATER_THAN) expCompare {System.out.println("Line " + $than_name.getLine() + " : " + "Operator:" + $than_name.text);} expEqualsPrim)?;
-
-expCompare: expPlusMinus expComparePrim;
-
-expComparePrim: (pm_name = (PLUS | MINUS) expPlusMinus {System.out.println("Line " + $pm_name.getLine() + " : " + "Operator:" + $pm_name.text);} expComparePrim)?;
-
-expPlusMinus: expDivideMultMod expPlusMinusPrim;
-
-expPlusMinusPrim: (dmd_name = (DIVIDE | MULT | MOD) expDivideMultMod {System.out.println("Line " + $dmd_name.getLine() + " : " + "Operator:" + $dmd_name.text);} expPlusMinusPrim)?;
-
-expDivideMultMod: expPreUnary | bmndi = (MINUS | NOT | DECREMENT | INCREMENT) expDivideMultMod {System.out.println("Line " + $bmndi.getLine() + " : " + "Operator:" + $bmndi.text);};
-
-expPreUnary: expPostUnary expPreUnaryPrim;
-
-expPreUnaryPrim: (id_name = (INCREMENT | DECREMENT) expPreUnaryPrim {System.out.println("Line " + $id_name.getLine() + " : " + "Operator:" + $id_name.text);})?;
-
-expPostUnary: expBracket | LBRACK expression RBRACK;
-
-expBracket: expAccess | expAccess DOT expBracket;
-
-expAccess: expPar | LPAR expression RPAR;
-
-expPar:
-    primitivesVals |
-    handlerCall |
-    customPrimAccess |
-    IDENTIFIER |
-    SELF
+expComma returns [Expression expRet]:
+    e1 = expOr { $expRet = $e1.expRet; } |
+    e2 = expOr
+    OR {BinaryOperator op = BinaryOperator.OR;}
+    es = expComma { $expRet = new BinaryExpression($e2.expRet, $es.expRet, op); }
 ;
 
-customPrimAccess:
-    IDENTIFIER
-    COLON
-    COLON
-    IDENTIFIER
+expOr returns [Expression expRet]:
+    e1 = expAnd { $expRet = $e1.expRet; } |
+    e2 = expAnd
+    AND {BinaryOperator op = BinaryOperator.AND;}
+    es = expOr { $expRet = new BinaryExpression($e2.expRet, $es.expRet, op); }
 ;
 
-handlerCall:
+expAnd returns [Expression expRet]:
+    e1 = expEquals
+    es = expAndPrim
+    {
+        if($es.op == null)
+            $expRet = $e1.expRet;
+        else
+            $expRet = new BinaryExpression($e1.expRet, $es.expRet, $es.op);
+    }
+;
+
+expAndPrim returns [BinaryOperator op, Expression expRet]:
+    {$op = null;
+     $expRet = null;}
     (
-    (PRINT {System.out.println("Line " + $PRINT.getLine() + " : " + "Built-In: PRINT");}) |
-    (TOLOWER {System.out.println("Line " + $TOLOWER.getLine() + " : " + "Built-In: LOWER");}) |
-    (TOUPPER {System.out.println("Line " + $TOUPPER.getLine() + " : " + "Built-In: UPPER");}) |
-    (REVERSE {System.out.println("Line " + $REVERSE.getLine() + " : " + "Built-In: REVERSE");}) |
-    (ADD {System.out.println("Line " + $ADD.getLine() + " : " + "Built-In: ADD");}) |
-    (INCLUDE {System.out.println("Line " + $INCLUDE.getLine() + " : " + "Built-In: INCLUDE");}) |
-    (REMOVE {System.out.println("Line " + $REMOVE.getLine() + " : " + "Built-In: REMOVE");}) |
-    (LENGTH {System.out.println("Line " + $LENGTH.getLine() + " : " + "Built-In: LEN");}) |
-    IDENTIFIER {System.out.println("Line " + $IDENTIFIER.getLine() + " : " + "Send Message");}
+        (NOT_EQUAL {$op = BinaryOperator.NEQ;}|
+        EQUAL {$op = BinaryOperator.EQ;})
+     e2 = expAnd {$expRet = e2;}
+    )?
+;
+
+expEquals returns [Expression expRet]:
+    e1 = expCompare
+    es = expEqualsPrim
+    {
+        if($es.op == null)
+            $expRet = $e1.expRet;
+        else
+            $expRet = new BinaryExpression($e1.expRet, $es.expRet, $es.op);
+    }
+;
+
+expEqualsPrim returns [BinaryOperator op, Expression expRet]:
+    {$op = null;
+     $expRet = null;}
+    (
+        (LESS_THAN {$op = BinaryOperator.LT;}|
+        GREATER_THAN {$op = BinaryOperator.GT;})
+     e2 = expEquals {$expRet = e2;}
+    )?
+;
+
+expCompare returns [Expression expRet]:
+    e1 = expPlusMinus
+    es = expComparePrim
+    {
+        if($es.op == null)
+            $expRet = $e1.expRet;
+        else
+            $expRet = new BinaryExpression($e1.expRet, $es.expRet, $es.op);
+    }
+;
+
+expComparePrim returns [BinaryOperator op, Expression expRet]:
+    {$op = null;
+     $expRet = null;}
+    (
+        (PLUS {$op = BinaryOperator.PLUS;}|
+        MINUS {$op = BinaryOperator.MINUS;})
+     e2 = expCompare {$expRet = e2;}
+    )?
+;
+
+expPlusMinus returns [Expression expRet]:
+    e1 = expDivideMultMod
+    es = expPlusMinusPrim
+    {
+        if($es.op == null)
+            $expRet = $e1.expRet;
+        else
+            $expRet = new BinaryExpression($e1.expRet, $es.expRet, $es.op);
+    }
+;
+
+expPlusMinusPrim returns [BinaryOperator op, Expression expRet]:
+    {$op = null;
+     $expRet = null;}
+    (
+        (DIVIDE {$op = BinaryOperator.DIV;}|
+        MULT {$op = BinaryOperator.MULT;}|
+        MOD {$op = BinaryOperator.MOD;})
+     e2 = expPlusMinus {$expRet = e2;}
+    )?
+;
+
+expDivideMultMod returns [Expression expRet]:
+    e1 = expPreUnary { $expRet = $e1.expRet; } |
+    {UnaryOperator op = null;}
+            (MINUS {op = UnaryOperator.MINUS;} |
+             NOT {op = UnaryOperator.NOT;} |
+             DECREMENT {op = UnaryOperator.DEC;} |
+             INCREMENT {op = UnaryOperator.INC;})
+    e2 = expDivideMultMod { $expRet = new UnaryExpression(op, UnarySide.PREFIX, $e2.expRet); }
+;
+
+expPreUnary returns [Expression expRet]:
+    e1 = expPostUnary
+    es = expPreUnaryPrim
+    {
+        if($es.op == null)
+            $expRet = $e1.expRet;
+        else
+            $expRet = new UnaryExpression($es.op, UnarySide.POSTFIX, $e1.expRet);
+    }
+;
+
+expPreUnaryPrim returns [UnaryOperator op, Expression expRet]:
+    {$op = null;
+     $expRet = null;}
+    (
+        (INCREMENT {$op = UnaryOperator.INC;}|
+        DECREMENT {$op = UnaryOperator.DEC;})
+     e2 = expPreUnaryPrim {$expRet = e2;}
+    )?
+;
+
+expPostUnary returns [Expression expRet]:
+    e1 = expBracket { $expRet = $e1.expRet; } |
+    LBRACK e2 = expression RBRACK { $expRet = $e2.expRet.get(0); }
+;
+
+expBracket returns [Expression expRet]:
+    e1 = expAccess { $expRet = $e1.expRet; } |
+    e1 = expAccess DOT e2 = expBracket { $expRet = new DotExpression($e1.expRet, $e2.expRet); }
+;
+
+expAccess returns [Expression expRet]:
+    e1 = expPar { $expRet = $e1.expRet; } |
+    LPAR e2 = expression RPAR { $expRet = $e2.expRet.get(0); }
+;
+
+expPar returns [Expression expRet]:
+    e1 = primitivesVals { $expRet = $e1.expRet; } |
+    e2 = handlerCall { $expRet = $e2.expRet; } |
+    e3 = customPrimAccess { $expRet = $e3.expRet; } |
+    e4 = IDENTIFIER { $expRet = Identifier.createId($e4.text, $e4.line); } |
+    e5 = SELF { $expRet = Identifier.createId($e5.text, $e5.line); }
+;
+
+customPrimAccess returns [Expression expRet]:
+    id1 = IDENTIFIER
+    COLON
+    COLON
+    id2 = IDENTIFIER
+    {
+        $expRet = new CustomPrimitiveAccess(Identifier.createId($id1.text, $id1.line), Identifier.createId($id2.text, $id2.line));
+    }
+;
+
+handlerCall returns [Expression expRet]:
+    {String type = "";
+     Integer line = -1;
+     Boolean isBuiltIn = True;
+     List<Expression> args = new ArrayList<>();}
+    (
+        (n1 = PRINT {type = $n1.text; line = $n1.getLine();}) |
+        (n2 = TOLOWER {type = $n2.text; line = $n2.getLine();}) |
+        (n3 = TOUPPER {type = $n3.text; line = $n3.getLine();}) |
+        (n4 = REVERSE {type = $n4.text; line = $n4.getLine();}) |
+        (n5 = ADD {type = $n5.text; line = $n5.getLine();}) |
+        (n6 = INCLUDE {type = $n6.text; line = $n6.getLine();}) |
+        (n7 = REMOVE {type = $n7.text; line = $n7.getLine();}) |
+        (n8 = LENGTH {type = $n8.text; line = $n8.getLine();}) |
+        (n9 = IDENTIFIER {type = $n9.text; line = $n9.getLine(); isBuiltIn = False;})
     )
     LPAR
-    (expression)?
+    (expression { args.addAll($expression.expRet); })?
     RPAR
+    {$expRet = new HandlerCall(type, args, line, isBuiltIn);}
 ;
 
-primitivesVals:
-    INT_VALUE |
-    STRING_VALUE |
-    TRUE |
-    FALSE
+primitivesVals returns [Expression expRet]:
+    e1 = INT_VALUE { $expRet = new IntValue(Integer.parseInt($e1.text), $e1.line); } |
+    e2 = STRING_VALUE { $expRet = new StringValue($e2.text, $e2.line); } |
+    e3 = TRUE { $expRet = new BooleanValue(true, $e3.line); } |
+    e4 = FALSE { $expRet = new BooleanValue(false, $e4.line); }
 ;
 
 ACTOR: 'Actor';

@@ -2,23 +2,23 @@ package main.ast.nodes.expression.value;
 
 import main.visitor.IVisitor;
 
-public class IntValue extends Value {
-    private int constant;
+public class StringValue extends Value {
+    private String constant;
 
-    public IntValue(int constant) {
+    public StringValue(String constant) {
         this.constant = constant;
     }
 
-    public int getConstant() {
+    public String getConstant() {
         return constant;
     }
 
-    public void setConstant(int constant) {
+    public void setConstant(String constant) {
         this.constant = constant;
     }
 
     @Override
     public <T> T accept(IVisitor<T> visitor) {
-        return visitor.visit(this);
+        return null;
     }
 }
