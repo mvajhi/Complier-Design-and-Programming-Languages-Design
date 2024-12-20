@@ -15,6 +15,9 @@ public class RecordNode extends Declaration {
         line = _line;
     }
 
+    public Identifier getId() { return id; }
+    public List<VarDeclaration> getVars() { return vars; }
+
     public void addVar(VarDeclaration varDeclaration){vars.add(varDeclaration);}
     @Override
     public <T> T accept(IVisitor<T> visitor) {

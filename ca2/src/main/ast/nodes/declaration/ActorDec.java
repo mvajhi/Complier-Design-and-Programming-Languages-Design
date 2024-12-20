@@ -68,13 +68,5 @@ public class ActorDec extends Declaration {
         this.accessExpressions.addAll(accessExpressions);
     }
 
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
-    }
 
-    public void setSymbolTable(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
-    }
-
-    private SymbolTable symbolTable;
 }

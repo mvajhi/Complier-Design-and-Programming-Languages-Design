@@ -5,8 +5,8 @@ public class ActorDecSymbolTableItem extends SymbolTableItem {
 
     private String ActorName;
 
-    public ActorDecSymbolTableItem(String functionName) {
-        this.ActorName = functionName;
+    public ActorDecSymbolTableItem(String actorName) {
+        this.ActorName = actorName;
     }
 
     @Override

@@ -7,6 +7,8 @@ import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.ActorDecSymbolTableItem;
 import main.symbolTable.items.MsgHandlerTableItem;
+import main.symbolTable.items.RecordNodeSymbolTableItem;
+import main.symbolTable.items.SymbolTableItem;
 
 import java.util.List;
 import java.util.Objects;
@@ -55,6 +57,26 @@ public class NameAnalyzer extends Visitor<Void> {
         handle_visit_handler(handler, "serv_msg");
         return null;
     }
+
+    @Override
+    public  Void visit(RecordNode recordNode){
+        RecordNodeSymbolTableItem recordNodeSymbolTableItem = new RecordNodeSymbolTableItem(recordNode.getId().getName());
+        boolean is_redefine = checkAndAddName(recordNodeSymbolTableItem);
+        if (is_redefine){
+            System.out.println("Line:" + recordNode.getLine() + "-> Redefinition of record " + recordNode.getId().getName());
+        }
+        SymbolTable recordNodeSymbolTable = new SymbolTable(SymbolTable.top);
+        recordNode.setSymbolTable(recordNodeSymbolTable);
+        SymbolTable.push(recordNodeSymbolTable);
+
+        visitAllVars(recordNode.getVars());
+
+        SymbolTable.pop();
+        return null;
+    }
+
+//    TODO: visit for statements (all types)
+//    TODO: visit for expression (all types)
 
 //  visit all
     private void visitAllStatements(List<Statement> stmts) {
@@ -146,30 +168,32 @@ public class NameAnalyzer extends Visitor<Void> {
         if (Objects.equals(handler.getName(), handler.getClass().getName())) {
             System.out.println("Line:" + handler.getLine() + "-> Massage Handler name conflicts with Actor name");
         }
-        while (true) {
-            try {
-                SymbolTable.top.put(msgHandlerTableItem);
-                break;
-            } catch (Exception exp) {
-                if (!msgHandlerTableItem.getName().endsWith("'")) {
-                    System.out.println("Line:" + handler.getLine() + "-> Redefinition of msgHandler " + handler.getName());
-                }
-                msgHandlerTableItem.setName(msgHandlerTableItem.getName() + "'");
-            }
+        boolean is_redefine = checkAndAddName(msgHandlerTableItem);
+        if (is_redefine){
+            System.out.println("Line:" + handler.getLine() + "-> Redefinition of msgHandler " + handler.getName());
         }
     }
 
     private void checkActorName(ActorDec actorDec, ActorDecSymbolTableItem actorDecSymbolTableItem) {
+        boolean is_redefine = checkAndAddName(actorDecSymbolTableItem);
+        if (is_redefine){
+            System.out.println("Line:" + actorDec.getLine() + "-> Redefinition of actor " + actorDec.getName());
+        }
+    }
+
+    private boolean checkAndAddName(SymbolTableItem item){
+        boolean is_redefine = false;
         while (true) {
             try {
-                SymbolTable.top.put(actorDecSymbolTableItem);
+                SymbolTable.top.put(item);
                 break;
             } catch (Exception exp) {
-                if (!actorDecSymbolTableItem.getName().endsWith("'")) {
-                    System.out.println("Line:" + actorDec.getLine() + "-> Redefinition of actor " + actorDec.getName());
+                if (!item.getName().endsWith("'")) {
+                    is_redefine = true;
                 }
-                actorDecSymbolTableItem.setName(actorDecSymbolTableItem.getName() + "'");
+                item.setName(item.getName() + "'");
             }
         }
+        return is_redefine;
     }
 }

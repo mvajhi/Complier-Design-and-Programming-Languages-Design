@@ -5,7 +5,7 @@ import main.ast.nodes.declaration.VarDeclaration;
 import java.util.List;
 
 public class MsgHandlerTableItem extends SymbolTableItem {
-    public static final String START_KEY = "ActorDec_";
+    public static final String START_KEY = "MsgHandler_";
 
     private String Name;
     private List<VarDeclaration> argsTypes;

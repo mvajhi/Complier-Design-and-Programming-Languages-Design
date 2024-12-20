@@ -33,15 +33,6 @@ public class Soact extends Node{
         return visitor.visit(this);
     }
 
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
-    }
-
-    public void setSymbolTable(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
-    }
-
-    private SymbolTable symbolTable;
 
     public List<Statement> getMain() {
         return main;

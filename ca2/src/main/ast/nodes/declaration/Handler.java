@@ -36,14 +36,4 @@ public abstract class Handler extends Declaration{
     public void setAuthorizationExpressions(List<Expression> _authorizationExpressions) {
         authorizationExpressions.addAll(_authorizationExpressions);
     }
-
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
-    }
-
-    public void setSymbolTable(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
-    }
-
-    private SymbolTable symbolTable;
 }
