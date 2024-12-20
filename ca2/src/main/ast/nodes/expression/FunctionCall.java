@@ -8,9 +8,9 @@ public class FunctionCall extends Expression {
     private String handlerType;
     private List<Expression> args;
     private int line;
-    private Boolean isBuiltin;
+    private boolean isBuiltin;
 
-    public FunctionCall(String funcName, List<Expression> args, Boolean isBuiltin, int line) {
+    public FunctionCall(String funcName, List<Expression> args, boolean isBuiltin, int line) {
         this.handlerType = funcName;
         this.line = line;
         this.args = args;

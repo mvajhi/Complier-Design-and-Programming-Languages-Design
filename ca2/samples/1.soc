@@ -1,4 +1,3 @@
-
 main() {
     % Instantiation of actors X and X (invalid due to duplicate Actor name)
     int a;
