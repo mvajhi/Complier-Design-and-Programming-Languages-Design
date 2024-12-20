@@ -307,7 +307,7 @@ body returns [ArrayList<Statement> bodyRet]:
     w1 = whileLoop {$bodyRet.add($w1.whileRet);} |
     i1 = ifBlock {$bodyRet.add($i1.ifRet);}|
     j1 = joinBlock {$bodyRet.add($j1.joinRet);}|
-    statements
+    s1 = statements {$bodyRet.add($s1.statementRet);}
     )*
     (
     (
@@ -322,7 +322,7 @@ body returns [ArrayList<Statement> bodyRet]:
     w2 = whileLoop {$bodyRet.add($w2.whileRet);}|
     i2 = ifBlock {$bodyRet.add($i2.ifRet);}|
     j2 = joinBlock {$bodyRet.add($j2.joinRet);}|
-    statements
+    s2 = statements {$bodyRet.add($s2.statementRet);}
     )*)?
 ;
 
@@ -346,6 +346,7 @@ initStatement returns [InitStatement initRet] :
         {System.out.println("Line " + $assign.getLine() + " : " + "Assignment");}
     )?
     {$initRet = new InitStatement($i.varRet, assigned, $i.varRet.getLine());}
+    {System.out.println("TEST");}
     SEMICOLON
 
 ;

@@ -1,37 +1,4 @@
-% Sample 1 (ERROR-1):
-Actor X {
-    actorVars {
-        string name;
-        int id;
-    }
-
-    % Constructor
-    X(string name, int id) {
-        this.name = name;
-        this.id = id;
-    }
-
-    % Method to send message to Y, observed by Z
-    msgRcv sendMessage(string msgContent, ID receiver, ID observer) {
-        print(name + " sends message to " + receiver + ": " + msgContent);
-
-        % Send the message to Y’s queue as the recipient and Z’s queue as the observer
-        receiver.receiveMessage(msgContent) @observers(private(observer, null));
-    }
-}
-
-Actor X { % Duplicate Actor Name
-    actorVars {
-        string anotherVar;
-    }
-
-    % Constructor
-    X(string anotherVar) {
-        this.anotherVar = anotherVar;
-    }
-}
-
 main() {
-    % Instantiation of actors X and X (invalid due to duplicate Actor name)
-    X senderActor = new X("Alice", 101);
+    int a;
+    int b;
 }
