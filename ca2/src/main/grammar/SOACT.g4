@@ -101,11 +101,12 @@ arrayIndex returns [IntValue intValueRet]:
 ;
 
 primitives returns [Type typeRet]:
-    i = INT { $typeRet = new Type(i.text); $typeRet.setLine($i.line); } |
-    s = STRING { $typeRet = new Type(s.text); $typeRet.setLine($s.line); } |
-    b = BOOLEAN { $typeRet = new Type(b.text); $typeRet.setLine($b.line); } |
-    i = ID { $typeRet = new Type(i.text); $typeRet.setLine($i.line); } |
-    i = IDENTIFIER { $typeRet = new Type(i.text); $typeRet.setLine($i.line); $typeRet.setIsBuiltInType(false); }
+
+    i = INT { $typeRet = new Type($i.text); $typeRet.setLine($i.line); } |
+    s = STRING { $typeRet = new Type($s.text); $typeRet.setLine($s.line); } |
+    b = BOOLEAN { $typeRet = new Type($b.text); $typeRet.setLine($b.line); } |
+    i = ID { $typeRet = new Type($i.text); $typeRet.setLine($i.line); } |
+    i = IDENTIFIER { $typeRet = new Type($i.text); $typeRet.setLine($i.line); $typeRet.setIsBuiltInType(false); }
 ;
 
 container returns [Type typeRet]:
@@ -223,10 +224,10 @@ range returns [ArrayList<Expression> rangeRet]:
     (RANGE
     LPAR
     ( id1 = IDENTIFIER {$rangeRet.add(Identifier.createId($id1.text, $id1.line));} |
-    int1 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int1.text))); $rangeRet.setLine($int1.line); })
+    int1 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int1.text))); $rangeRet.setLine($int1.getLine()); })
     COMMA
     ( id2 = IDENTIFIER {$rangeRet.add(Identifier.createId($id2.text, $id2.line));} |
-    int2 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int2.text))); $rangeRet.setLine($int2.line); })
+    int2 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int2.text))); $rangeRet.setLine($int2.getLine()); })
     RPAR
 )
 ;
@@ -472,7 +473,7 @@ expAndPrim returns [BinaryOperator op, Expression expRet]:
     (
         (NOT_EQUAL {$op = BinaryOperator.NEQ;}|
         EQUAL {$op = BinaryOperator.EQ;})
-     e2 = expAnd {$expRet = e2;}
+     e2 = expAnd {$expRet = $e2.expRet;}
     )?
 ;
 
@@ -493,7 +494,7 @@ expEqualsPrim returns [BinaryOperator op, Expression expRet]:
     (
         (LESS_THAN {$op = BinaryOperator.LT;}|
         GREATER_THAN {$op = BinaryOperator.GT;})
-     e2 = expEquals {$expRet = e2;}
+     e2 = expEquals {$expRet = $e2.expRet;}
     )?
 ;
 
@@ -514,7 +515,7 @@ expComparePrim returns [BinaryOperator op, Expression expRet]:
     (
         (PLUS {$op = BinaryOperator.PLUS;}|
         MINUS {$op = BinaryOperator.MINUS;})
-     e2 = expCompare {$expRet = e2;}
+     e2 = expCompare {$expRet = $e2.expRet;}
     )?
 ;
 
@@ -536,7 +537,7 @@ expPlusMinusPrim returns [BinaryOperator op, Expression expRet]:
         (DIVIDE {$op = BinaryOperator.DIV;}|
         MULT {$op = BinaryOperator.MULT;}|
         MOD {$op = BinaryOperator.MOD;})
-     e2 = expPlusMinus {$expRet = e2;}
+     e2 = expPlusMinus {$expRet = $e2.expRet;}
     )?
 ;
 
@@ -567,7 +568,7 @@ expPreUnaryPrim returns [UnaryOperator op, Expression expRet]:
     (
         (INCREMENT {$op = UnaryOperator.INC;}|
         DECREMENT {$op = UnaryOperator.DEC;})
-     e2 = expPreUnaryPrim {$expRet = e2;}
+     e2 = expPreUnaryPrim {$expRet = $e2.expRet;}
     )?
 ;
 
@@ -627,10 +628,10 @@ handlerCall returns [Expression expRet]:
 );
 
 primitivesVals returns [Expression expRet]:
-    e1 = INT_VALUE { $expRet = new IntValue(Integer.parseInt($e1.text)); $expRet.setLine($e1.line); } |
-    e2 = STRING_VALUE { $expRet = new StringValue($e2.text); $expRet.setLine($e2.line); } |
-    e3 = TRUE { $expRet = new BooleanValue(true); $expRet.setLine($e3.line); } |
-    e4 = FALSE { $expRet = new BooleanValue(false); $expRet.setLine($e4.line); }
+    e1 = INT_VALUE { $expRet = new IntValue(Integer.parseInt($e1.text)); $expRet.setLine($e1.getLine()); } |
+    e2 = STRING_VALUE { $expRet = new StringValue($e2.text); $expRet.setLine($e2.getLine()); } |
+    e3 = TRUE { $expRet = new BooleanValue(true); $expRet.setLine($e3.getLine()); } |
+    e4 = FALSE { $expRet = new BooleanValue(false); $expRet.setLine($e4.getLine()); }
 ;
 
 ACTOR: 'Actor';
