@@ -559,7 +559,7 @@ expPreUnaryPrim returns [UnaryOperator op, Expression expRet]:
 
 expPostUnary returns [Expression expRet]:
     e1 = expBracket { $expRet = $e1.expRet; } |
-    LBRACK e2 = expression RBRACK { $expRet = $e2.expRet.get(0); }
+    LBRACK e2 = expComma RBRACK { $expRet = $e2.expRet; }
 ;
 
 expBracket returns [Expression expRet]:
@@ -569,7 +569,7 @@ expBracket returns [Expression expRet]:
 
 expAccess returns [Expression expRet]:
     e1 = expPar { $expRet = $e1.expRet; } |
-    LPAR e2 = expression RPAR { $expRet = $e2.expRet.get(0); }
+    LPAR e2 = expComma RPAR { $expRet = $e2.expRet; }
 ;
 
 expPar returns [Expression expRet]:
