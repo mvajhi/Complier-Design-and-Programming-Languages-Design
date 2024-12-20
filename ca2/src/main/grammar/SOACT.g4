@@ -224,10 +224,10 @@ range returns [ArrayList<Expression> rangeRet]:
     (RANGE
     LPAR
     ( id1 = IDENTIFIER {$rangeRet.add(Identifier.createId($id1.text, $id1.line));} |
-    int1 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int1.text))); $rangeRet.setLine($int1.getLine()); })
+    int1 = INT_VALUE {var tmp1 = new IntValue(Integer.parseInt($int1.text)); tmp1.setLine($int1.getLine()); $rangeRet.add(tmp1);})
     COMMA
     ( id2 = IDENTIFIER {$rangeRet.add(Identifier.createId($id2.text, $id2.line));} |
-    int2 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int2.text))); $rangeRet.setLine($int2.getLine()); })
+    int2 = INT_VALUE {var tmp2 = new IntValue(Integer.parseInt($int2.text)); tmp2.setLine($int2.getLine()); $rangeRet.add(tmp2);})
     RPAR
 )
 ;
