@@ -80,17 +80,17 @@ actorVars returns [ActorVarsDTO argRet]:
 
 init returns [VarDeclaration varRet]:
     (
-    primitives
-    id = IDENTIFIER {$varRet = new VarDeclaration(Identifier.createId($id.text ,$id.line), $id.line);}
+    p = primitives
+    id = IDENTIFIER {$varRet = new VarDeclaration(Identifier.createId($id.text ,$id.line), $p.typeRet, $id.line);}
     (arrayIndex)?
     ) |
     (
-    arrayType
-    id = IDENTIFIER {$varRet = new VarDeclaration(Identifier.createId($id.text ,$id.line), $id.line);}
+    a = arrayType
+    id = IDENTIFIER {$varRet = new VarDeclaration(Identifier.createId($id.text ,$id.line), $a.typeRet, $id.line);}
     ) |
     (
-    container
-    id = IDENTIFIER {$varRet = new VarDeclaration(Identifier.createId($id.text ,$id.line), $id.line);}
+    c = container
+    id = IDENTIFIER {$varRet = new VarDeclaration(Identifier.createId($id.text ,$id.line), $c.typeRet, $id.line);}
     )
 ;
 
@@ -100,22 +100,23 @@ arrayIndex returns [IntValue intValueRet]:
     RBRACK
 ;
 
-primitives:
-    INT |
-    STRING |
-    BOOLEAN |
-    ID |
-    IDENTIFIER
+primitives returns [Type typeRet]:
+    i = INT { $typeRet = new Type(i.text); $typeRet.setLine($i.line); } |
+    s = STRING { $typeRet = new Type(s.text); $typeRet.setLine($s.line); } |
+    b = BOOLEAN { $typeRet = new Type(b.text); $typeRet.setLine($b.line); } |
+    i = ID { $typeRet = new Type(i.text); $typeRet.setLine($i.line); } |
+    i = IDENTIFIER { $typeRet = new Type(i.text); $typeRet.setLine($i.line); $typeRet.setIsBuiltInType(false); }
 ;
 
-container:
+container returns [Type typeRet]:
     (
-    SET |
-    LIST
+    t = SET { type = $t; } |
+    t = LIST { type = $t; }
     )
     LESS_THAN
-    primitives
+    p = primitives
     GREATER_THAN
+    { $typeRet = new ContainerType($t.text, $p.typeRet); $typeRet.setLine($t.line); }
 ;
 
 constructor returns [ConstructorDto constructorRet]:
@@ -158,10 +159,11 @@ arguments returns [ArrayList<VarDeclaration> argsRet]:
     )*)
 ;
 
-arrayType:
-    primitives
+arrayType returns [Type typeRet]:
+    p = primitives
     LBRACK
     RBRACK
+    { $typeRet = $p.typeRet; $typeRet.setIsArray(true); }
 ;
 
 accesslevels returns [List<Expression> accessLevelsRet]:
