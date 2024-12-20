@@ -32,7 +32,8 @@ public class DotExpression extends Expression {
 
     @Override
     public <T> T accept(IVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
+
 }
 

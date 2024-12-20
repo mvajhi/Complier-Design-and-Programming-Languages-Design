@@ -20,7 +20,7 @@ public class ContainerType extends Type {
     }
 
     @Override
-    public Void accept(IVisitor visitor) {
-        return null;
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

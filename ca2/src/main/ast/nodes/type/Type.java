@@ -39,6 +39,6 @@ public class Type extends Node {
 
     @Override
     public <T> T accept(IVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
 }

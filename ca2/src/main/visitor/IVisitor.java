@@ -5,6 +5,8 @@ import main.ast.nodes.declaration.*;
 import main.ast.nodes.expression.*;
 import main.ast.nodes.expression.value.*;
 import main.ast.nodes.statements.*;
+import main.ast.nodes.type.ContainerType;
+import main.ast.nodes.type.Type;
 
 public interface IVisitor<T> {
 
@@ -27,4 +29,15 @@ public interface IVisitor<T> {
     T visit(ConstructorExpression constructorExpression);
     T visit(ExpressionStatement expressionStatement);
     T visit(ObserveStatement observeStatement);
+    T visit(BooleanValue booleanValue);
+    T visit(StringValue stringValue);
+    T visit(BinaryExpression binaryExpression);
+    T visit(CustomPrimitiveAccess customPrimitiveAccess);
+    T visit(DotExpression dotExpression);
+    T visit(FunctionCall functionCall);
+    T visit(InitRecord initRecord);
+    T visit(UnaryExpression unaryExpression);
+    T visit(AssignmentStatement assignmentStatement);
+    T visit(ContainerType containerType);
+    T visit(Type type);
 }

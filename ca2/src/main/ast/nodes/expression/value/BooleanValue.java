@@ -19,6 +19,6 @@ public class BooleanValue extends Value {
 
     @Override
     public <T> T accept(IVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
 }

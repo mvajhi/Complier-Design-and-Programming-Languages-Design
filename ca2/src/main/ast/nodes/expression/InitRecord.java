@@ -25,6 +25,7 @@ public class InitRecord extends Expression{
 
     @Override
     public <T> T accept(IVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
+
 }
