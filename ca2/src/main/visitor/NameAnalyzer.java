@@ -2,7 +2,11 @@ package main.visitor;
 
 import main.ast.nodes.Soact;
 import main.ast.nodes.declaration.*;
+import main.ast.nodes.expression.BinaryExpression;
 import main.ast.nodes.expression.Expression;
+import main.ast.nodes.expression.FunctionCall;
+import main.ast.nodes.expression.UnaryExpression;
+import main.ast.nodes.statements.ExpressionStatement;
 import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.ActorDecSymbolTableItem;
@@ -74,6 +78,33 @@ public class NameAnalyzer extends Visitor<Void> {
         SymbolTable.pop();
         return null;
     }
+
+    @Override
+    public Void visit(ExpressionStatement intValue) {
+        visitAllExpression(intValue.getExpressions());
+        return null;
+    }
+
+    @Override
+    public Void visit(BinaryExpression binaryExpression){
+        binaryExpression.getLeft().accept(this);
+        binaryExpression.getRight().accept(this);
+        return null;
+    }
+
+    @Override
+    public Void visit(UnaryExpression unaryExpression){
+        unaryExpression.getOperand().accept(this);
+        return null;
+    }
+
+    @Override
+    public Void visit(FunctionCall functionCall){
+        visitAllExpression(functionCall.getArgs());
+        return null;
+    }
+
+
 
 //    TODO: visit for statements (all types)
 //    TODO: visit for expression (all types)

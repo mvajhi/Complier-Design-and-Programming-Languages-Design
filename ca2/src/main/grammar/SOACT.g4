@@ -248,7 +248,7 @@ whileLoop returns [WhileStatement whileRet]:
 
 ifBlock returns [IfStatement ifRet]:
     def = IF {$ifRet = new IfStatement($def.line);}
-    {System.out.println("Line " + $IF.getLine() + " : " + "Decision: IF");}
+    {System.out.println("Line " + $ifRet.getLine() + " : " + "Decision: IF");}
     LPAR
     ifExp = expression {$ifRet.setIfConds($ifExp.expRet);}
     RPAR

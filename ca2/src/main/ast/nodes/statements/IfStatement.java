@@ -36,6 +36,27 @@ public class IfStatement extends Statement{
     public void setElseBody(List<Statement> body){
         elseBody.addAll(body);
     }
+
+    public List<Expression> getIfConds() {
+        return ifConds;
+    }
+
+    public List<Statement> getIfBody() {
+        return ifBody;
+    }
+
+    public List<List<Expression>> getElseIfBlocksConds() {
+        return elseIfBlocksConds;
+    }
+
+    public List<List<Statement>> getElseIfBlocksBody() {
+        return elseIfBlocksBody;
+    }
+
+    public List<Statement> getElseBody() {
+        return elseBody;
+    }
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);
