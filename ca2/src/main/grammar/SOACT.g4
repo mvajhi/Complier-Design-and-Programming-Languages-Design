@@ -111,9 +111,10 @@ primitives returns [Type typeRet]:
 ;
 
 container returns [Type typeRet]:
+
     (
-    t = SET { type = $t; } |
-    t = LIST { type = $t; }
+    t = SET { var type = $t; } |
+    t = LIST { var type = $t; }
     )
     LESS_THAN
     p = primitives
