@@ -301,8 +301,8 @@ main returns [ArrayList<Statement> mainRet]:
 ;
 
 body returns [ArrayList<Statement> bodyRet]:
-    (
     {$bodyRet = new ArrayList<>();}
+    (
     f1 = forLoop {$bodyRet.add($f1.forRet);} |
     w1 = whileLoop {$bodyRet.add($w1.whileRet);} |
     i1 = ifBlock {$bodyRet.add($i1.ifRet);}|
@@ -346,7 +346,6 @@ initStatement returns [InitStatement initRet] :
         {System.out.println("Line " + $assign.getLine() + " : " + "Assignment");}
     )?
     {$initRet = new InitStatement($i.varRet, assigned, $i.varRet.getLine());}
-    {System.out.println("TEST");}
     SEMICOLON
 
 ;
