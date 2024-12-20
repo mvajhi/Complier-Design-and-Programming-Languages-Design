@@ -89,7 +89,7 @@ init returns [VarDeclaration varRet]:
 
 arrayIndex returns [IntValue intValueRet]:
     LBRACK
-    value = INT_VALUE { $intValueRet = new IntValue(Integer.parseInt($value.text), $value.line); }
+    value = INT_VALUE { $intValueRet = new IntValue(Integer.parseInt($value.text)); $intValueRet.setLine($e1.line);}
     RBRACK
 ;
 
@@ -212,10 +212,10 @@ range returns [ArrayList<Expression> rangeRet]:
     RANGE
     LPAR
     ( id1 = IDENTIFIER {$rangeRet.add(Identifier.createId($id1.text, $id1.line));} |
-    INT_VALUE {$rangeRet.add(new IntValue());})
+    int1 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int1.text))); $rangeRet.setLine($int1.line); })
     COMMA
     ( id2 = IDENTIFIER {$rangeRet.add(Identifier.createId($id2.text, $id2.line));} |
-    INT_VALUE {$rangeRet.add(new IntValue());})
+    int2 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int2.text))); $rangeRet.setLine($int2.line); })
     RPAR
 ;
 
@@ -418,7 +418,6 @@ observeStatement returns [ObserveStatement observeRet]:
 
 ;
 
-// TODO fix expression arr to expression
 expression returns [ArrayList<Expression> expRet]:
     {$expRet = new ArrayList<>();}
     e1 = expComma { $expRet.add($e1.expRet); } |
@@ -613,10 +612,10 @@ handlerCall returns [Expression expRet]:
 ;
 
 primitivesVals returns [Expression expRet]:
-    e1 = INT_VALUE { $expRet = new IntValue(Integer.parseInt($e1.text), $e1.line); } |
-    e2 = STRING_VALUE { $expRet = new StringValue($e2.text, $e2.line); } |
-    e3 = TRUE { $expRet = new BooleanValue(true, $e3.line); } |
-    e4 = FALSE { $expRet = new BooleanValue(false, $e4.line); }
+    e1 = INT_VALUE { $expRet = new IntValue(Integer.parseInt($e1.text)); $expRet.setLine($e1.line); } |
+    e2 = STRING_VALUE { $expRet = new StringValue($e2.text); $expRet.setLine($e2.line); } |
+    e3 = TRUE { $expRet = new BooleanValue(true); $expRet.setLine($e3.line); } |
+    e4 = FALSE { $expRet = new BooleanValue(false); $expRet.setLine($e4.line); }
 ;
 
 ACTOR: 'Actor';
