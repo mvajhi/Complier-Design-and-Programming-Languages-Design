@@ -89,7 +89,7 @@ init returns [VarDeclaration varRet]:
 
 arrayIndex returns [IntValue intValueRet]:
     LBRACK
-    value = INT_VALUE { $intValueRet = new IntValue(Integer.parseInt($value.text)); $intValueRet.setLine($e1.line);}
+    value = INT_VALUE { $intValueRet = new IntValue(Integer.parseInt($value.text)); $intValueRet.setLine($value.line);}
     RBRACK
 ;
 
