@@ -26,18 +26,21 @@ record returns [RecordNode recordNodeRet]:
     id = IDENTIFIER
     { Identifier identifier = Identifier.createId($id.text ,$id.line);
     $recordNodeRet = new RecordNode(identifier, $rec.line);}
+    (
     LBRACE
     (
     var = init {$recordNodeRet.addVar($var.varRet);}
     SEMICOLON
     )+
     RBRACE
+    )
 ;
 
 actorDec returns [ActorDec actorDecRet]:
     def = ACTOR
     id = IDENTIFIER
     { $actorDecRet = new ActorDec(Identifier.createId($id.text ,$id.line), $def.line); }
+    (
     LBRACE
     (c = customPrimitive{$actorDecRet.addCustomPrimitive($c.cpRet);})*
     (v = actorVars {$actorDecRet.setActorVars($v.argRet.vars);
@@ -45,6 +48,7 @@ actorDec returns [ActorDec actorDecRet]:
     (cs = constructor{$actorDecRet.setConstructor($cs.constructorRet);})?
     (h = msgHandler{$actorDecRet.addHandler($h.handlerRet);})*
     RBRACE
+    )
 ;
 
 customPrimitive returns [CustomPrimitiveDeclaration cpRet]:
@@ -58,6 +62,7 @@ customPrimitive returns [CustomPrimitiveDeclaration cpRet]:
 
 actorVars returns [ActorVarsDTO argRet]:
     {$argRet = new ActorVarsDTO();}
+    (
     ACTORVAR
     LBRACE
     (
@@ -70,6 +75,7 @@ actorVars returns [ActorVarsDTO argRet]:
     SEMICOLON
     )*
     RBRACE
+    )
 ;
 
 init returns [VarDeclaration varRet]:
@@ -114,18 +120,19 @@ container:
 
 constructor returns [ConstructorDto constructorRet]:
     {$constructorRet = new ConstructorDto();}
-    id = IDENTIFIER {$constructorRet.name = $id.text;}
+    (id = IDENTIFIER {$constructorRet.name = $id.text;}
     LPAR
     (args = arguments
     {$constructorRet.args.addAll($args.argsRet);})?
     RPAR
     LBRACE
     b = body {$constructorRet.body.addAll($b.bodyRet);}
-    RBRACE
+    RBRACE)
 ;
 
 msgHandler returns [Handler handlerRet]:
     {String type ;}
+    (
     (srv = MSGRCV {type = $srv.text;
                    $handlerRet = new ServiceHandler($srv.line);}|
     obs = MSGOBS {type = $obs.text;
@@ -139,15 +146,16 @@ msgHandler returns [Handler handlerRet]:
     LBRACE
     b = body {$handlerRet.setBody($b.bodyRet);} //TODO: fixCrashes caused by body
     RBRACE
+    )
 ;
 
 arguments returns [ArrayList<VarDeclaration> argsRet]:
     {$argsRet = new ArrayList<>();}
-    arg = init {$argsRet.add($arg.varRet);}
+    (arg = init {$argsRet.add($arg.varRet);}
     (
     COMMA
     otherArg = init {$argsRet.add($otherArg.varRet);}
-    )*
+    )*)
 ;
 
 arrayType:
@@ -158,7 +166,7 @@ arrayType:
 
 accesslevels returns [List<Expression> accessLevelsRet]:
     {$accessLevelsRet = new ArrayList<>();}
-    (
+    ((
         (PUBLIC {System.out.println("Line " + $PUBLIC.getLine() + " : " + "Built-In: PUBLIC");}) |
         (PRIVATE {System.out.println("Line " + $PRIVATE.getLine() + " : " + "Built-In: PRIVATE");})
     )
@@ -166,15 +174,15 @@ accesslevels returns [List<Expression> accessLevelsRet]:
     p = accesslevelsParam {$accessLevelsRet.addAll($p.accessLevelsParamRet);}
     COMMA
     lp = accesslevelsParam {$accessLevelsRet.addAll($lp.accessLevelsParamRet);}
-    RPAR
+    RPAR)
 ;
 
 authorized returns [List<Expression> authorizeRet]:
     {$authorizeRet = new ArrayList<>();}
-    AUTHORIZED
+    (AUTHORIZED
     LPAR
     a = accesslevels {$authorizeRet.addAll($a.accessLevelsRet);}
-    RPAR
+    RPAR)
 ;
 
 accesslevelsParam returns [List<Expression> accessLevelsParamRet]:
@@ -198,19 +206,19 @@ forLoop returns [ForStatement forRet]:
 
 forLoopCondition returns [ArrayList<Expression> condRet]:
     {$condRet = new ArrayList<>();}
-    LPAR
+    (LPAR
     id = IDENTIFIER {$condRet.add(Identifier.createId($id.text, $id.line));}
     IN
     (
     rangeId = IDENTIFIER {$condRet.add(Identifier.createId($rangeId.text, $rangeId.line));}|
     r = range {$condRet.addAll($range.rangeRet);}
     )
-    RPAR
+    RPAR)
 ;
 
 range returns [ArrayList<Expression> rangeRet]:
     {$rangeRet = new ArrayList<>();}
-    RANGE
+    (RANGE
     LPAR
     ( id1 = IDENTIFIER {$rangeRet.add(Identifier.createId($id1.text, $id1.line));} |
     int1 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int1.text))); $rangeRet.setLine($int1.line); })
@@ -218,6 +226,7 @@ range returns [ArrayList<Expression> rangeRet]:
     ( id2 = IDENTIFIER {$rangeRet.add(Identifier.createId($id2.text, $id2.line));} |
     int2 = INT_VALUE {$rangeRet.add(new IntValue(Integer.parseInt($int2.text))); $rangeRet.setLine($int2.line); })
     RPAR
+)
 ;
 
 whileLoop returns [WhileStatement whileRet]:
@@ -270,18 +279,18 @@ joinBlock returns [JoinStatement joinRet]:
 
 joinBlockBody returns [ArrayList<Statement> joinBodyRet]:
     {$joinBodyRet = new ArrayList<>();}
-    b1 = body {$joinBodyRet.addAll($b1.bodyRet);}
+(    b1 = body {$joinBodyRet.addAll($b1.bodyRet);}
     (
     p = pipeStatement {$joinBodyRet.add($p.pipeRet);}
     b2 = body {$joinBodyRet.addAll($b2.bodyRet);}
     )?
-;
+);
 
 pipeStatement returns [PipeStatement pipeRet]:
     assignee = expression
     {$pipeRet = new PipeStatement($assignee.expRet.getFirst().getLine());
      $pipeRet.setAssignee($assignee.expRet);}
-    ASSIGN
+    (ASSIGN
     assigned = expression{$pipeRet.setAssigned($assigned.expRet);}
     (
     PIPE_OP
@@ -289,7 +298,7 @@ pipeStatement returns [PipeStatement pipeRet]:
     {System.out.println("Line " + $PIPE_OP.getLine() + " : " + "Operator:|>");}
     )+
     {System.out.println("Line " + $ASSIGN.getLine() + " : " + "Assignment");}
-    SEMICOLON
+    SEMICOLON)
 ;
 
 main returns [ArrayList<Statement> mainRet]:
@@ -304,7 +313,7 @@ main returns [ArrayList<Statement> mainRet]:
 
 body returns [ArrayList<Statement> bodyRet]:
     {$bodyRet = new ArrayList<>();}
-    (
+    ((
     f1 = forLoop {$bodyRet.add($f1.forRet);} |
     w1 = whileLoop {$bodyRet.add($w1.whileRet);} |
     i1 = ifBlock {$bodyRet.add($i1.ifRet);}|
@@ -325,7 +334,7 @@ body returns [ArrayList<Statement> bodyRet]:
     i2 = ifBlock {$bodyRet.add($i2.ifRet);}|
     j2 = joinBlock {$bodyRet.add($j2.joinRet);}|
     s2 = statements {$bodyRet.add($s2.statementRet);}
-    )*)?
+    )*)?)
 ;
 
 statements returns [Statement statementRet]:
@@ -337,6 +346,7 @@ statements returns [Statement statementRet]:
 
 initStatement returns [InitStatement initRet] :
     {List<Expression> assigned = new ArrayList<>();}
+(
     i = init
     (
         assign = ASSIGN
@@ -349,7 +359,7 @@ initStatement returns [InitStatement initRet] :
     )?
     {$initRet = new InitStatement($i.varRet, assigned, $i.varRet.getLine());}
     SEMICOLON
-
+)
 ;
 
 constructorCall returns [ConstructorExpression constructRet]:
@@ -374,7 +384,7 @@ initRecord returns [InitRecord recordRet]:
 
 assignStatement returns [AssignmentStatement assignRet]:
     {$assignRet = new AssignmentStatement();}
-    (id = IDENTIFIER {$assignRet.setLine($id.line);
+(    (id = IDENTIFIER {$assignRet.setLine($id.line);
                       $assignRet.addIdentifier(Identifier.createId($id.text ,$id.line));} |
                       SELF DOT id2 = IDENTIFIER {$assignRet.setLine($SELF.line);
                                                  $assignRet.addIdentifier(Identifier.createId($id2.text ,$id2.line));})
@@ -385,7 +395,7 @@ assignStatement returns [AssignmentStatement assignRet]:
     exp = expression {$assignRet.setAssigned($exp.expRet);}
     SEMICOLON
     {System.out.println("Line " + $assign.getLine() + " : " + "Assignment");}
-;
+);
 
 exprStatement returns [ExpressionStatement expStatementRet]:
     exp = expression {$expStatementRet = new ExpressionStatement($exp.expRet, $exp.expRet.getFirst().getLine());}
@@ -395,7 +405,7 @@ exprStatement returns [ExpressionStatement expStatementRet]:
 observeStatement returns [ObserveStatement observeRet]:
     {int line = -1;
      $observeRet = new ObserveStatement();}
-    (
+    ((
         (
         id1 = IDENTIFIER {line = $id1.line;
                           $observeRet.addId(Identifier.createId($id1.text, $id1.line));} |
@@ -415,16 +425,18 @@ observeStatement returns [ObserveStatement observeRet]:
     LPAR
     a = accesslevels {$observeRet.setObservers($a.accessLevelsRet);}
     RPAR
-    SEMICOLON
+    SEMICOLON)
 
 ;
 
 expression returns [ArrayList<Expression> expRet]:
     {$expRet = new ArrayList<>();}
+    (
     e1 = expComma { $expRet.add($e1.expRet); } |
     e2 = expComma { $expRet.add($e2.expRet); }
     COMMA
     es = expression { $expRet.addAll($es.expRet); }
+    )
 ;
 
 expComma returns [Expression expRet]:
@@ -595,7 +607,7 @@ handlerCall returns [Expression expRet]:
      Integer line = -1;
      boolean isBuiltIn = true;
      List<Expression> args = new ArrayList<>();}
-    (
+    ((
         (n1 = PRINT {type = $n1.text; line = $n1.getLine();}) |
         (n2 = TOLOWER {type = $n2.text; line = $n2.getLine();}) |
         (n3 = TOUPPER {type = $n3.text; line = $n3.getLine();}) |
@@ -610,7 +622,7 @@ handlerCall returns [Expression expRet]:
     (expression { args.addAll($expression.expRet); })?
     RPAR
     {$expRet = new FunctionCall(type, args, isBuiltIn , line);}
-;
+);
 
 primitivesVals returns [Expression expRet]:
     e1 = INT_VALUE { $expRet = new IntValue(Integer.parseInt($e1.text)); $expRet.setLine($e1.line); } |
