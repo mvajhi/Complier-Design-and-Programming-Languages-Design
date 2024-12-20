@@ -18,6 +18,14 @@ public class ConstructorExpression extends Expression{
         args.addAll(_args);
     }
 
+    public Identifier getId() {
+        return Id;
+    }
+
+    public List<Expression> getArgs() {
+        return args;
+    }
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);

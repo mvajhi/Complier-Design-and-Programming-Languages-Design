@@ -2,14 +2,12 @@ package main.visitor;
 
 import main.ast.nodes.Soact;
 import main.ast.nodes.declaration.*;
-import main.ast.nodes.expression.BinaryExpression;
-import main.ast.nodes.expression.Expression;
-import main.ast.nodes.expression.FunctionCall;
-import main.ast.nodes.expression.UnaryExpression;
+import main.ast.nodes.expression.*;
+import main.ast.nodes.expression.value.Value;
 import main.ast.nodes.statements.ExpressionStatement;
 import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
-import main.symbolTable.items.ActorDecSymbolTableItem;
+import main.symbolTable.items.IdentifierSymbolTableItem;
 import main.symbolTable.items.MsgHandlerTableItem;
 import main.symbolTable.items.RecordNodeSymbolTableItem;
 import main.symbolTable.items.SymbolTableItem;
@@ -37,7 +35,7 @@ public class NameAnalyzer extends Visitor<Void> {
 
     @Override
     public Void visit(ActorDec actorDec){
-        ActorDecSymbolTableItem actorDecSymbolTableItem = new ActorDecSymbolTableItem(actorDec.getName());
+        IdentifierSymbolTableItem actorDecSymbolTableItem = new IdentifierSymbolTableItem(actorDec.getName());
         checkActorName(actorDec, actorDecSymbolTableItem);
 
         SymbolTable actorDecSymbolTable = new SymbolTable(SymbolTable.top);
@@ -102,6 +100,40 @@ public class NameAnalyzer extends Visitor<Void> {
     public Void visit(FunctionCall functionCall){
         visitAllExpression(functionCall.getArgs());
         return null;
+    }
+
+    @Override
+    public Void visit(CustomPrimitiveAccess customPrimitiveAccess){
+        return null;
+    }
+
+    @Override
+    public Void visit(ConstructorExpression constructorExpression){
+        visitAllExpression(constructorExpression.getArgs());
+        return null;
+    }
+
+    @Override
+    public Void visit(Value value){
+        return null;
+    }
+
+    @Override
+    public Void visit(Identifier identifier){
+        IdentifierSymbolTableItem tmp = new IdentifierSymbolTableItem(identifier.getName());
+        if (!checkIsDeclared(tmp.getKey())) {
+            System.out.println("Line:" + identifier.getLine() + "-> Variable not declared ");
+        }
+        return null;
+    }
+
+    private boolean checkIsDeclared(String key) {
+        try {
+            SymbolTable.top.getItem(key);
+        } catch (Exception exp) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -205,7 +237,7 @@ public class NameAnalyzer extends Visitor<Void> {
         }
     }
 
-    private void checkActorName(ActorDec actorDec, ActorDecSymbolTableItem actorDecSymbolTableItem) {
+    private void checkActorName(ActorDec actorDec, IdentifierSymbolTableItem actorDecSymbolTableItem) {
         boolean is_redefine = checkAndAddName(actorDecSymbolTableItem);
         if (is_redefine){
             System.out.println("Line:" + actorDec.getLine() + "-> Redefinition of actor " + actorDec.getName());

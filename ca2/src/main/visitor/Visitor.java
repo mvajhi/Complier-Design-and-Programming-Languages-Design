@@ -40,4 +40,6 @@ public abstract class Visitor<T> implements IVisitor<T> {
     public T visit(AssignmentStatement assignmentStatement) {return null;}
     public T visit(Type type) {return null;}
     public T visit(ContainerType type) {return null;}
+
+    public abstract Void visit(Value value);
 }
