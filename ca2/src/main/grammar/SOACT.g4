@@ -593,7 +593,7 @@ customPrimAccess returns [Expression expRet]:
 handlerCall returns [Expression expRet]:
     {String type = "";
      Integer line = -1;
-     Boolean isBuiltIn = True;
+     boolean isBuiltIn = true;
      List<Expression> args = new ArrayList<>();}
     (
         (n1 = PRINT {type = $n1.text; line = $n1.getLine();}) |
@@ -604,12 +604,12 @@ handlerCall returns [Expression expRet]:
         (n6 = INCLUDE {type = $n6.text; line = $n6.getLine();}) |
         (n7 = REMOVE {type = $n7.text; line = $n7.getLine();}) |
         (n8 = LENGTH {type = $n8.text; line = $n8.getLine();}) |
-        (n9 = IDENTIFIER {type = $n9.text; line = $n9.getLine(); isBuiltIn = False;})
+        (n9 = IDENTIFIER {type = $n9.text; line = $n9.getLine(); isBuiltIn = false;})
     )
     LPAR
     (expression { args.addAll($expression.expRet); })?
     RPAR
-    {$expRet = new HandlerCall(type, args, line, isBuiltIn);}
+    {$expRet = new FunctionCall(type, args, isBuiltIn , line);}
 ;
 
 primitivesVals returns [Expression expRet]:
