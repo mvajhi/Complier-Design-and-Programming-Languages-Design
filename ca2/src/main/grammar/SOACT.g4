@@ -6,6 +6,7 @@ grammar SOACT;
     import main.ast.nodes.expression.*;
     import main.ast.nodes.expression.operators.*;
     import main.utils.*;
+    import main.ast.nodes.type.*;
     import main.ast.nodes.statements.*;
     import main.ast.nodes.expression.value.*;
     import java.util.ArrayList;
