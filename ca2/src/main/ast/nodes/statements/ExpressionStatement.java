@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpressionStatement extends Statement {
-    List<Expression> expression = new ArrayList<>();
+    List<Expression> expressions = new ArrayList<>();
 
     public ExpressionStatement(List<Expression> expression, int _line) {
-        this.expression.addAll(expression);
+        this.expressions.addAll(expression);
         line = _line;
+    }
+
+    public List<Expression> getExpressions() {
+        return expressions;
     }
 
     @Override

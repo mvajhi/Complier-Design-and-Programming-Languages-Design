@@ -31,4 +31,10 @@ public abstract class Visitor<T> implements IVisitor<T> {
     public T visit(ConstructorExpression constructorExpression) {return null;}
     public T visit(ExpressionStatement expressionStatement) {return null;}
     public T visit(ObserveStatement observeStatement) {return null;}
+
+    public abstract Void visit(BinaryExpression binaryExpression);
+
+    public abstract Void visit(UnaryExpression unaryExpression);
+
+    public abstract Void visit(FunctionCall functionCall);
 }
