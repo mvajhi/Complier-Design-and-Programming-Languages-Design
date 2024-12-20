@@ -4,42 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa674a86-0888-4b67-9c46-13c557c4580e" name="Changes" comment="Added RecordNode visit">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="fa674a86-0888-4b67-9c46-13c557c4580e" name="Changes" comment="Fix git file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammar/SOACT.interp" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/gen/main/grammar/SOACT.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammar/SOACTParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/gen/main/grammar/SOACTParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACT.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACT.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTBaseListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTBaseVisitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/gen/main/grammer/SOACTVisitor.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ca2/samples/1.soc" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/samples/1.soc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACT.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACT.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTBaseListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTBaseVisitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/parsers/SOACTVisitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/Soact.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/Soact.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/declaration/ActorDec.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/declaration/ActorDec.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/declaration/Handler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/declaration/Handler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/declaration/RecordNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/ast/nodes/declaration/RecordNode.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$BodyContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$BodyContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class" afterDir="false" />
@@ -63,146 +34,9 @@
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitStatementContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$StatementsContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$StatementsContext.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACT.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACT.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTBaseListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTBaseVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$AccesslevelsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$AccesslevelsParamContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ActorBodyContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ActorDecContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ActorVarsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ArgumentsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ArrayIndexContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ArrayTypeContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$AssignStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$AuthorizedContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$BodyContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ConstructorContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ContainerContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$CustomPrimAccessContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$CustomPrimitiveContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpAccessContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpAndContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpAndPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpAssignContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpBracketContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpCommaContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpCommaPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpCompareContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpComparePrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpDivideMultModContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpEqualsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpEqualsPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpOrContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpParContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpPlusMinusContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpPlusMinusPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpPostUnaryContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpPreUnaryContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpPreUnaryPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpTernaryContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExprStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ExpressionContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ForLoopConditionContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ForLoopContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$HandlerCallContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$IfBlockContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$InitContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$InitRecordContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$InitStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$JoinBlockBodyContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$JoinBlockContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$MainContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$MsgHandlerContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ObserveStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ObserversContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$PipeStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$PrimitivesContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$PrimitivesValsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$ProgramContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$RangeContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$RecordContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$StatementsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser$WhileLoopContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTParser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammer/SOACTVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACT.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACT.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTBaseListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTBaseVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$AccesslevelsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$AccesslevelsParamContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ActorDecContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ActorVarsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ArgumentsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ArrayIndexContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ArrayTypeContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$AssignStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$AuthorizedContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$BodyContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ConstructorCallContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ConstructorContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ContainerContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$CustomPrimAccessContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$CustomPrimitiveContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpAccessContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpAndContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpAndPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpBracketContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpCommaContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpCompareContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpComparePrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpDivideMultModContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpEqualsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpEqualsPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpOrContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpParContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpPlusMinusContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpPlusMinusPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpPostUnaryContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpPreUnaryContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpPreUnaryPrimContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExprStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ExpressionContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ForLoopConditionContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ForLoopContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$HandlerCallContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$IfBlockContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$InitContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$InitRecordContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$InitStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$JoinBlockBodyContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$JoinBlockContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$MainContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$MsgHandlerContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$ObserveStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$PipeStatementContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$PrimitivesContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$PrimitivesValsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$RangeContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$RecordContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$SoactContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$StatementsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser$WhileLoopContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTParser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/parsers/SOACTVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/symbolTable/items/ActorDecSymbolTableItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/symbolTable/items/ActorDecSymbolTableItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/symbolTable/items/MsgHandlerTableItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/symbolTable/items/MsgHandlerTableItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/visitor/NameAnalyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/visitor/NameAnalyzer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,7 +76,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.SOACT.executor": "Debug",
+    "Application.SOACT.executor": "Run",
     "Application.Unnamed.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -293,7 +127,7 @@
       <workItem from="1734416141846" duration="14443000" />
       <workItem from="1734435316408" duration="7686000" />
       <workItem from="1734608727848" duration="379000" />
-      <workItem from="1734609156188" duration="18828000" />
+      <workItem from="1734609156188" duration="22115000" />
     </task>
     <task id="LOCAL-00001" summary="start">
       <option name="closed" value="true" />
@@ -343,7 +177,23 @@
       <option name="project" value="LOCAL" />
       <updated>1734671346499</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Fix git file">
+      <option name="closed" value="true" />
+      <created>1734675485726</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1734675485726</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fix git file">
+      <option name="closed" value="true" />
+      <created>1734675535210</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1734675535210</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -361,21 +211,13 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="start" />
     <MESSAGE value="Added exp visitor" />
     <MESSAGE value="Fix code style (order)" />
     <MESSAGE value="Added RecordNode visit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added RecordNode visit" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/ca2/gen/main/grammar/SOACTParser.java</url>
-          <line>2732</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Fix git file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix git file" />
   </component>
 </project>
