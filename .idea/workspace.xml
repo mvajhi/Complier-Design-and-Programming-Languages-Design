@@ -6,37 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fa674a86-0888-4b67-9c46-13c557c4580e" name="Changes" comment="Fix git file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/samples/1.soc" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/samples/1.soc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndPrimContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpBracketContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpBracketContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCommaContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCommaContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCompareContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCompareContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpComparePrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpComparePrimContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpDivideMultModContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpDivideMultModContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsPrimContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpOrContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpOrContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpParContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpParContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusPrimContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPostUnaryContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPostUnaryContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryPrimContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExprStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExprStatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,12 +28,15 @@
     &quot;assignee&quot;: &quot;mvajhi&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/mvajhi/Complier-Design-and-Programming-Languages-Design.git&quot;,
-    &quot;accountId&quot;: &quot;78de1516-6aeb-4c89-803c-6e560b489ca2&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/mvajhi/Complier-Design-and-Programming-Languages-Design.git",
+    "accountId": "412f75f8-3cb9-4a3b-bcdc-2375b4738360"
   }
-}</component>
+}]]></component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -79,10 +51,11 @@
     "Application.SOACT.executor": "Run",
     "Application.Unnamed.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/mvajhi/code/test2/grammars-v4/Compiler-Course-Projects/Phase-2",
+    "last_opened_file_path": "/home/sadra/Documents/Codes/Compiler/ca2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -107,14 +80,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

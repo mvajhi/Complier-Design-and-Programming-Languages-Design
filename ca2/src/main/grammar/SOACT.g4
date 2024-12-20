@@ -57,6 +57,7 @@ customPrimitive returns [CustomPrimitiveDeclaration cpRet]:
 ;
 
 actorVars returns [ActorVarsDTO argRet]:
+    {$argRet = new ActorVarsDTO();}
     ACTORVAR
     LBRACE
     (
