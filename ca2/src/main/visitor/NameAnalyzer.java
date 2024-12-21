@@ -136,6 +136,9 @@ public class NameAnalyzer extends Visitor<Void> {
             funcCall = functionCall;
             return null;
         }
+        if (!checkName(functionCall)){
+            System.out.println("Line:" + functionCall.getLine() + "-> Message Handler not declared");
+        }
         visitAllExpression(functionCall.getArgs());
         return null;
     }
@@ -394,4 +397,18 @@ public class NameAnalyzer extends Visitor<Void> {
         return false;
     }
 
+    private boolean checkName(FunctionCall functionCall) {
+        if (functionCall.getIsBuiltin()){
+            return true;
+        }
+        if (actorSelf == null){
+            return true;
+        }
+        for (Handler handler : actorSelf.getMsgHandlers()){
+            if (Objects.equals(handler.getName(), functionCall.getHandlerType())){
+                return true;
+            }
+        }
+        return false;
+    }
 }
