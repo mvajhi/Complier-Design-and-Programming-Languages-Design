@@ -22,6 +22,9 @@ public class AssignmentStatement extends Statement{
         assigned.addAll(_assigned);
     }
 
+    public List<Identifier> getIds(){ return ids; }
+    public List<Expression> getAssigned() { return assigned; }
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);

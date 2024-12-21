@@ -27,6 +27,18 @@ public class PipeStatement extends Statement{
         pipeExpressions.addAll(expression);
     }
 
+    public List<Expression> getAssignee() {
+        return assignee;
+    }
+
+    public List<Expression> getAssigned() {
+        return assigned;
+    }
+
+    public List<Expression> getPipeExpressions() {
+        return pipeExpressions;
+    }
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);

@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WhileStatement extends Statement{
+    public List<Expression> getConditions() {
+        return conditions;
+    }
+
+    public List<Statement> getBody() {
+        return body;
+    }
+
     private List<Expression> conditions = new ArrayList<>();
     private List<Statement> body = new ArrayList<>();
 

@@ -23,6 +23,18 @@ public class InitRecord extends Expression{
         fieldValues.add(fieldValue);
     }
 
+    public Identifier getRecordName() {
+        return recordName;
+    }
+
+    public List<Identifier> getFieldNames() {
+        return fieldNames;
+    }
+
+    public List<List<Expression>> getFieldValues() {
+        return fieldValues;
+    }
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);

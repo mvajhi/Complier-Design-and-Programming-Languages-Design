@@ -16,6 +16,10 @@ public class JoinStatement extends Statement{
         body.addAll(_body);
     }
 
+    public List<Statement> getBody() {
+        return body;
+    }
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);

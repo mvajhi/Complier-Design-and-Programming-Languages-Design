@@ -27,6 +27,18 @@ public class ObserveStatement extends Statement{
         observers.addAll(_observers);
     }
 
+    public List<Identifier> getIds() {
+        return ids;
+    }
+
+    public List<Expression> getArgs() {
+        return args;
+    }
+
+    public List<Expression> getObservers() {
+        return observers;
+    }
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {
         return visitor.visit(this);

@@ -1,5 +1,6 @@
 package main.visitor;
 
+import main.ast.nodes.Node;
 import main.ast.nodes.Soact;
 import main.ast.nodes.declaration.*;
 import main.ast.nodes.expression.*;
@@ -7,9 +8,9 @@ import main.ast.nodes.expression.value.BooleanValue;
 import main.ast.nodes.expression.value.IntValue;
 import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.expression.value.Value;
-import main.ast.nodes.statements.ExpressionStatement;
-import main.ast.nodes.statements.InitStatement;
-import main.ast.nodes.statements.Statement;
+import main.ast.nodes.statements.*;
+import main.ast.nodes.type.ContainerType;
+import main.ast.nodes.type.Type;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.*;
 
@@ -175,6 +176,99 @@ public class NameAnalyzer extends Visitor<Void> {
         return null;
     }
 
+    @Override
+    public Void visit(Declaration declaration){
+        return null;
+    }
+
+    @Override
+    public Void visit(CustomPrimitiveDeclaration customPrimitiveDeclaration){
+        return null;
+    }
+
+    @Override
+    public Void visit(ForStatement forStatement){
+        forStatement.getIterator().accept(this);
+        visitAllExpression(forStatement.getConditions());
+        visitAllStatements(forStatement.getBody());
+        return null;
+    }
+
+    @Override
+    public Void visit(WhileStatement whileStatement){
+        visitAllExpression(whileStatement.getConditions());
+        visitAllStatements(whileStatement.getBody());
+        return null;
+    }
+
+    @Override
+    public Void visit(IfStatement ifStatement){
+        visitAllExpression(ifStatement.getIfConds());
+        visitAllStatements(ifStatement.getIfBody());
+        for (int i = 0; i < ifStatement.getElseIfBlocksConds().size(); i++){
+            visitAllExpression(ifStatement.getElseIfBlocksConds().get(i));
+            visitAllStatements(ifStatement.getElseIfBlocksBody().get(i));
+        }
+        visitAllStatements(ifStatement.getElseBody());
+        return null;
+    }
+
+    @Override
+    public Void visit(ObserveStatement observeStatement){
+        visitAllIdentifier(observeStatement.getIds());
+        visitAllExpression(observeStatement.getArgs());
+        visitAllExpression(observeStatement.getObservers());
+        return null;
+    }
+
+    @Override
+    public Void visit(JoinStatement joinStatement){
+        visitAllStatements(joinStatement.getBody());
+        return null;
+    }
+
+    @Override
+    public Void visit(PipeStatement pipeStatement){
+        visitAllExpression(pipeStatement.getPipeExpressions());
+        visitAllExpression(pipeStatement.getAssigned());
+        visitAllExpression(pipeStatement.getAssignee());
+        return null;
+    }
+
+    @Override
+    public Void visit(InitRecord initRecord){
+        RecordDecSymbolTableItem recordDecSymbolTableItem = new RecordDecSymbolTableItem(initRecord.getRecordName().getName());
+        recordDecSymbolTableItem.setInitRecord(initRecord);
+        checkRecordName(initRecord, recordDecSymbolTableItem);
+
+        SymbolTable recordDecSymbolTable = new SymbolTable(SymbolTable.top);
+        initRecord.setSymbolTable(recordDecSymbolTable);
+        SymbolTable.push(recordDecSymbolTable);
+
+        checkRecordScope(initRecord);
+
+        SymbolTable.pop();
+        return null;
+    }
+
+    @Override
+    public Void visit(AssignmentStatement assignmentStatement){
+        visitAllExpression(assignmentStatement.getAssigned());
+        visitAllIdentifier(assignmentStatement.getIds());
+        return null;
+    }
+
+    @Override
+    public Void visit(Type ifStatement){
+        return null;
+    }
+
+    @Override
+    public Void visit(ContainerType ifStatement){
+        return null;
+    }
+
+
 //    values
     @Override
     public Void visit(BooleanValue value){
@@ -229,6 +323,14 @@ public class NameAnalyzer extends Visitor<Void> {
         }
     }
 
+    private void visitAllIdentifier(List<Identifier> Identifiers){
+        for (Identifier id : Identifiers) {
+            if (id != null) {
+                id.accept(this);
+            }
+        }
+    }
+
     private void visitAllMainDeclaration(Soact soact) {
         SymbolTable mainSymbolTable = new SymbolTable(SymbolTable.top);
         SymbolTable.push(mainSymbolTable);
@@ -264,6 +366,13 @@ public class NameAnalyzer extends Visitor<Void> {
         visitAllMsgHandler(actorDec.getMsgHandlers());
         handleConstructor(actorDec);
         actorSelf = null;
+    }
+
+    private void checkRecordScope(InitRecord initRecord) {
+        visitAllIdentifier(initRecord.getFieldNames());
+        for (List<Expression> exps : initRecord.getFieldValues()){
+            visitAllExpression(exps);
+        }
     }
 
     private void handleConstructor(ActorDec actorDec) {
@@ -305,6 +414,13 @@ public class NameAnalyzer extends Visitor<Void> {
         boolean is_redefine = checkAndAddName(actorDecSymbolTableItem);
         if (is_redefine){
             System.out.println("Line:" + actorDec.getLine() + "-> Redefinition of actor " + actorDec.getName());
+        }
+    }
+
+    private void checkRecordName(InitRecord initRecord, RecordDecSymbolTableItem recordNodeSymbolTableItem) {
+        boolean is_redefine = checkAndAddName(recordNodeSymbolTableItem);
+        if (is_redefine){
+//            System.out.println("Line:" + initRecord.getLine() + "-> Redefinition of actor " + initRecord.getName());
         }
     }
 

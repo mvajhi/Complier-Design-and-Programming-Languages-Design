@@ -21,6 +21,19 @@ public class ForStatement extends Statement{
             conditions.add(loopConditions.get(i));
     }
 
+
     @Override
     public <T> T accept(IVisitor<T> visitor) {return visitor.visit(this);}
+
+    public Identifier getIterator() {
+        return iterator;
+    }
+
+    public List<Expression> getConditions() {
+        return conditions;
+    }
+
+    public List<Statement> getBody() {
+        return body;
+    }
 }
