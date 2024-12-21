@@ -12,7 +12,6 @@ out/
 .springBeans
 .sts4-cache
 bin/
-gen/main.grammar/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
