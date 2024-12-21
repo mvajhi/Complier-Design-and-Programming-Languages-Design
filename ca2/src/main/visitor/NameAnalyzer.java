@@ -78,8 +78,8 @@ public class NameAnalyzer extends Visitor<Void> {
     }
 
     @Override
-    public Void visit(ExpressionStatement intValue) {
-        visitAllExpression(intValue.getExpressions());
+    public Void visit(ExpressionStatement expressionStatement) {
+        visitAllExpression(expressionStatement.getExpressions());
         return null;
     }
 
