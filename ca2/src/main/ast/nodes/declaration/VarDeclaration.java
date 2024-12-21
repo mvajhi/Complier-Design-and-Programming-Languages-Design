@@ -5,18 +5,18 @@ import main.ast.nodes.type.Type;
 import main.visitor.IVisitor;
 
 public class VarDeclaration extends Declaration{
-    private Identifier name;
+    private Identifier identifier;
     private Type type;
 
-    public VarDeclaration(Identifier _name, Type _type, int _line) {
-        this.name = _name;
+    public VarDeclaration(Identifier _identifier, Type _type, int _line) {
+        this.identifier = _identifier;
         line = _line;
         this.type = _type;
     }
 
-    public Identifier getName(){return this.name;}
+    public Identifier getIdentifier(){return this.identifier;}
 
-    public void setName(Identifier name){this.name = name;}
+    public void setIdentifier(Identifier identifier){this.identifier = identifier;}
 
     public Type getType(){return this.type;}
 

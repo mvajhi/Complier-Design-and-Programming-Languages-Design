@@ -8,6 +8,7 @@ import main.ast.nodes.expression.value.IntValue;
 import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.expression.value.Value;
 import main.ast.nodes.statements.ExpressionStatement;
+import main.ast.nodes.statements.InitStatement;
 import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.*;
@@ -108,7 +109,6 @@ public class NameAnalyzer extends Visitor<Void> {
 
     @Override
     public Void visit(DotExpression dotExpression){
-//        TODO Fix it
 //        Check id and update last_id
         lastId = null;
         dotExpression.getLeft().accept(this);
@@ -122,7 +122,7 @@ public class NameAnalyzer extends Visitor<Void> {
         dotExpression.getRight().accept(this);
         justGetFuncNode = false;
         if (funcCall == null){
-//            doesnt func call (Msg handelr)
+//            doesnt func call (Msg handler)
             return null;
         }
 
@@ -158,7 +158,20 @@ public class NameAnalyzer extends Visitor<Void> {
     }
 
     @Override
+    public Void visit(VarDeclaration varDeclaration){
+        IdentifierSymbolTableItem item = new IdentifierSymbolTableItem(varDeclaration.getIdentifier().getName());
+        item.setType(varDeclaration.getType());
+        if (checkAndAddName(item)){
+            System.out.println("Line:" + varDeclaration.getLine() + "-> Redefinition of variable number");
+        }
+        return null;
+    }
+
+    @Override
     public Void visit(Identifier identifier){
+        if (justGetFuncNode){
+            return null;
+        }
         lastId = identifier;
         if (Objects.equals(identifier.getName(), "self")) return null;
 
@@ -166,6 +179,13 @@ public class NameAnalyzer extends Visitor<Void> {
         if (!checkIsDeclared(tmp.getKey())) {
             System.out.println("Line:" + identifier.getLine() + "-> Variable not declared ");
         }
+        return null;
+    }
+
+    @Override
+    public Void visit(InitStatement initStatement){
+        visitAllExpression(initStatement.getAssigend());
+        initStatement.getDec().accept(this);
         return null;
     }
 

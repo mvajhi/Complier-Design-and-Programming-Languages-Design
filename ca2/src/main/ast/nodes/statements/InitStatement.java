@@ -17,6 +17,13 @@ public class InitStatement extends Statement{
         line = _line;
     }
 
+    public VarDeclaration getDec(){
+        return assignee;
+    }
+
+    public List<Expression> getAssigend(){
+        return assigend;
+    }
 
     @Override
     public <T> T accept(IVisitor<T> visitor) {
