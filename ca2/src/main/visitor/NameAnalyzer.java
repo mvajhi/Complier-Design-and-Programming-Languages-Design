@@ -3,14 +3,14 @@ package main.visitor;
 import main.ast.nodes.Soact;
 import main.ast.nodes.declaration.*;
 import main.ast.nodes.expression.*;
+import main.ast.nodes.expression.value.BooleanValue;
+import main.ast.nodes.expression.value.IntValue;
+import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.expression.value.Value;
 import main.ast.nodes.statements.ExpressionStatement;
 import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
-import main.symbolTable.items.IdentifierSymbolTableItem;
-import main.symbolTable.items.MsgHandlerTableItem;
-import main.symbolTable.items.RecordNodeSymbolTableItem;
-import main.symbolTable.items.SymbolTableItem;
+import main.symbolTable.items.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +35,8 @@ public class NameAnalyzer extends Visitor<Void> {
 
     @Override
     public Void visit(ActorDec actorDec){
-        IdentifierSymbolTableItem actorDecSymbolTableItem = new IdentifierSymbolTableItem(actorDec.getName());
+        ActorDecSymbolTableItem actorDecSymbolTableItem = new ActorDecSymbolTableItem(actorDec.getName());
+        actorDecSymbolTableItem.setActorDec(actorDec);
         checkActorName(actorDec, actorDecSymbolTableItem);
 
         SymbolTable actorDecSymbolTable = new SymbolTable(SymbolTable.top);
@@ -91,14 +92,8 @@ public class NameAnalyzer extends Visitor<Void> {
     }
 
     @Override
-    public Void visit(UnaryExpression unaryExpression){
-        unaryExpression.getOperand().accept(this);
-        return null;
-    }
-
-    @Override
-    public Void visit(FunctionCall functionCall){
-        visitAllExpression(functionCall.getArgs());
+    public Void visit(ConstructorExpression constructorExpression){
+        visitAllExpression(constructorExpression.getArgs());
         return null;
     }
 
@@ -107,19 +102,66 @@ public class NameAnalyzer extends Visitor<Void> {
         return null;
     }
 
+    private Identifier lastId;
+    private boolean justGetFuncNode = false;
+    private FunctionCall funcCall;
+
     @Override
-    public Void visit(ConstructorExpression constructorExpression){
-        visitAllExpression(constructorExpression.getArgs());
+    public Void visit(DotExpression dotExpression){
+//        TODO Fix it
+//        Check id and update last_id
+        lastId = null;
+        dotExpression.getLeft().accept(this);
+//        TODO handel if Self
+        if (lastId == null) {
+            return null;
+        }
+
+        justGetFuncNode = true;
+        funcCall = null;
+        dotExpression.getRight().accept(this);
+        justGetFuncNode = false;
+        if (funcCall == null){
+//            doesnt func call (Msg handelr)
+            return null;
+        }
+
+
+        ActorDec actorDec = getActorId();
+        if (actorDec == null) return null;
+
+        for (Handler handler : actorDec.getMsgHandlers()){
+            if (Objects.equals(handler.getName(), funcCall.getHandlerType())){
+                return null;
+            }
+        }
+
+        System.out.println("Line:" + funcCall.getLine() + "-> Message Handler not declared");
+
         return null;
     }
 
     @Override
-    public Void visit(Value value){
+    public Void visit(UnaryExpression unaryExpression){
+        unaryExpression.getOperand().accept(this);
+        return null;
+    }
+
+    @Override
+    public Void visit(FunctionCall functionCall){
+        if (justGetFuncNode){
+            funcCall = functionCall;
+            return null;
+        }
+        visitAllExpression(functionCall.getArgs());
         return null;
     }
 
     @Override
     public Void visit(Identifier identifier){
+        lastId = identifier;
+        if (Objects.equals(identifier.getName(), "self")) return null;
+
         IdentifierSymbolTableItem tmp = new IdentifierSymbolTableItem(identifier.getName());
         if (!checkIsDeclared(tmp.getKey())) {
             System.out.println("Line:" + identifier.getLine() + "-> Variable not declared ");
@@ -247,7 +289,7 @@ public class NameAnalyzer extends Visitor<Void> {
         }
     }
 
-    private void checkActorName(ActorDec actorDec, IdentifierSymbolTableItem actorDecSymbolTableItem) {
+    private void checkActorName(ActorDec actorDec, ActorDecSymbolTableItem actorDecSymbolTableItem) {
         boolean is_redefine = checkAndAddName(actorDecSymbolTableItem);
         if (is_redefine){
             System.out.println("Line:" + actorDec.getLine() + "-> Redefinition of actor " + actorDec.getName());
@@ -268,5 +310,33 @@ public class NameAnalyzer extends Visitor<Void> {
             }
         }
         return is_redefine;
+    }
+
+    private boolean checkIsDeclared(String key) {
+        try {
+            SymbolTable.top.getItem(key);
+        } catch (Exception exp) {
+            return false;
+        }
+        return true;
+    }
+
+    private ActorDec getActorId() {
+        IdentifierSymbolTableItem id = new IdentifierSymbolTableItem(lastId.getName());
+        SymbolTableItem item = null;
+        try {
+            item = SymbolTable.top.getItem(id.getKey());
+        } catch (Exception exp){
+            return null;
+        }
+        String actorName = item.getType().getTypeName();
+
+        ActorDecSymbolTableItem actorItem = new ActorDecSymbolTableItem(actorName);
+        try {
+            item = SymbolTable.top.getItem(actorItem.getKey());
+        } catch (Exception exp){
+            return null;
+        }
+        return item.getActorDec();
     }
 }
