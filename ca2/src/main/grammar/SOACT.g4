@@ -391,8 +391,9 @@ assignStatement returns [AssignmentStatement assignRet]:
 );
 
 exprStatement returns [ExpressionStatement expStatementRet]:
-    exp = expression {$expStatementRet = new ExpressionStatement($exp.expRet, $exp.expRet.getFirst().getLine());}
-    SEMICOLON
+    exp = expression
+    s = SEMICOLON
+    {$expStatementRet = new ExpressionStatement($exp.expRet, $s.line);}
 ;
 
 observeStatement returns [ObserveStatement observeRet]:
