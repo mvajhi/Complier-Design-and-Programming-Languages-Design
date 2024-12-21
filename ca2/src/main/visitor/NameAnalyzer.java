@@ -376,8 +376,11 @@ public class NameAnalyzer extends Visitor<Void> {
     }
 
     private void handleConstructor(ActorDec actorDec) {
+        SymbolTable constructorSymbolTable = new SymbolTable(SymbolTable.top);
+        SymbolTable.push(constructorSymbolTable);
         visitAllVars(actorDec.getConstructorArgs());
         visitAllStatements(actorDec.getConstructorBody());
+        SymbolTable.pop();
     }
 
 
