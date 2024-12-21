@@ -3,6 +3,7 @@ package main;
 
 import main.ast.nodes.Soact;
 import main.grammar.*;
+import main.visitor.NameAnalyzer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.io.IOException;
@@ -15,8 +16,8 @@ public class SOACT {
         SOACTParser soactParser = new SOACTParser(tokens);
         Soact soact = soactParser.soact().soactRet;
 
-//        NameAnalyzer nameAnalyzer = new NameAnalyzer();
-//        nameAnalyzer.visit(program);
+        NameAnalyzer nameAnalyzer = new NameAnalyzer();
+        nameAnalyzer.visit(soact);
 
         System.out.println();
     }
