@@ -12,6 +12,7 @@ public class DotExpression extends Expression {
     public DotExpression(Expression left, Expression right) {
         this.left = left;
         this.right = right;
+        this.line = left.getLine();
     }
 
     public Expression getLeft() {
