@@ -127,16 +127,26 @@ public class NameAnalyzer extends Visitor<Void> {
         return null;
     }
 
-    private boolean checkIsDeclared(String key) {
-        try {
-            SymbolTable.top.getItem(key);
-        } catch (Exception exp) {
-            return false;
-        }
-        return true;
+//    values
+    @Override
+    public Void visit(BooleanValue value){
+        return null;
     }
 
+    @Override
+    public Void visit(IntValue value){
+        return null;
+    }
 
+    @Override
+    public Void visit(StringValue value){
+        return null;
+    }
+
+    @Override
+    public Void visit(Value value){
+        return null;
+    }
 
 //    TODO: visit for statements (all types)
 //    TODO: visit for expression (all types)
