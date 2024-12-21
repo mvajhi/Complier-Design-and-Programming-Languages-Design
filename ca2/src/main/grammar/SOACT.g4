@@ -143,7 +143,6 @@ msgHandler returns [Handler handlerRet]:
                   $handlerRet = new ObserveHandler($obs.line);})
     (a = authorized {$handlerRet.setAuthorizationExpressions($a.authorizeRet);})?
     id_name = IDENTIFIER {$handlerRet.setName(Identifier.createId($id_name.text ,$id_name.line));}
-    {System.out.println("Line " + $id_name.getLine() + " : " + type + ": " + $id_name.text);}
     LPAR
     (args = arguments{$handlerRet.setArgs($args.argsRet);})?
     RPAR
@@ -172,8 +171,8 @@ arrayType returns [Type typeRet]:
 accesslevels returns [List<Expression> accessLevelsRet]:
     {$accessLevelsRet = new ArrayList<>();}
     ((
-        (PUBLIC {System.out.println("Line " + $PUBLIC.getLine() + " : " + "Built-In: PUBLIC");}) |
-        (PRIVATE {System.out.println("Line " + $PRIVATE.getLine() + " : " + "Built-In: PRIVATE");})
+        (PUBLIC) |
+        (PRIVATE)
     )
     LPAR
     p = accesslevelsParam {$accessLevelsRet.addAll($p.accessLevelsParamRet);}
@@ -202,7 +201,6 @@ accesslevelsParam returns [List<Expression> accessLevelsParamRet]:
 
 forLoop returns [ForStatement forRet]:
     def = FOR
-    {System.out.println("Line " + $def.getLine() + " : " + "Loop: FOR");}
     c = forLoopCondition
     LBRACE
     b = body {$forRet = new ForStatement($c.condRet, $b.bodyRet, $def.line);}
@@ -236,7 +234,6 @@ range returns [ArrayList<Expression> rangeRet]:
 
 whileLoop returns [WhileStatement whileRet]:
     def = WHILE
-    {System.out.println("Line " + $def.getLine() + " : " + "Loop: WHILE");}
     LPAR
     ex = expression
     RPAR
@@ -248,7 +245,6 @@ whileLoop returns [WhileStatement whileRet]:
 
 ifBlock returns [IfStatement ifRet]:
     def = IF {$ifRet = new IfStatement($def.line);}
-    {System.out.println("Line " + $ifRet.getLine() + " : " + "Decision: IF");}
     LPAR
     ifExp = expression {$ifRet.setIfConds($ifExp.expRet);}
     RPAR
@@ -257,7 +253,6 @@ ifBlock returns [IfStatement ifRet]:
     RBRACE
     (
     elif = ELSE IF
-    {System.out.println("Line " + $elif.getLine() + " : " + "Decision: ELSE IF");}
     LPAR
     elseIfExp = expression {$ifRet.addElseIfcond($elseIfExp.expRet);}
     RPAR
@@ -267,7 +262,6 @@ ifBlock returns [IfStatement ifRet]:
     )*
     (
     ELSE
-    {System.out.println("Line " + $ELSE.getLine() + " : " + "Decision: ELSE");}
     LBRACE
     elseBody = body {$ifRet.setElseBody($elseBody.bodyRet);}
     RBRACE
@@ -276,7 +270,6 @@ ifBlock returns [IfStatement ifRet]:
 
 joinBlock returns [JoinStatement joinRet]:
     def = JOIN {$joinRet = new JoinStatement($def.line);}
-    {System.out.println("Line " + $def.getLine() + " : " + "Join");}
     LBRACE
     jb = joinBlockBody {$joinRet.setBody($jb.joinBodyRet);}
     RBRACE
@@ -300,15 +293,12 @@ pipeStatement returns [PipeStatement pipeRet]:
     (
     PIPE_OP
     pipeExp = expression {$pipeRet.addPipeExp($pipeExp.expRet);}
-    {System.out.println("Line " + $PIPE_OP.getLine() + " : " + "Operator:|>");}
     )+
-    {System.out.println("Line " + $ASSIGN.getLine() + " : " + "Assignment");}
     SEMICOLON)
 ;
 
 main returns [ArrayList<Statement> mainRet]:
     MAIN
-    {System.out.println("Line " + $MAIN.getLine() + " : " + "MAIN");}
     LPAR
     RPAR
     LBRACE
@@ -328,8 +318,8 @@ body returns [ArrayList<Statement> bodyRet]:
     (
     (
         (
-        (CONTINUE {System.out.println("Line " + $CONTINUE.getLine() + " : " + "Control: CONTINUE");}) |
-        (BREAK {System.out.println("Line " + $BREAK.getLine() + " : " + "Control: BREAK");})
+        (CONTINUE) |
+        (BREAK)
         )
     SEMICOLON
     )
@@ -360,7 +350,6 @@ initStatement returns [InitStatement initRet] :
             r = initRecord {assigned.add($r.recordRet);}|
             e = expression {assigned.addAll($e.expRet);}
         )
-        {System.out.println("Line " + $assign.getLine() + " : " + "Assignment");}
     )?
     {$initRet = new InitStatement($i.varRet, assigned, $i.varRet.getLine());}
     SEMICOLON
@@ -399,7 +388,6 @@ assignStatement returns [AssignmentStatement assignRet]:
     (NEW)?
     exp = expression {$assignRet.setAssigned($exp.expRet);}
     SEMICOLON
-    {System.out.println("Line " + $assign.getLine() + " : " + "Assignment");}
 );
 
 exprStatement returns [ExpressionStatement expStatementRet]:
@@ -422,7 +410,6 @@ observeStatement returns [ObserveStatement observeRet]:
                          line = $id.line;
                      $observeRet.setLine(line);
                      $observeRet.addId(Identifier.createId($id1.text, $id1.line));}
-    {System.out.println("Line " + $id.getLine() + " : " + "Send Message");}
     LPAR
     (exp = expression {$observeRet.setArgs($exp.expRet);})?
     RPAR
