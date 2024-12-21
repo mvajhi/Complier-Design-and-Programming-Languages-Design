@@ -110,37 +110,14 @@ public class NameAnalyzer extends Visitor<Void> {
 
     @Override
     public Void visit(DotExpression dotExpression){
-//        Check id and update last_id
-        lastId = null;
-        dotExpression.getLeft().accept(this);
-        if (lastId == null) {
-            return null;
-        }
+        if (getIdentifier(dotExpression)) return null;
 
-        justGetFuncNode = true;
-        funcCall = null;
-        dotExpression.getRight().accept(this);
-        justGetFuncNode = false;
-        if (funcCall == null){
-//            doesnt func call (Msg handler)
-            return null;
-        }
+        if (getFuncCall(dotExpression)) return null;
 
-        ActorDec actorDec = null;
-        if (Objects.equals(lastId.getName(), "self") && actorSelf != null){
-            actorDec = actorSelf;
-        }
-        else{
-            actorDec = getActorId();
-        }
-
+        ActorDec actorDec = getActorDec();
         if (actorDec == null) return null;
 
-        for (Handler handler : actorDec.getMsgHandlers()){
-            if (Objects.equals(handler.getName(), funcCall.getHandlerType())){
-                return null;
-            }
-        }
+        if (checkFuncExist(actorDec)) return null;
 
         System.out.println("Line:" + funcCall.getLine() + "-> Message Handler not declared");
 
@@ -277,8 +254,6 @@ public class NameAnalyzer extends Visitor<Void> {
         }
     }
 
-
-
     private ActorDec actorSelf = null;
     private void checkActorScope(ActorDec actorDec) {
         actorSelf = actorDec;
@@ -373,4 +348,50 @@ public class NameAnalyzer extends Visitor<Void> {
         }
         return item.getActorDec();
     }
+
+
+    private boolean checkFuncExist(ActorDec actorDec) {
+        for (Handler handler : actorDec.getMsgHandlers()){
+            if (Objects.equals(handler.getName(), funcCall.getHandlerType())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private ActorDec getActorDec() {
+        ActorDec actorDec = null;
+        if (Objects.equals(lastId.getName(), "self") && actorSelf != null){
+            actorDec = actorSelf;
+        }
+        else{
+            actorDec = getActorId();
+        }
+
+        if (actorDec == null) return null;
+        return actorDec;
+    }
+
+    private boolean getFuncCall(DotExpression dotExpression) {
+        justGetFuncNode = true;
+        funcCall = null;
+        dotExpression.getRight().accept(this);
+        justGetFuncNode = false;
+        if (funcCall == null){
+//            doesnt func call (Msg handler)
+            return true;
+        }
+        return false;
+    }
+
+    private boolean getIdentifier(DotExpression dotExpression) {
+        //        Check id and update last_id
+        lastId = null;
+        dotExpression.getLeft().accept(this);
+        if (lastId == null) {
+            return true;
+        }
+        return false;
+    }
+
 }
