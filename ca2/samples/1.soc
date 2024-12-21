@@ -7,8 +7,8 @@ Actor X {
 
     % Constructor
     X(string name, int id) {
-        this.name = name;
-        this.id = id;
+        self.name = name;
+        self.id = id;
     }
 
     % Method to send message to Y, observed by Z
@@ -27,7 +27,7 @@ Actor X { % Duplicate Actor Name
 
     % Constructor
     X(string anotherVar) {
-        this.anotherVar = anotherVar;
+        self.anotherVar = anotherVar;
     }
 }
 

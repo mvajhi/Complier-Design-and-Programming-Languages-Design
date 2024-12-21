@@ -17,7 +17,7 @@ Actor LinkedInUser {
         if (senderFollowers == Followers.size()) {
             accept() @observers(private(sender, null));
             sender.acceptFollow();
-        } else { 
+        } else {
             Block.add(sender); % Block users with mismatched follower count
         }
     }
@@ -27,7 +27,7 @@ Actor LinkedInUser {
         if (senderAge > age) {
             accept() @observers(private(sender, null));
             sender.acceptFollow();
-        } else { 
+        } else {
             Block.add(sender); % Block users younger than this user
         }
     }
