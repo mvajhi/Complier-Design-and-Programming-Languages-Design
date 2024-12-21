@@ -7,7 +7,6 @@ import java.util.List;
 public class FunctionCall extends Expression {
     private String handlerType;
     private List<Expression> args;
-    private int line;
     private boolean isBuiltin;
 
     public FunctionCall(String funcName, List<Expression> args, boolean isBuiltin, int line) {
@@ -23,14 +22,6 @@ public class FunctionCall extends Expression {
 
     public void setHandlerType(String handlerType) {
         this.handlerType = handlerType;
-    }
-
-    public int getLine() {
-        return line;
-    }
-
-    public void setLine(int line) {
-        this.line = line;
     }
 
     public List<Expression> getArgs() {
