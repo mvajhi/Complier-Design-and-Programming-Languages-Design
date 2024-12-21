@@ -15,10 +15,22 @@ import main.symbolTable.SymbolTable;
 import main.symbolTable.items.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 public class NameAnalyzer extends Visitor<Void> {
+
+    private final List<String> errorMessages = new ArrayList<>();
+
+    private void addErrorMessage(int line, String message) {
+        errorMessages.add("Line:" + line + " -> " + message);
+    }
+
+    private void printSortedErrors() {
+        errorMessages.sort(Comparator.comparingInt(msg -> Integer.parseInt(msg.split(":")[1].split(" -> ")[0])));
+        errorMessages.forEach(System.out::println);
+    }
 
 //   visit
     @Override
@@ -33,6 +45,7 @@ public class NameAnalyzer extends Visitor<Void> {
 
         visitAllMainDeclaration(soact);
 
+        printSortedErrors();
         return null;
     }
 
@@ -69,7 +82,8 @@ public class NameAnalyzer extends Visitor<Void> {
         RecordNodeSymbolTableItem recordNodeSymbolTableItem = new RecordNodeSymbolTableItem(recordNode.getId().getName());
         boolean is_redefine = checkAndAddName(recordNodeSymbolTableItem);
         if (is_redefine){
-            System.out.println("Line:" + recordNode.getLine() + "-> Redefinition of record " + recordNode.getId().getName());
+//            System.out.println("Line:" + recordNode.getLine() + " -> Redefinition of record " + recordNode.getId().getName());
+            addErrorMessage(recordNode.getLine(), "Redefinition of record " + recordNode.getId().getName());
         }
         SymbolTable recordNodeSymbolTable = new SymbolTable(SymbolTable.top);
         recordNode.setSymbolTable(recordNodeSymbolTable);
@@ -120,7 +134,8 @@ public class NameAnalyzer extends Visitor<Void> {
 
         if (checkFuncExist(actorDec)) return null;
 
-        System.out.println("Line:" + funcCall.getLine() + "-> Message Handler not declared");
+//        System.out.println("Line:" + funcCall.getLine() + " -> Message Handler not declared");
+        addErrorMessage(funcCall.getLine(), "Message Handler not declared");
 
         return null;
     }
@@ -138,7 +153,8 @@ public class NameAnalyzer extends Visitor<Void> {
             return null;
         }
         if (!checkName(functionCall)){
-            System.out.println("Line:" + functionCall.getLine() + "-> Message Handler not declared");
+//            System.out.println("Line:" + functionCall.getLine() + " -> Message Handler not declared");
+            addErrorMessage(functionCall.getLine(), "Message Handler not declared");
         }
         visitAllExpression(functionCall.getArgs());
         return null;
@@ -149,7 +165,8 @@ public class NameAnalyzer extends Visitor<Void> {
         IdentifierSymbolTableItem item = new IdentifierSymbolTableItem(varDeclaration.getIdentifier().getName());
         item.setType(varDeclaration.getType());
         if (checkAndAddName(item)){
-            System.out.println("Line:" + varDeclaration.getLine() + "-> Redefinition of variable number");
+//            System.out.println("Line:" + varDeclaration.getLine() + " -> Redefinition of variable " + varDeclaration.getIdentifier().getName());
+            addErrorMessage(varDeclaration.getLine(), "Redefinition of variable " + varDeclaration.getIdentifier().getName());
         }
         return null;
     }
@@ -164,7 +181,8 @@ public class NameAnalyzer extends Visitor<Void> {
 
         IdentifierSymbolTableItem tmp = new IdentifierSymbolTableItem(identifier.getName());
         if (!checkIsDeclared(tmp.getKey())) {
-            System.out.println("Line:" + identifier.getLine() + "-> Variable not declared ");
+//            System.out.println("Line:" + identifier.getLine() + " -> Variable not declared");
+            addErrorMessage(identifier.getLine(), "Variable not declared");
         }
         return null;
     }
@@ -403,27 +421,30 @@ public class NameAnalyzer extends Visitor<Void> {
     private void checkMsgName(Handler handler, MsgHandlerTableItem msgHandlerTableItem) {
         for (String actor : ActorNames) {
             if (Objects.equals(handler.getName(), actor)) {
-                System.out.println("Line:" + handler.getLine() + "-> Massage Handler name conflicts with Actor name");
+//                System.out.println("Line:" + handler.getLine() + " -> Massage Handler name conflicts with Actor name");
+                addErrorMessage(handler.getLine(), "Message Handler name conflicts with Actor name");
                 break;
             }
         }
         boolean is_redefine = checkAndAddName(msgHandlerTableItem);
         if (is_redefine){
-            System.out.println("Line:" + handler.getLine() + "-> Redefinition of msgHandler " + handler.getName());
+//            System.out.println("Line:" + handler.getLine() + " -> Redefinition of msgHandler " + handler.getName());
+            addErrorMessage(handler.getLine(), "Redefinition of msgHandler " + handler.getName());
         }
     }
 
     private void checkActorName(ActorDec actorDec, ActorDecSymbolTableItem actorDecSymbolTableItem) {
         boolean is_redefine = checkAndAddName(actorDecSymbolTableItem);
         if (is_redefine){
-            System.out.println("Line:" + actorDec.getLine() + "-> Redefinition of actor " + actorDec.getName());
+//            System.out.println("Line:" + actorDec.getLine() + " -> Redefinition of actor " + actorDec.getName());
+            addErrorMessage(actorDec.getLine(), "Redefinition of actor " + actorDec.getName());
         }
     }
 
     private void checkRecordName(InitRecord initRecord, RecordDecSymbolTableItem recordNodeSymbolTableItem) {
         boolean is_redefine = checkAndAddName(recordNodeSymbolTableItem);
         if (is_redefine){
-//            System.out.println("Line:" + initRecord.getLine() + "-> Redefinition of actor " + initRecord.getName());
+//            System.out.println("Line:" + initRecord.getLine() + " -> Redefinition of actor " + initRecord.getName());
         }
     }
 
