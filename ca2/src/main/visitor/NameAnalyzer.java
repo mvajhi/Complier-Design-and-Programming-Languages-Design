@@ -325,7 +325,7 @@ public class NameAnalyzer extends Visitor<Void> {
 
     private void visitAllIdentifier(List<Identifier> Identifiers){
         for (Identifier id : Identifiers) {
-            if (id != null) {
+            if (id != null && id.getName() != null) {
                 id.accept(this);
             }
         }
