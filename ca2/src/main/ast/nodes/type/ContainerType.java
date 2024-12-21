@@ -9,6 +9,7 @@ public class ContainerType extends Type {
     public ContainerType(String typeName, Type innerType) {
         super(typeName);
         this.innerType = innerType;
+        this.setContainer(this);
     }
 
     public Type getInnerType() {
@@ -17,6 +18,10 @@ public class ContainerType extends Type {
 
     public void setInnerType(Type innerType) {
         this.innerType = innerType;
+    }
+
+    public String getTypeNameContainer() {
+        return super.getSimpKey() + "<" + innerType.getTypeName() + ">";
     }
 
     @Override

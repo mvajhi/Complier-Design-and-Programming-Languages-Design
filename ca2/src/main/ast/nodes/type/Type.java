@@ -7,10 +7,16 @@ public class Type extends Node {
     private String typeName;
     private boolean isBuiltInType;
     private boolean isArray;
+    private ContainerType container;
 
     public Type(String typeName) {
         this.typeName = typeName;
         this.isBuiltInType = true;
+        this.container = null;
+    }
+
+    public void setContainer(ContainerType container){
+        this.container = container;
     }
 
     public String getTypeName() {
@@ -35,6 +41,19 @@ public class Type extends Node {
 
     public void setIsArray(boolean isArray) {
         this.isArray = isArray;
+    }
+
+    public String getSimpKey(){
+        return typeName + isArray;
+    }
+
+    public String getKey(){
+        if (container == null) {
+            return typeName + isArray;
+        }
+        else {
+            return container.getTypeNameContainer();
+        }
     }
 
     @Override

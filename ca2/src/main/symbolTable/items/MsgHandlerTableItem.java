@@ -22,9 +22,9 @@ public class MsgHandlerTableItem extends SymbolTableItem {
     public String getKey() {
         String types = "";
         for (VarDeclaration vd : this.argsTypes){
-//            vd.
+            types += "$" + vd.getType().getKey();
         }
-        return START_KEY + this.returnType + this.Name;
+        return START_KEY + this.returnType + this.Name + types;
     }
 
     public String getName() {

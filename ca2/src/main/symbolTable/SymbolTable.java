@@ -30,9 +30,12 @@ public class SymbolTable {
         this.items = new HashMap<>();
     }
     public void put(SymbolTableItem item) throws ItemAlreadyExists {
-        if (items.containsKey(item.getKey()))
+        try{
+            getItem(item.getKey());
             throw new ItemAlreadyExists();
-        items.put(item.getKey(), item);
+        } catch (ItemNotFound e) {
+            items.put(item.getKey(), item);
+        }
     }
     public SymbolTableItem getItem(String key) throws ItemNotFound {
         SymbolTableItem tableItem = this.items.get(key);

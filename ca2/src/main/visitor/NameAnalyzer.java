@@ -13,6 +13,7 @@ import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -112,7 +113,6 @@ public class NameAnalyzer extends Visitor<Void> {
 //        Check id and update last_id
         lastId = null;
         dotExpression.getLeft().accept(this);
-//        TODO handel if Self
         if (lastId == null) {
             return null;
         }
@@ -126,8 +126,14 @@ public class NameAnalyzer extends Visitor<Void> {
             return null;
         }
 
+        ActorDec actorDec = null;
+        if (Objects.equals(lastId.getName(), "self") && actorSelf != null){
+            actorDec = actorSelf;
+        }
+        else{
+            actorDec = getActorId();
+        }
 
-        ActorDec actorDec = getActorId();
         if (actorDec == null) return null;
 
         for (Handler handler : actorDec.getMsgHandlers()){
@@ -210,9 +216,6 @@ public class NameAnalyzer extends Visitor<Void> {
         return null;
     }
 
-//    TODO: visit for statements (all types)
-//    TODO: visit for expression (all types)
-
 //  visit all
     private void visitAllStatements(List<Statement> stmts) {
         for (Statement stmt : stmts) {
@@ -261,7 +264,12 @@ public class NameAnalyzer extends Visitor<Void> {
         }
     }
 
+    private List<String> ActorNames;
     private void visitAllActorDeclaration(Soact soact) {
+        ActorNames = new ArrayList<>();
+        for (ActorDec actorDec : soact.getActorDecs()) {
+            ActorNames.add(actorDec.getName());
+        }
         for (ActorDec actorDec : soact.getActorDecs()) {
             if (actorDec != null) {
                 actorDec.accept(this);
@@ -271,10 +279,13 @@ public class NameAnalyzer extends Visitor<Void> {
 
 
 
+    private ActorDec actorSelf = null;
     private void checkActorScope(ActorDec actorDec) {
+        actorSelf = actorDec;
         visitAllVars(actorDec.getVars());
         visitAllMsgHandler(actorDec.getMsgHandlers());
         handleConstructor(actorDec);
+        actorSelf = null;
     }
 
     private void handleConstructor(ActorDec actorDec) {
@@ -300,8 +311,11 @@ public class NameAnalyzer extends Visitor<Void> {
     }
 
     private void checkMsgName(Handler handler, MsgHandlerTableItem msgHandlerTableItem) {
-        if (Objects.equals(handler.getName(), handler.getClass().getName())) {
-            System.out.println("Line:" + handler.getLine() + "-> Massage Handler name conflicts with Actor name");
+        for (String actor : ActorNames) {
+            if (Objects.equals(handler.getName(), actor)) {
+                System.out.println("Line:" + handler.getLine() + "-> Massage Handler name conflicts with Actor name");
+                break;
+            }
         }
         boolean is_redefine = checkAndAddName(msgHandlerTableItem);
         if (is_redefine){

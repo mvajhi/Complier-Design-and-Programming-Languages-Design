@@ -6,22 +6,20 @@ import main.symbolTable.SymbolTable;
 public class ActorDecSymbolTableItem extends SymbolTableItem {
     public static final String START_KEY = "ActorDec_";
 
-    private String ActorName;
-
     public ActorDecSymbolTableItem(String actorName) {
-        this.ActorName = actorName;
+        this.name = actorName;
     }
 
     @Override
     public String getKey() {
-        return START_KEY + this.ActorName;
+        return START_KEY + this.name;
     }
 
     public String getActorName() {
-        return ActorName;
+        return name;
     }
 
     public void setActorName(String actorName) {
-        this.ActorName = actorName;
+        this.name = actorName;
     }
 }
