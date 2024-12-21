@@ -1,24 +1,26 @@
 package main.symbolTable.items;
 
+import main.ast.nodes.type.Type;
+
 public class IdentifierSymbolTableItem extends SymbolTableItem {
     public static final String START_KEY = "Identifier_";
 
-    private String ActorName;
+    private String idName;
 
-    public IdentifierSymbolTableItem(String actorName) {
-        this.ActorName = actorName;
+    public IdentifierSymbolTableItem(String idName) {
+        this.idName = idName;
     }
 
     @Override
     public String getKey() {
-        return START_KEY + this.ActorName;
+        return START_KEY + this.idName;
     }
 
-    public String getActorName() {
-        return ActorName;
+    public String getIdName() {
+        return idName;
     }
 
-    public void setActorName(String actorName) {
-        this.ActorName = actorName;
+    public void setIdName(String idName) {
+        this.idName = idName;
     }
 }

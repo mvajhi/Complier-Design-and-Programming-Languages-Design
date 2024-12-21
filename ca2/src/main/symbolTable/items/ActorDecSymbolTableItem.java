@@ -1,5 +1,8 @@
 package main.symbolTable.items;
 
+import main.ast.nodes.declaration.ActorDec;
+import main.symbolTable.SymbolTable;
+
 public class ActorDecSymbolTableItem extends SymbolTableItem {
     public static final String START_KEY = "ActorDec_";
 
