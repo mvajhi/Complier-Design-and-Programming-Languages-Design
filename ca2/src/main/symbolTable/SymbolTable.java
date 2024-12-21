@@ -29,17 +29,23 @@ public class SymbolTable {
         this.pre = pre;
         this.items = new HashMap<>();
     }
+
+    private boolean checkPre = true;
     public void put(SymbolTableItem item) throws ItemAlreadyExists {
+        checkPre = false;
         try{
             getItem(item.getKey());
             throw new ItemAlreadyExists();
         } catch (ItemNotFound e) {
             items.put(item.getKey(), item);
         }
+        finally {
+            checkPre = true;
+        }
     }
     public SymbolTableItem getItem(String key) throws ItemNotFound {
         SymbolTableItem tableItem = this.items.get(key);
-        if (tableItem == null && pre != null){
+        if (tableItem == null && pre != null && checkPre){
             tableItem = pre.getItem(key);
         }
         if( tableItem != null ){
