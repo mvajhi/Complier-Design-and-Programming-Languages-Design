@@ -1,0 +1,24 @@
+% We define actors with primitive {Actor}
+Actor myActor {
+
+    % We define actor variables with primitive {actorVars}
+    actorVars {
+        string name;
+        int age;
+        ID accID;
+    }
+
+    % Constructor
+    myActor(int a, int b) {
+        % Maow
+    }
+
+    % We define our service massage handler with primitive {msgRcv}
+    msgRcv myReciever(int a, int b) {
+        % Maow
+    }
+
+}
+
+main () {
+}

@@ -1,0 +1,25 @@
+main() {
+    int[] intList = [1, 2, 3];
+    int number = 1;
+    boolean flag = true;
+    string text = "Simba";
+
+    % Valid For Loops
+    for (n in range(0, 5)) {
+    }
+    for (n in intList) {
+    }
+
+    % Invalid For Loops
+    for (x in range(0, 5)) {
+        for (n in number) {
+            print("This should fail!");
+        }
+        for (n in flag) {
+            print("This should fail!");
+        }
+        for (n in text) {
+            print("This should fail!");
+        }
+    }
+}

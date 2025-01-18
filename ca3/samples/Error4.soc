@@ -1,0 +1,5 @@
+main() {
+    print("Simba");
+    print(true);
+    print(123);
+}

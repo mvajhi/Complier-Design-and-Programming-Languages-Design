@@ -1,0 +1,8 @@
+main() {
+    int correct = 123;
+    int num = "Simba";
+    boolean flag = 123;
+    string text = true;
+    string[] arr = [1, 2, 3];
+    int arr = [1, 2, 3];
+}

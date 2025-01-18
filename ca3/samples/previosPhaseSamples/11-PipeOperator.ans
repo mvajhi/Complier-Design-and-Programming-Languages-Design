@@ -1,0 +1,25 @@
+Line 11 : msgRcv: toLowerCase
+Line 12 : Built-In: LOWER
+Line 12 : Assignment
+Line 17 : msgRcv: inverse
+Line 18 : Built-In: REVERSE
+Line 18 : Assignment
+Line 22 : msgRcv: addSuffix
+Line 23 : Operator:+
+Line 23 : Assignment
+Line 27 : msgRcv: processString
+Line 28 : Assignment
+Line 29 : Join
+Line 31 : Send Message
+Line 31 : Operator:|>
+Line 32 : Send Message
+Line 32 : Operator:|>
+Line 33 : Send Message
+Line 33 : Operator:|>
+Line 30 : Assignment
+Line 34 : Built-In: PRINT
+Line 34 : Operator:+
+Line 39 : MAIN
+Line 41 : Assignment
+Line 44 : Assignment
+Line 47 : Send Message

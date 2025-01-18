@@ -1,0 +1,4 @@
+% main() is used as in any other language
+main() {
+    print("meow");
+}

@@ -1,0 +1,49 @@
+% Record acts just like struct in CPP
+Record Person {
+    string name;
+    int age;
+    string address;
+}
+
+Actor PersonManager {
+    actorVars {
+        Person person;
+    }
+
+    % Message handler to create a new Person record
+    msgRcv createPerson(string name, int age, string address) {
+        Person person = Person{name: name, age: age, address: address};
+        print("Person created: " + person);
+        sender.updatePerson(person);
+    }
+
+    % Message handler to update the address of a Person record
+    msgRcv updateAddress(Person person, string newAddress) {
+        Person updatedPerson = person{address: newAddress}; % Record update syntax
+        print("Updated person: " + updatedPerson);
+        sender.updatePerson(person);
+    }
+
+    % Message handler to display a Persons details
+    msgRcv displayPerson(Person person) {
+        print("Name: " + person.name + ", Age: " + person.age + ", Address: " + person.address);
+    }
+
+    msgRcv updatePerson(Person person) {
+        self.person = person;
+    }
+}
+
+main() {
+    % Sample instantiation and message passing
+    PersonManager manager = PersonManager();
+
+    % Create a new Person
+    Person john = manager.createPerson("John Doe", 30, "123 Main St");
+
+    % Update the address
+    john = manager.updateAddress(john, "456 Elm St");
+
+    % Display the updated Person record
+    manager.displayPerson(john);  % Output: Name: John Doe, Age: 30, Address: 456 Elm St
+}

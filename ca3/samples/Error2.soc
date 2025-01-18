@@ -1,0 +1,8 @@
+main() {
+    int[] arr1 = [1, 2, 3];
+    string[] arr2 = ["a", "b", "c"];
+    arr1["Simba"];
+    arr2["Simba"];
+    int a;
+    arr2[13+25+a];
+}

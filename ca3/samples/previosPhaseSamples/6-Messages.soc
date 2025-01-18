@@ -1,0 +1,38 @@
+% In LinkedIn when we follow someone it boradcasts it to our followers
+Actor LinkedInUser {
+    actorVars {
+        Set<ID> Followers;
+        Set<ID> Followings;
+        Set<ID> Block;
+
+        List<string> posts;
+        List<string> closeFriendPosts;
+
+        string name;
+
+        int age;
+    }
+
+    LinkedInUser(Set<ID> Connections) {
+        ID ac;
+        for (ac in Connections) {
+            % Send Policy (follow request is a handler can be seen in other testCases)
+            ac.FollowRequest()  @observers(private(Followers,null)); % we have two message type : 1- observe message 2- service message
+            % Observed messages dont necessarily require implementation and may be ignored by the recipient.
+            % Service messages have a handler that performs specific actions for them.
+        }
+    }
+
+    msgRcv FollowRequest() {
+        % add to followers
+    }
+
+    % The msgObs primitive handles the boradcast message type
+    msgObs FollowRequest() {
+        print("FOLLOW SHOD");
+    }
+
+}
+
+main () {
+}

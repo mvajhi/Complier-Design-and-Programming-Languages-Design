@@ -1,0 +1,4 @@
+Line:8-> unsupported operand type for operator NOT
+Line:9-> unsupported operand type for operator NOT
+Line:10-> unsupported operand type for operator POST_INC
+Line:12-> unsupported operand type for operator POST_DEC

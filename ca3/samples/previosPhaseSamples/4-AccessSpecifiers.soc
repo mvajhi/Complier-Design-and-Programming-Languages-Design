@@ -1,0 +1,16 @@
+% PRIVATE INCLUDES
+% PUBLIC EXCLUDES
+
+Actor instagramUser {
+    % Public excludes others in communication while Private includes them
+    % They take two parameters and for including/excluding three or more we can nest additional private/public parameters
+    actorVars {
+        Set<ID> Followers;
+        Set<ID> Followings;
+        List<string> posts;
+        List<string> closeFriendPosts;
+    }
+}
+
+main () {
+}

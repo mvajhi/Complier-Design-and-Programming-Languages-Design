@@ -1,0 +1,8 @@
+main() {
+    int intList[10];
+    intList.add(123);
+    intList.add("example");
+    string stringList[10];
+    stringList.add("example");
+    stringList.add(123);
+}

@@ -1,0 +1,13 @@
+main() {
+    int a = 1;
+    ID id;
+    string b = "Simba";
+    boolean c = true;
+    a++;
+    ++id;
+    !a;
+    !id;
+    b++;
+    !c;
+    c--;
+}

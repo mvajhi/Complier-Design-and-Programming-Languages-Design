@@ -1,0 +1,48 @@
+% The pipe operator just like the one used in bash/shell
+
+Actor StringProcessor {
+
+    actorVars {
+        string result;
+    }
+
+
+    % Message handler to convert string to lowercase
+    msgRcv toLowerCase(string input) {
+        sender.result = input.toLower();
+        % result is the actorVar that is defined above
+    }
+
+    % Message handler to reverse a string
+    msgRcv inverse(string input) {
+        sender.result = input.reverse();
+    }
+
+    % Message handler to add a suffix
+    msgRcv addSuffix(string input, string suffix) {
+        sender.result = input + suffix;
+    }
+
+    % Message handler to demonstrate chaining using "pipe-like" operator
+    msgRcv processString(string input, string suffix) {
+        result = input;
+        join {
+            result = result % the output of the previous goes into the input of the next 
+                            |> self.toLowerCase()
+                            |> self.inverse()
+                            |> self.addSuffix(suffix);
+            print("Processed string: " + result);
+        }
+    }
+}
+
+main() {
+    % Sample instantiation and message passing
+    StringProcessor processor = new StringProcessor();
+
+    % Example string to process
+    string myString = "HELLO";
+
+    % Chain operations: convert to lowercase, reverse, and add suffix
+    processor.processString(myString, "_world");  % Output: Processed string: "olleh_world"
+}

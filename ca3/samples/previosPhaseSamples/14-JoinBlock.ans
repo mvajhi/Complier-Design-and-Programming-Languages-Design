@@ -1,0 +1,14 @@
+Line 12 : Assignment
+Line 13 : Assignment
+Line 17 : msgRcv: sendGreeting
+Line 19 : Loop: FOR
+Line 20 : Built-In: PRINT
+Line 21 : Send Message
+Line 26 : msgRcv: updateGreeting
+Line 27 : Assignment
+Line 32 : MAIN
+Line 33 : Assignment
+Line 36 : Join
+Line 39 : Send Message
+Line 42 : Send Message
+Line 43 : Send Message

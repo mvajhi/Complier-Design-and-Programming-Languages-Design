@@ -1,0 +1,45 @@
+% Join blocks make it so the expressiosn in it dont get affected by concurrent issues
+Actor GreetingActor {
+
+    % Define actor variables with custom primitive {actorVars}
+    actorVars {
+        string greeting;
+        int repeatCount;
+    }
+
+    % Constructor to initialize variables
+    GreetingActor(string initGreeting, int initRepeatCount) {
+        greeting = initGreeting;
+        repeatCount = initRepeatCount;
+    }
+
+    % Message handler to print the greeting multiple times
+    msgRcv sendGreeting() {
+        % Loop through the repeat count and print the greeting
+        for (n in range(1, 10)) {
+            print(greeting);
+            println("!");  % Print with a newline
+        }
+    }
+
+    % Message handler to update the greeting
+    msgRcv updateGreeting(string newGreeting) {
+        greeting = newGreeting;
+    }
+
+}
+
+main() {
+    GreetingActor myGreeter = new GreetingActor("Hello", 3);
+
+    % Actor instantiation and messaging 
+    join { % meow just computation and new GreetingActor("Hello", 3) can not be here
+
+        % Send a message to execute the sendGreeting handler
+        myGreeter.sendGreeting();
+
+        % Update the greeting and resend the message
+        myGreeter.updateGreeting("Hi");
+        myGreeter.sendGreeting();
+    }
+}

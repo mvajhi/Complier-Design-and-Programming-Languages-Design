@@ -1,0 +1,7 @@
+Line 18 : Loop: FOR
+Line 20 : Send Message
+Line 20 : Built-In: PRIVATE
+Line 26 : msgRcv: FollowRequest
+Line 31 : msgObs: FollowRequest
+Line 32 : Built-In: PRINT
+Line 37 : MAIN

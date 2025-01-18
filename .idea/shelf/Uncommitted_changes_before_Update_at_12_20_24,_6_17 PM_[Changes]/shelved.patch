@@ -1,0 +1,171 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"fa674a86-0888-4b67-9c46-13c557c4580e\" name=\"Changes\" comment=\"Fix git file\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/ca2/samples/1.soc\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ca2/samples/1.soc\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndPrimContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndPrimContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpBracketContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpBracketContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCommaContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCommaContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCompareContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCompareContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpComparePrimContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpComparePrimContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpDivideMultModContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpDivideMultModContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsPrimContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsPrimContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpOrContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpOrContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpParContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpParContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusPrimContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusPrimContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPostUnaryContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPostUnaryContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryPrimContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryPrimContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExprStatementContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExprStatementContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;mvajhi&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/mvajhi/Complier-Design-and-Programming-Languages-Design.git&quot;,\n    &quot;accountId&quot;: &quot;78de1516-6aeb-4c89-803c-6e560b489ca2&quot;\n  }\n}</component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;customColor&quot;: &quot;&quot;,\n  &quot;associatedIndex&quot;: 7\n}</component>\n  <component name=\"ProjectId\" id=\"2qKfMekzvfSJvlIELoHYjNsyctp\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Application.SOACT.executor\": \"Run\",\n    \"Application.Unnamed.executor\": \"Run\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\n    \"git-widget-placeholder\": \"main\",\n    \"kotlin-language-version-configured\": \"true\",\n    \"last_opened_file_path\": \"/home/mvajhi/code/test2/grammars-v4/Compiler-Course-Projects/Phase-2\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"run.code.analysis.last.selected.profile\": \"pProject Default\",\n    \"settings.editor.selected.configurable\": \"advanced.settings\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/ca2\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"SOACT\" type=\"Application\" factoryName=\"Application\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.SOACT\" />\n      <module name=\"ca2\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\"$PROJECT_DIR$/ca2/samples/1.soc\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103\" />\n        <option value=\"bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"fa674a86-0888-4b67-9c46-13c557c4580e\" name=\"Changes\" comment=\"\" />\n      <created>1734416140385</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1734416140385</updated>\n      <workItem from=\"1734416141846\" duration=\"14443000\" />\n      <workItem from=\"1734435316408\" duration=\"7686000\" />\n      <workItem from=\"1734608727848\" duration=\"379000\" />\n      <workItem from=\"1734609156188\" duration=\"22115000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"start\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734613607610</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734613607610</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"start\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734613854651</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734613854651</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Added exp visitor\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734618852824</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734618852824</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Fix code style (order)\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734619067740</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734619067740</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Fix code style (order)\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734619180333</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734619180333</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Added RecordNode visit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734671346499</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734671346499</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Fix git file\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734675485726</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734675485726</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Fix git file\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1734675535210</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1734675535210</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"9\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT\" value=\"false\" />\n    <option name=\"CHECK_NEW_TODO\" value=\"false\" />\n    <MESSAGE value=\"start\" />\n    <MESSAGE value=\"Added exp visitor\" />\n    <MESSAGE value=\"Fix code style (order)\" />\n    <MESSAGE value=\"Added RecordNode visit\" />\n    <MESSAGE value=\"Fix git file\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Fix git file\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 447acc58802af97c62cf3b0073b2838e39e6d941)
++++ b/.idea/workspace.xml	(date 1734698015064)
+@@ -4,39 +4,22 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="fa674a86-0888-4b67-9c46-13c557c4580e" name="Changes" comment="Fix git file">
++    <list default="true" id="fa674a86-0888-4b67-9c46-13c557c4580e" name="Changes" comment="Fix body">
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/BinaryExpression.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/CustomPrimitiveAccess.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/DotExpression.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/FunctionCall.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/UnaryExpression.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/operators/BinaryOperator.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/operators/UnaryOperator.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/operators/UnarySide.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/value/BooleanValue.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/value/StringValue.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/value/Value.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/ca2/samples/1.soc" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/samples/1.soc" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/value/IntValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/src/main/ast/nodes/expression/value/IntValue.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4" beforeDir="false" afterPath="$PROJECT_DIR$/ca2/src/main/grammar/SOACT.g4" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.g4" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACT.interp" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$AssignStatementContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ConstructorCallContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$CustomPrimAccessContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAccessContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpAndPrimContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpBracketContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpBracketContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCommaContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCommaContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCompareContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpCompareContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpComparePrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpComparePrimContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpDivideMultModContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpDivideMultModContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpEqualsPrimContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpOrContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpOrContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpParContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpParContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPlusMinusPrimContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPostUnaryContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPostUnaryContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryPrimContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpPreUnaryPrimContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExprStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExprStatementContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ExpressionContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$HandlerCallContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$InitRecordContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$ObserveStatementContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser$PrimitivesValsContext.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ca2/main/grammar/SOACTParser.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -82,20 +65,26 @@
+     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+     "git-widget-placeholder": "main",
+     "kotlin-language-version-configured": "true",
+-    "last_opened_file_path": "/home/mvajhi/code/test2/grammars-v4/Compiler-Course-Projects/Phase-2",
++    "last_opened_file_path": "/home/mvajhi/code/Complier-Design-and-Programming-Languages-Design",
+     "node.js.detected.package.eslint": "true",
+     "node.js.detected.package.tslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
+     "node.js.selected.package.tslint": "(autodetect)",
+     "nodejs_package_manager_path": "npm",
+     "run.code.analysis.last.selected.profile": "pProject Default",
+-    "settings.editor.selected.configurable": "advanced.settings",
++    "settings.editor.selected.configurable": "preferences.keymap",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$" />
+       <recent name="$PROJECT_DIR$/ca2" />
++    </key>
++    <key name="CopyClassDialog.RECENTS_KEY">
++      <recent name="main.ast.nodes.expression" />
++      <recent name="main.ast.nodes.expression.value" />
++      <recent name="main.ast.nodes.expression.operators" />
+     </key>
+   </component>
+   <component name="RunManager">
+@@ -127,7 +116,8 @@
+       <workItem from="1734416141846" duration="14443000" />
+       <workItem from="1734435316408" duration="7686000" />
+       <workItem from="1734608727848" duration="379000" />
+-      <workItem from="1734609156188" duration="22115000" />
++      <workItem from="1734609156188" duration="22735000" />
++      <workItem from="1734679133099" duration="18506000" />
+     </task>
+     <task id="LOCAL-00001" summary="start">
+       <option name="closed" value="true" />
+@@ -193,7 +183,23 @@
+       <option name="project" value="LOCAL" />
+       <updated>1734675535210</updated>
+     </task>
+-    <option name="localTasksCounter" value="9" />
++    <task id="LOCAL-00009" summary="Fix git">
++      <option name="closed" value="true" />
++      <created>1734678704718</created>
++      <option name="number" value="00009" />
++      <option name="presentableId" value="LOCAL-00009" />
++      <option name="project" value="LOCAL" />
++      <updated>1734678704718</updated>
++    </task>
++    <task id="LOCAL-00010" summary="Fix body">
++      <option name="closed" value="true" />
++      <created>1734678712248</created>
++      <option name="number" value="00010" />
++      <option name="presentableId" value="LOCAL-00010" />
++      <option name="project" value="LOCAL" />
++      <updated>1734678712248</updated>
++    </task>
++    <option name="localTasksCounter" value="11" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -218,6 +224,19 @@
+     <MESSAGE value="Fix code style (order)" />
+     <MESSAGE value="Added RecordNode visit" />
+     <MESSAGE value="Fix git file" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Fix git file" />
++    <MESSAGE value="Fix git" />
++    <MESSAGE value="Fix body" />
++    <option name="LAST_COMMIT_MESSAGE" value="Fix body" />
++  </component>
++  <component name="XDebuggerManager">
++    <breakpoint-manager>
++      <breakpoints>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/ca2/src/main/SOACT.java</url>
++          <line>20</line>
++          <option name="timeStamp" value="1" />
++        </line-breakpoint>
++      </breakpoints>
++    </breakpoint-manager>
+   </component>
+ </project>
+\ No newline at end of file
+Index: ca2/samples/1.soc
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nmain() {\n    % Instantiation of actors X and X (invalid due to duplicate Actor name)\n    int a;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ca2/samples/1.soc b/ca2/samples/1.soc
+--- a/ca2/samples/1.soc	(revision 447acc58802af97c62cf3b0073b2838e39e6d941)
++++ b/ca2/samples/1.soc	(date 1734679871485)
+@@ -1,5 +1,11 @@
++
++Record a{
++    int aa;
++    int bb;
++}
+ 
+ main() {
+     % Instantiation of actors X and X (invalid due to duplicate Actor name)
+     int a;
++    int b;
+ }

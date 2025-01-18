@@ -1,0 +1,4 @@
+main() {
+    % Instantiation of actors X, Y, and Z
+    X senderActor = new X(101);
+}

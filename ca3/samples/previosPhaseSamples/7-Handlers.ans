@@ -1,0 +1,27 @@
+Line 16 : Built-In: PUBLIC
+Line 16 : msgRcv: FollowRequest
+Line 19 : Send Message
+Line 22 : msgRcv: ageCompare
+Line 23 : Decision: IF
+Line 23 : Operator:>
+Line 24 : Send Message
+Line 24 : Built-In: PRIVATE
+Line 25 : Send Message
+Line 26 : Decision: ELSE
+Line 27 : Built-In: ADD
+Line 31 : msgRcv: acceptFollow
+Line 32 : Decision: IF
+Line 32 : Built-In: INCLUDE
+Line 32 : Operator:!
+Line 33 : Built-In: ADD
+Line 37 : msgRcv: accept
+Line 38 : Decision: IF
+Line 38 : Built-In: INCLUDE
+Line 38 : Operator:!
+Line 39 : Built-In: ADD
+Line 43 : msgObs: accept
+Line 44 : Built-In: PRINT
+Line 47 : msgRcv: Post
+Line 48 : Decision: IF
+Line 48 : Operator:!=
+Line 54 : MAIN

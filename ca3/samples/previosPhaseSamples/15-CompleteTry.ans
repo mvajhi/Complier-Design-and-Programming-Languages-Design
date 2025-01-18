@@ -1,0 +1,24 @@
+Line 25 : Loop: FOR
+Line 27 : Send Message
+Line 27 : Built-In: PRIVATE
+Line 32 : Built-In: PUBLIC
+Line 32 : msgRcv: FollowRequest
+Line 33 : Send Message
+Line 37 : msgObs: FollowRequest
+Line 38 : Built-In: PRINT
+Line 41 : msgRcv: ageCompare
+Line 42 : Decision: IF
+Line 42 : Operator:>
+Line 43 : Send Message
+Line 43 : Built-In: PRIVATE
+Line 44 : Send Message
+Line 45 : Decision: ELSE
+Line 46 : Built-In: ADD
+Line 50 : msgRcv: accept
+Line 51 : Decision: IF
+Line 51 : Built-In: INCLUDE
+Line 51 : Operator:!
+Line 52 : Built-In: ADD
+Line 56 : msgObs: accept
+Line 57 : Built-In: PRINT
+Line 62 : MAIN

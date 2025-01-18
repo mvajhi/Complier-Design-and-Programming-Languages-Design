@@ -1,0 +1,23 @@
+% Can be used in either main() or message handler
+main() {
+
+    % For loops works like python (can use range or any other iterable)
+    int a[3];
+    % For simple iterations we just use range without defining n beforehand
+    for (n in range(0,10)) {
+        % Maow
+    }
+
+    List<string> names;
+    for (n in names) {
+        % Maow
+    }
+
+    int n = 0;
+    % while loops
+    while (n < 100) {
+        n = n + 1;
+        % Maow
+    }
+
+}

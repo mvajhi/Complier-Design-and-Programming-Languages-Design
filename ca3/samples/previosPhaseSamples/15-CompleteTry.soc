@@ -1,0 +1,63 @@
+% Cleaned up version of the first testCase
+
+Actor LinkedInUser1 {
+
+    % Our Actors Fields
+    actorVars {
+        Set<ID> Followers;
+        Set<ID> Followings;
+        Set<ID> Block;
+        Set<ID> CloseFriends;
+
+        List<string> posts;
+        List<string> closeFriendPosts;  
+
+        string name;
+
+        int age;
+    }
+
+    % Our Actors Constructor
+    LinkedInUser1(Set<ID> Connections){
+        % constructor
+        ID ac;
+        % initially follows its contacts
+        for (ac in Connections) {
+            % Send Policy
+            ac.FollowRequest()  @observers(private(Followers,null)); % we have two message type : 1- observe message 2- service message
+        }
+    }
+
+    % Receive Policy
+    msgRcv @authorized(public(Block, null)) FollowRequest() {
+        self.ageCompare(age);
+    }
+
+    % Boradcast Policy
+    msgObs FollowRequest() {
+        print("FOLLOW SHODAM");
+    }
+
+    msgRcv ageCompare (int senderAge) {
+        if (senderAge > age) {
+            self.accept() @observers(private(sender,null));
+            sender.acceptFollow();
+        } else { % we will block the users that are younger than us !!
+            Block.add(sender);
+        }
+    }
+
+    msgRcv accept() {
+        if (!Followings.include(sender)) {
+            Followings.add(sender);
+        }
+    }
+
+    msgObs accept() {
+        print("GHABOL KARDAM");
+    }
+
+}
+
+main () {
+}

@@ -1,0 +1,41 @@
+Actor PrimitivePolicyTester {
+    actorVars {
+        Set<ID> validSet;
+        List<string> invalidList;
+        int number;
+        string text;
+    }
+
+    msgRcv @authorized(public(validSet, null)) validPolicy() {
+        print("This policy is valid.");
+    }
+
+    msgRcv @authorized(public(invalidList, null)) invalidPolicy1() {
+        print("This policy is invalid.");
+    }
+
+    msgRcv @authorized(public(number, null)) invalidPolicy2() {
+        print("This policy is invalid.");
+    }
+
+    msgRcv @authorized(public(text, null)) invalidPolicy3() {
+        print("This policy is invalid.");
+    }
+
+    msgRcv testInvalidPolicies() {
+        print("Testing Invalid Types in Policies with Normal Primitives:");
+
+        % Valid Usage
+        validPolicy() @observers(private(validSet, null)); % OK: Set<ID> is valid
+
+        % Invalid Usage
+        validPolicy() @observers(private(invalidList, null)); % Error: List<string> is not valid
+        validPolicy() @observers(private(number, null));     % Error: int is not valid
+        validPolicy() @observers(private(text, null));       % Error: string is not valid
+    }
+}
+
+main() {
+    PrimitivePolicyTester tester = new PrimitivePolicyTester();
+    tester.testInvalidPolicies();
+}

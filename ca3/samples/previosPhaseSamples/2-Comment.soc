@@ -1,0 +1,4 @@
+% We use the {%} symbol as the comment primitive and use another sign for mod
+main() {
+    % print("meow");
+}

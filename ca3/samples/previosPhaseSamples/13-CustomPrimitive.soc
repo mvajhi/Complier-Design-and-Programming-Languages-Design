@@ -1,0 +1,32 @@
+% We can make custom primitives
+Actor DoorController {
+
+    primitive DoorState {
+        OpenedDoor,
+        ClosedDoor
+    }
+
+    actorVars {
+        string doorID;
+        DoorState doorState;
+    }
+
+    % Constructor
+    DoorController() {
+        doorState = DoorState::ClosedDoor;  % Initially set the doorState to closed
+    }
+
+    % Message handler to open the door
+    msgRcv openDoor() {
+        doorState = DoorState::OpenedDoor;  % Change the state to opened
+    }
+
+    % Message handler to close the door
+    msgRcv closeDoor() {
+        doorState = DoorState::ClosedDoor;  % Change the state to closed
+    }
+
+}
+
+main () {
+}
