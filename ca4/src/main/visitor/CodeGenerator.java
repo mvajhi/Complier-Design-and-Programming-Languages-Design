@@ -241,6 +241,14 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
+    private int slotOf(String var) {
+        if (!slots.containsKey(var)) {
+            slots.put(var, slots.size());
+            return slots.size() - 1;
+        }
+        return slots.get(var);
+    }
+
     @Override
     public String visit(AssignmentStatement assignmentStatement) {
         for (Identifier id : assignmentStatement.getIds()) {
