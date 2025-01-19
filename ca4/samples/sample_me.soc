@@ -1,6 +1,5 @@
 main() {
-    bool a;
-    a = true;
+    string a = "hi";
     print(a);
     print("Simba");
 }

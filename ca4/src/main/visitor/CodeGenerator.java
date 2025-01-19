@@ -182,6 +182,7 @@ public class CodeGenerator extends Visitor<String> {
     @Override
     public String visit(Main main) {
         currentSymbolTable = main.getSymbolTable();
+        restSlots();
         String commands = "";
         commands += ".method public <init>()V\n";
         commands += ".limit stack 128\n";
@@ -204,6 +205,11 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(InitStatement initStatement) {
+        if (initStatement.getAssigned() != null) {
+            addCommand(initStatement.getAssigned().accept(this));
+            genrateStoreCode(initStatement.getAssignee().getName());
+        }
+
         return null;
     }
 
@@ -247,6 +253,11 @@ public class CodeGenerator extends Visitor<String> {
             return slots.size() - 1;
         }
         return slots.get(var);
+    }
+
+    private void restSlots() {
+        slots.clear();
+        slotOf("self");
     }
 
     @Override
