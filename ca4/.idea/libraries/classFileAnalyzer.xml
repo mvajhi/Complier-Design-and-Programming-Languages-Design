@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="classFileAnalyzer">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/utilities/jarFiles/classFileAnalyzer.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
