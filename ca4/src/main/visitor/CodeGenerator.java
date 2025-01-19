@@ -6,14 +6,25 @@ import main.ast.nodes.expression.CallExpression;
 import main.ast.nodes.expression.Expression;
 import main.ast.nodes.expression.ExpressionList;
 import main.ast.nodes.expression.Identifier;
+import main.ast.nodes.expression.value.BoolValue;
+import main.ast.nodes.expression.value.IntValue;
+import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.statements.*;
+import main.ast.nodes.type.BooleanType;
+import main.ast.nodes.type.IntType;
+import main.symbolTable.SymbolTable;
+import main.symbolTable.items.VarDeclarationItem;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class CodeGenerator extends Visitor<String> {
     private final String outputPath;
     private FileWriter currentFile;
+    private final HashMap<String, Integer> slots = new HashMap<>();
+    private SymbolTable currentSymbolTable;
 
     public CodeGenerator() {
         outputPath = "./codeGenOutput/";
@@ -170,12 +181,15 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(Main main) {
+        currentSymbolTable = main.getSymbolTable();
         String commands = "";
         commands += ".method public <init>()V\n";
         commands += ".limit stack 128\n";
         commands += ".limit locals 128\n";
         commands += "aload_0\n";
         commands += "invokespecial java/lang/Object/<init>()V\n";
+        addCommand(commands);
+        commands = "";
 
         for (Statement statement : main.getStatements()) {
             statement.accept(this);
