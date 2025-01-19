@@ -1,0 +1,6 @@
+main() {
+    bool a;
+    a = true;
+    print(a);
+    print("Simba");
+}
