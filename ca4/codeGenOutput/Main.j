@@ -15,30 +15,25 @@
 		ldc 3
 		invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;
 		astore_1
-		ldc 5
-		ldc 3
-		if_icmplt Label_0
 		aload_1
 		invokevirtual java/lang/Integer/intValue()I
-		ldc 2
-		if_icmpgt Label_5
-		goto Label_1
-		Label_5:
-		aload_1
-		invokevirtual java/lang/Integer/intValue()I
-		ldc 1
-		if_icmpeq Label_0
-		goto Label_1
-		Label_0:
+		dup
 		iconst_1
-		goto Label_2
-		Label_1:
-		iconst_0
-		Label_2:
-		invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;
-		astore_2
+		iadd
+		invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;
+		astore_1
+		ineg
+		aload_1
+		invokevirtual java/lang/Integer/intValue()I
+		iadd
+		ldc 2
+		iconst_1
+		isub
+		iadd
+		invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;
+		astore_1
 		getstatic java/lang/System/out Ljava/io/PrintStream;
-		aload_2
+		aload_1
 		invokevirtual java/io/PrintStream/println(Ljava/lang/Object;)V
 		return
 		.end method

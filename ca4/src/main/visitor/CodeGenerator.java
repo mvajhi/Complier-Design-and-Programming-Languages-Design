@@ -233,6 +233,7 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(BinaryExpression binaryExpression) {
+//        TODO handle index
         boolean isConvToNP = convertToNonPrimitive;
         convertToNonPrimitive = false;
         String jasminCode = "";
@@ -245,12 +246,63 @@ public class CodeGenerator extends Visitor<String> {
             }
         }
         else {
-            jasminCode += visitBoolBinExp(binaryExpression);
+            jasminCode += visitBoolExp(binaryExpression);
             if (isConvToNP) {
                 jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
             }
         }
         convertToNonPrimitive = isConvToNP;
+        return jasminCode;
+    }
+
+    @Override
+    public String visit(UnaryExpression unaryExpression) {
+//        TODO handle brackets
+        boolean isConvToNP = convertToNonPrimitive;
+        convertToNonPrimitive = false;
+        String jasminCode = "";
+        if (unaryExpression.getUnaryOperator() == UnaryOperator.NOT) {
+            jasminCode += visitBoolExp(unaryExpression);
+            if (isConvToNP) {
+                jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
+            }
+        }
+        else {
+            jasminCode += visitIntUnary(unaryExpression);
+            if (isConvToNP) {
+                jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+            }
+        }
+        convertToNonPrimitive = isConvToNP;
+        return jasminCode;
+    }
+
+    private String visitIntUnary(UnaryExpression unaryExpression) {
+        String jasminCode = "";
+        if (unaryExpression.getUnaryOperator() == UnaryOperator.MINUS) {
+            jasminCode += unaryExpression.getOperand().accept(this);
+            jasminCode += "ineg\n";
+            return jasminCode;
+        }
+        boolean is_plus = Arrays.asList(UnaryOperator.POST_INC, UnaryOperator.PRE_INC).contains(unaryExpression.getUnaryOperator());
+        boolean is_pre = Arrays.asList(UnaryOperator.PRE_INC, UnaryOperator.PRE_DEC).contains(unaryExpression.getUnaryOperator());
+        jasminCode += unaryExpression.getOperand().accept(this);
+        if (is_pre) {
+            jasminCode += "iconst_1\n";
+            jasminCode += (is_plus ? "iadd" : "isub") + "\n";
+            if (unaryExpression.getOperand() instanceof Identifier) {
+                jasminCode += "dup\n";
+                jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+                jasminCode += genrateStoreCode((Identifier) unaryExpression.getOperand());
+            }
+        }
+        else if (unaryExpression.getOperand() instanceof Identifier) {
+            jasminCode += "dup\n";
+            jasminCode += "iconst_1\n";
+            jasminCode += (is_plus ? "iadd" : "isub") + "\n";
+            jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+            jasminCode += genrateStoreCode((Identifier) unaryExpression.getOperand());
+        }
         return jasminCode;
     }
 
@@ -262,12 +314,12 @@ public class CodeGenerator extends Visitor<String> {
         return jasminCode;
     }
 
-    private String visitBoolBinExp(BinaryExpression binaryExpression) {
+    private String visitBoolExp(Expression expression) {
         String jasminCode = "";
         String nTrue = getFreshLabel();
         String nFalse = getFreshLabel();
         String nEnd = getFreshLabel();
-        jasminCode += branch(binaryExpression, nTrue, nFalse);
+        jasminCode += branch(expression, nTrue, nFalse);
         jasminCode += nTrue + ":\n";
         jasminCode += "iconst_1\n";
         jasminCode += "goto " + nEnd + "\n";
@@ -408,8 +460,8 @@ public class CodeGenerator extends Visitor<String> {
         if (initStatement.getAssigned() != null) {
             String jasminCode = "";
             jasminCode += initStatement.getAssigned().accept(this);
+            jasminCode += genrateStoreCode(initStatement.getAssignee().getName());
             addCommand(jasminCode);
-            genrateStoreCode(initStatement.getAssignee().getName());
         }
 
         convertToNonPrimitive = false;
@@ -469,9 +521,11 @@ public class CodeGenerator extends Visitor<String> {
             id.accept(this);
         }
 
+        convertToNonPrimitive = true;
         addCommand(assignmentStatement.getAssigned().accept(this));
+        convertToNonPrimitive = false;
 
-        genrateStoreCode(assignmentStatement.getIds().getFirst());
+        addCommand(genrateStoreCode(assignmentStatement.getIds().getFirst()));
 
         return null;
     }
@@ -499,7 +553,7 @@ public class CodeGenerator extends Visitor<String> {
         return "ldc " + stringValue.getStr() + "\n";
     }
 
-    private void genrateStoreCode(Identifier id) {
+    private String genrateStoreCode(Identifier id) {
         String jasminCode;
 
         VarDeclarationItem leftHand = getItemFromName(id.getName());
@@ -507,15 +561,14 @@ public class CodeGenerator extends Visitor<String> {
         int index = slotOf(id.getName());
         jasminCode = createIndexByteCode("astore", index);
 
-
-        addCommand(jasminCode);
+        return jasminCode;
     }
 
     private String createIndexByteCode(String instraction, int index) {
         if (0 <= index && index <= 3) {
-            return instraction + "_" + index;
+            return instraction + "_" + index + "\n";
         } else {
-            return instraction + " " + index;
+            return instraction + " " + index + "\n";
         }
     }
 
@@ -639,7 +692,7 @@ public class CodeGenerator extends Visitor<String> {
     public String visit(Identifier identifier) {
 //        return createIndexByteCode("aload", slotOf(identifier.getName())) + "\n";
         String jasminCode = "";
-        jasminCode += createIndexByteCode("aload", slotOf(identifier.getName())) + "\n";
+        jasminCode += createIndexByteCode("aload", slotOf(identifier.getName()));
         if (!convertToNonPrimitive) {
             if (getType(identifier) instanceof IntType) {
                 jasminCode += "invokevirtual java/lang/Integer/intValue()I\n";
