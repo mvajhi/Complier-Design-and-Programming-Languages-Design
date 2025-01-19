@@ -255,7 +255,60 @@ public class CodeGenerator extends Visitor<String> {
             id.accept(this);
         }
 
-        assignmentStatement.getAssigned().accept(this);
+        addCommand(assignmentStatement.getAssigned().accept(this));
+
+        genrateStoreCode(assignmentStatement.getIds().getFirst());
+
+        return null;
+    }
+
+    @Override
+    public String visit(IntValue intValue) {
+        String jasminCode = "ldc " + intValue.getIntVal() + "\n";
+        jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+        return jasminCode;
+    }
+
+    @Override
+    public String visit(BoolValue boolValue) {
+        String jasminCode = "ldc " + (boolValue.getBool() ? "1" : "0") + "\n";
+        jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
+        return jasminCode;
+    }
+
+    @Override
+    public String visit(StringValue stringValue) {
+        return "ldc " + stringValue.getStr() + "\n";
+    }
+
+    private void genrateStoreCode(Identifier id) {
+        String jasminCode;
+
+        VarDeclarationItem leftHand = getItemFromName(id.getName());
+
+        int index = slotOf(id.getName());
+        jasminCode = createIndexByteCode("astore", index);
+
+
+        addCommand(jasminCode);
+    }
+
+    private String createIndexByteCode(String instraction, int index) {
+        if (0 <= index && index <= 3) {
+            return instraction + "_" + index;
+        } else {
+            return instraction + " " + index;
+        }
+    }
+
+    private VarDeclarationItem getItemFromName(String name) {
+        SymbolTable symbolTable = currentSymbolTable;
+
+        VarDeclarationItem varDecSymbolTableItem = null;
+        try {
+            return (VarDeclarationItem) symbolTable.getItem(VarDeclarationItem.START_KEY + name);
+        } catch (Exception e) {
+        }
 
         return null;
     }
