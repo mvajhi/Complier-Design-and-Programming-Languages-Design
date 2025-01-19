@@ -416,6 +416,6 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(Identifier identifier) {
-        return null;
+        return createIndexByteCode("aload", slotOf(identifier.getName())) + "\n";
     }
 }
