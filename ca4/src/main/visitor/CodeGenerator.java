@@ -27,11 +27,18 @@ public class CodeGenerator extends Visitor<String> {
     private final HashMap<BinaryOperator, String> Op2ByteCode = new HashMap<>();
     private SymbolTable currentSymbolTable;
     private boolean convertToNonPrimitive = false;
+    private String breakLabel = "";
+    private String continueLabel = "";
+    private int labelCounter = 0;
 
     public CodeGenerator() {
         outputPath = "./codeGenOutput/";
         prepareOutputFolder();
         initOp2BC();
+    }
+
+    private String getFreshLabel() {
+        return "Label_" + labelCounter++;
     }
 
     private void initOp2BC() {
@@ -254,8 +261,144 @@ public class CodeGenerator extends Visitor<String> {
         jasminCode += Op2ByteCode.get(binaryExpression.getBinaryOperator()) + "\n";
         return jasminCode;
     }
+
     private String visitBoolBinExp(BinaryExpression binaryExpression) {
         String jasminCode = "";
+        String nTrue = getFreshLabel();
+        String nFalse = getFreshLabel();
+        String nEnd = getFreshLabel();
+        jasminCode += branch(binaryExpression, nTrue, nFalse);
+        jasminCode += nTrue + ":\n";
+        jasminCode += "iconst_1\n";
+        jasminCode += "goto " + nEnd + "\n";
+        jasminCode += nFalse + ":\n";
+        jasminCode += "iconst_0\n";
+        jasminCode += nEnd + ":\n";
+        jasminCode = cleanUpLabels(jasminCode);
+        return jasminCode;
+    }
+
+    private String cleanUpLabels(String jasminCode) {
+        // Remove immediate jumps
+        Matcher jumpMatcher = Pattern.compile("(goto Label_\\d+|if.* Label_\\d+)\n(Label_\\d+:)").matcher(jasminCode);
+        while (jumpMatcher.find()) {
+            String jump = jumpMatcher.group(1);
+            String label = jumpMatcher.group(2);
+            if (jump.contains(label.substring(0, label.length() - 1))) {
+                jasminCode = jasminCode.replace(jump + "\n", "");
+            }
+        }
+
+        // Find all labels
+        Set<String> labels = new HashSet<>();
+        Matcher labelMatcher = Pattern.compile("Label_\\d+:").matcher(jasminCode);
+        while (labelMatcher.find()) {
+            labels.add(labelMatcher.group());
+        }
+
+        // Find all label references
+        Set<String> labelReferences = new HashSet<>();
+        Matcher referenceMatcher = Pattern.compile("goto Label_\\d+|if.* Label_\\d+").matcher(jasminCode);
+        while (referenceMatcher.find()) {
+            String reference = referenceMatcher.group();
+            String label = reference.substring(reference.lastIndexOf("Label_"));
+            labelReferences.add(label + ":");
+        }
+
+        // Remove unused labels
+        for (String label : labels) {
+            if (!labelReferences.contains(label)) {
+                jasminCode = jasminCode.replace(label + "\n", "");
+            }
+        }
+
+        return jasminCode;
+    }
+
+    private String branch(Expression expression, String nTrue, String nFalse) {
+        if (expression instanceof BinaryExpression) {
+            BinaryExpression binaryExpression = (BinaryExpression) expression;
+            BinaryOperator Op = binaryExpression.getBinaryOperator();
+            switch (Op) {
+                case AND -> {
+                    return branchAnd(binaryExpression, nTrue, nFalse);
+                }
+                case OR -> {
+                    return branchOr(binaryExpression, nTrue, nFalse);
+                }
+                default -> {
+                    return branchCmp(binaryExpression, nTrue, nFalse);
+                }
+            }
+        }
+        else if (expression instanceof UnaryExpression) {
+            UnaryExpression unaryExpression = (UnaryExpression) expression;
+            UnaryOperator Op = unaryExpression.getUnaryOperator();
+            switch (Op) {
+                case NOT -> {
+                    return branchNot(unaryExpression.getOperand(), nTrue, nFalse);
+                }
+                default -> {
+                    return null;
+                }
+            }
+        }
+        else if (expression instanceof BoolValue) {
+            return branchBoolValue((BoolValue) expression, nTrue, nFalse);
+        }
+        else if (expression instanceof Identifier) {
+            return branchIdentifier((Identifier) expression, nTrue, nFalse);
+        }
+        return null;
+    }
+
+    private String branchBoolValue(BoolValue boolValue, String nTrue, String nFalse) {
+        String jasminCode = "";
+        if (boolValue.getBool()) {
+            jasminCode += "goto " + nTrue + "\n";
+        }
+        else {
+            jasminCode += "goto " + nFalse + "\n";
+        }
+        return jasminCode;
+    }
+
+    private String branchIdentifier(Identifier identifier, String nTrue, String nFalse) {
+        String jasminCode = "";
+        jasminCode += identifier.accept(this);
+        jasminCode += "ifeq " + nFalse + "\n";
+        jasminCode += "goto " + nTrue + "\n";
+        return jasminCode;
+    }
+
+    private String branchNot(Expression operand, String nTrue, String nFalse) {
+        return branch(operand, nFalse, nTrue);
+    }
+
+    private String branchCmp(BinaryExpression binaryExpression, String nTrue, String nFalse) {
+        String jasminCode = "";
+        jasminCode += binaryExpression.getLeftOperand().accept(this);
+        jasminCode += binaryExpression.getRightOperand().accept(this);
+        jasminCode += Op2ByteCode.get(binaryExpression.getBinaryOperator()) + " " + nTrue + "\n";
+        jasminCode += "goto " + nFalse + "\n";
+        return jasminCode;
+    }
+
+    private String branchAnd(BinaryExpression binaryExpression, String nTrue, String nFalse) {
+        String jasminCode = "";
+        String nNext = getFreshLabel();
+        jasminCode += branch(binaryExpression.getLeftOperand(), nNext, nFalse);
+        jasminCode += nNext + ":\n";
+        jasminCode += branch(binaryExpression.getRightOperand(), nTrue, nFalse);
+        return jasminCode;
+    }
+
+    private String branchOr(BinaryExpression binaryExpression, String nTrue, String nFalse) {
+        String jasminCode = "";
+        String nNext = getFreshLabel();
+        jasminCode += branch(binaryExpression.getLeftOperand(), nTrue, nNext);
+        jasminCode += nNext + ":\n";
+        jasminCode += branch(binaryExpression.getRightOperand(), nTrue, nFalse);
         return jasminCode;
     }
 
