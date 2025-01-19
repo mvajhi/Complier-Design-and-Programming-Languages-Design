@@ -26,6 +26,7 @@ public class CodeGenerator extends Visitor<String> {
     private final HashMap<String, Integer> slots = new HashMap<>();
     private final HashMap<BinaryOperator, String> Op2ByteCode = new HashMap<>();
     private SymbolTable currentSymbolTable;
+    private boolean convertToNonPrimitive = false;
 
     public CodeGenerator() {
         outputPath = "./codeGenOutput/";
@@ -224,12 +225,51 @@ public class CodeGenerator extends Visitor<String> {
     }
 
     @Override
+    public String visit(BinaryExpression binaryExpression) {
+        boolean isConvToNP = convertToNonPrimitive;
+        convertToNonPrimitive = false;
+        String jasminCode = "";
+        if (Arrays.asList(BinaryOperator.PLUS, BinaryOperator.MINUS,
+                BinaryOperator.MULT, BinaryOperator.DIVIDE, BinaryOperator.MULT)
+                .contains(binaryExpression.getBinaryOperator())) {
+            jasminCode += visitIntBinExp(binaryExpression);
+            if (isConvToNP) {
+                jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+            }
+        }
+        else {
+            jasminCode += visitBoolBinExp(binaryExpression);
+            if (isConvToNP) {
+                jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
+            }
+        }
+        convertToNonPrimitive = isConvToNP;
+        return jasminCode;
+    }
+
+    private String visitIntBinExp(BinaryExpression binaryExpression) {
+        String jasminCode = "";
+        jasminCode += binaryExpression.getLeftOperand().accept(this);
+        jasminCode += binaryExpression.getRightOperand().accept(this);
+        jasminCode += Op2ByteCode.get(binaryExpression.getBinaryOperator()) + "\n";
+        return jasminCode;
+    }
+    private String visitBoolBinExp(BinaryExpression binaryExpression) {
+        String jasminCode = "";
+        return jasminCode;
+    }
+
+    @Override
     public String visit(InitStatement initStatement) {
+        convertToNonPrimitive = true;
         if (initStatement.getAssigned() != null) {
-            addCommand(initStatement.getAssigned().accept(this));
+            String jasminCode = "";
+            jasminCode += initStatement.getAssigned().accept(this);
+            addCommand(jasminCode);
             genrateStoreCode(initStatement.getAssignee().getName());
         }
 
+        convertToNonPrimitive = false;
         return null;
     }
 
@@ -296,14 +336,18 @@ public class CodeGenerator extends Visitor<String> {
     @Override
     public String visit(IntValue intValue) {
         String jasminCode = "ldc " + intValue.getIntVal() + "\n";
-        jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+        if (convertToNonPrimitive) {
+            jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+        }
         return jasminCode;
     }
 
     @Override
     public String visit(BoolValue boolValue) {
         String jasminCode = "ldc " + (boolValue.getBool() ? "1" : "0") + "\n";
-        jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
+        if (convertToNonPrimitive) {
+            jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
+        }
         return jasminCode;
     }
 
@@ -417,8 +461,10 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(CallExpression callExpression) {
+        convertToNonPrimitive = true;
         if (Objects.equals(callExpression.getHandlerName(), "print")){
             visit_print(callExpression);
+            convertToNonPrimitive = false;
             return null;
         }
         if (callExpression.getExpressions() instanceof ExpressionList)
@@ -433,6 +479,7 @@ public class CodeGenerator extends Visitor<String> {
         if (callExpression.getIdentifier() != null) {
             callExpression.getIdentifier().accept(this);
         }
+        convertToNonPrimitive = false;
         return null;
     }
 
@@ -447,6 +494,20 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(Identifier identifier) {
-        return createIndexByteCode("aload", slotOf(identifier.getName())) + "\n";
+//        return createIndexByteCode("aload", slotOf(identifier.getName())) + "\n";
+        String jasminCode = "";
+        jasminCode += createIndexByteCode("aload", slotOf(identifier.getName())) + "\n";
+        if (!convertToNonPrimitive) {
+            if (getType(identifier) instanceof IntType) {
+                jasminCode += "invokevirtual java/lang/Integer/intValue()I\n";
+            } else if (getType(identifier) instanceof BooleanType) {
+                jasminCode += "invokevirtual java/lang/Boolean/booleanValue()Z\n";
+            }
+        }
+        return jasminCode;
+    }
+
+    private Type getType(Identifier identifier) {
+        return getItemFromName(identifier.getName()).getType();
     }
 }
