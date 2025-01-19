@@ -386,6 +386,10 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(CallExpression callExpression) {
+        if (Objects.equals(callExpression.getHandlerName(), "print")){
+            visit_print(callExpression);
+            return null;
+        }
         if (callExpression.getExpressions() instanceof ExpressionList)
             for (Expression expression : ((ExpressionList) callExpression.getExpressions()).getExpressionList())
                 expression.accept(this);
@@ -398,6 +402,15 @@ public class CodeGenerator extends Visitor<String> {
         if (callExpression.getIdentifier() != null) {
             callExpression.getIdentifier().accept(this);
         }
+        return null;
+    }
+
+    private String visit_print(CallExpression callExpression) {
+        String jasminCode = "";
+        jasminCode += "getstatic java/lang/System/out Ljava/io/PrintStream;\n";
+        jasminCode += callExpression.getExpressions().accept(this);
+        jasminCode += "invokevirtual java/io/PrintStream/println(Ljava/lang/Object;)V\n";
+        addCommand(jasminCode);
         return null;
     }
 
