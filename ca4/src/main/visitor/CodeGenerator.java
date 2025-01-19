@@ -2,33 +2,53 @@ package main.visitor;
 
 import main.ast.nodes.Soact;
 import main.ast.nodes.declaration.*;
-import main.ast.nodes.expression.CallExpression;
-import main.ast.nodes.expression.Expression;
-import main.ast.nodes.expression.ExpressionList;
-import main.ast.nodes.expression.Identifier;
+import main.ast.nodes.expression.*;
+import main.ast.nodes.expression.operator.BinaryOperator;
+import main.ast.nodes.expression.operator.UnaryOperator;
 import main.ast.nodes.expression.value.BoolValue;
 import main.ast.nodes.expression.value.IntValue;
 import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.statements.*;
 import main.ast.nodes.type.BooleanType;
 import main.ast.nodes.type.IntType;
+import main.ast.nodes.type.Type;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.VarDeclarationItem;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CodeGenerator extends Visitor<String> {
     private final String outputPath;
     private FileWriter currentFile;
     private final HashMap<String, Integer> slots = new HashMap<>();
+    private final HashMap<BinaryOperator, String> Op2ByteCode = new HashMap<>();
     private SymbolTable currentSymbolTable;
 
     public CodeGenerator() {
         outputPath = "./codeGenOutput/";
         prepareOutputFolder();
+        initOp2BC();
+    }
+
+    private void initOp2BC() {
+        Op2ByteCode.put(BinaryOperator.AND, "iand");
+        Op2ByteCode.put(BinaryOperator.OR, "ior");
+        Op2ByteCode.put(BinaryOperator.PLUS, "iadd");
+        Op2ByteCode.put(BinaryOperator.MINUS, "isub");
+        Op2ByteCode.put(BinaryOperator.MULT, "imul");
+        Op2ByteCode.put(BinaryOperator.DIVIDE, "idiv");
+        Op2ByteCode.put(BinaryOperator.MOD, "irem");
+
+//        boolean operators
+        Op2ByteCode.put(BinaryOperator.EQUAL, "if_icmpeq");
+        Op2ByteCode.put(BinaryOperator.NOT_EQUAL, "if_icmpne");
+        Op2ByteCode.put(BinaryOperator.GREATER_THAN, "if_icmpgt");
+        Op2ByteCode.put(BinaryOperator.LESS_THAN, "if_icmplt");
+        Op2ByteCode.put(BinaryOperator.LESS_EQUAL_THAN, "if_icmple");
+        Op2ByteCode.put(BinaryOperator.GREATER_EQUAL_THAN, "if_icmpge");
     }
 
     private void prepareOutputFolder(){
