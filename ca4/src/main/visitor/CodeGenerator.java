@@ -27,6 +27,7 @@ public class CodeGenerator extends Visitor<String> {
     private final HashMap<BinaryOperator, String> Op2ByteCode = new HashMap<>();
     private SymbolTable currentSymbolTable;
     private boolean convertToNonPrimitive = false;
+    private String afterLabel = "";
     private String breakLabel = "";
     private String continueLabel = "";
     private int labelCounter = 0;
@@ -220,12 +221,7 @@ public class CodeGenerator extends Visitor<String> {
         addCommand(commands);
         commands = "";
 
-        for (Statement statement : main.getStatements()) {
-            String tmp = statement.accept(this);
-            if (tmp != null){
-                commands += tmp;
-            }
-        }
+        commands += visitBody(main.getStatements());
 
         commands += "return\n";
         commands += ".end method\n";
@@ -340,7 +336,7 @@ public class CodeGenerator extends Visitor<String> {
             String jump = jumpMatcher.group(1);
             String label = jumpMatcher.group(2);
             if (jump.contains(label.substring(0, label.length() - 1))) {
-                jasminCode = jasminCode.replace(jump + "\n", "");
+                jasminCode = jasminCode.replace(jump + "\n" + label, label);
             }
         }
 
@@ -476,9 +472,7 @@ public class CodeGenerator extends Visitor<String> {
             arg.accept(this);
         }
 
-        for (Statement statement : serviceHandler.getBody()) {
-            statement.accept(this);
-        }
+        visitBody(serviceHandler.getBody());
 
         for (Expression expr : serviceHandler.getAuthorizationExpressions()) {
             expr.accept(this);
@@ -493,9 +487,7 @@ public class CodeGenerator extends Visitor<String> {
             arg.accept(this);
         }
 
-        for (Statement statement : observeHandler.getBody()) {
-            statement.accept(this);
-        }
+        visitBody(observeHandler.getBody());
 
         for (Expression expr : observeHandler.getAuthorizationExpressions()) {
             expr.accept(this);
@@ -602,11 +594,38 @@ public class CodeGenerator extends Visitor<String> {
             condition.accept(this);
         }
 
-        for (Statement statement : forStatement.getBody()) {
-            statement.accept(this);
-        }
+        visitBody(forStatement.getBody());
 
         return null;
+    }
+
+    private String visitBody(ArrayList<Statement> statements) {
+        String jasminCode = "";
+        String tmpAfter = afterLabel;
+        afterLabel = "";
+        for (Statement statement : statements) {
+            if (statement instanceof BreakStatement) {
+                jasminCode += "goto " + breakLabel + "\n";
+                break;
+            }
+            else if (statement instanceof ContinueStatement) {
+                jasminCode += "goto " + continueLabel + "\n";
+                break;
+            }
+            else {
+                String tmp = statement.accept(this);
+                if (tmp != null){
+                    jasminCode += tmp;
+                }
+            }
+        }
+
+        if (!tmpAfter.equals("")) {
+            jasminCode += "goto " + tmpAfter + "\n";
+            afterLabel = tmpAfter;
+        }
+
+        return jasminCode;
     }
 
     @Override
@@ -622,16 +641,17 @@ public class CodeGenerator extends Visitor<String> {
 
         String nIf = getFreshLabel();
         String nElse = getFreshLabel();
-        String nEnd = getFreshLabel();
+        boolean changeAfterLabel = false;
+        if (afterLabel.equals("")) {
+            afterLabel = getFreshLabel();
+            changeAfterLabel = true;
+        }
+        String nEnd = afterLabel;
 
         jasminCode += branch(ifStatement.getIfConds(), nIf, nElse);
         jasminCode += nIf + ":\n";
 
-        for (Statement statement : ifStatement.getIfBody()) {
-            jasminCode += statement.accept(this);
-        }
-
-        jasminCode += "goto " + nEnd + "\n";
+        jasminCode += visitBody(ifStatement.getIfBody());
 
         for (int i = 0; i < ifStatement.getElseIfBlocksConds().size(); i++) {
             jasminCode += nElse + ":\n";
@@ -639,19 +659,17 @@ public class CodeGenerator extends Visitor<String> {
             nElse = getFreshLabel();
             jasminCode += branch(ifStatement.getElseIfBlocksConds().get(i), nIf, nElse);
             jasminCode += nIf + ":\n";
-            for (Statement statement : ifStatement.getElseIfBlocksBody().get(i)) {
-                jasminCode += statement.accept(this);
-            }
-            jasminCode += "goto " + nEnd + "\n";
+            jasminCode += visitBody(ifStatement.getElseIfBlocksBody().get(i));
         }
 
         jasminCode += nElse + ":\n";
 
-        for (Statement statement : ifStatement.getElseBody()) {
-            jasminCode += statement.accept(this);
-        }
+        jasminCode += visitBody(ifStatement.getElseBody());
 
-        jasminCode += nEnd + ":\n";
+        if (changeAfterLabel) {
+            afterLabel = "";
+            jasminCode += nEnd + ":\n";
+        }
 
         jasminCode = cleanUpLabels(jasminCode);
 
@@ -666,9 +684,7 @@ public class CodeGenerator extends Visitor<String> {
         else
             whileStatement.getConditions().accept(this);
 
-        for (Statement statement : whileStatement.getBody()) {
-            statement.accept(this);
-        }
+        visitBody(whileStatement.getBody());
 
         return null;
     }
