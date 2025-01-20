@@ -221,7 +221,10 @@ public class CodeGenerator extends Visitor<String> {
         commands = "";
 
         for (Statement statement : main.getStatements()) {
-            statement.accept(this);
+            String tmp = statement.accept(this);
+            if (tmp != null){
+                commands += tmp;
+            }
         }
 
         commands += "return\n";
@@ -457,15 +460,14 @@ public class CodeGenerator extends Visitor<String> {
     @Override
     public String visit(InitStatement initStatement) {
         convertToNonPrimitive = true;
+        String jasminCode = "";
         if (initStatement.getAssigned() != null) {
-            String jasminCode = "";
             jasminCode += initStatement.getAssigned().accept(this);
             jasminCode += genrateStoreCode(initStatement.getAssignee().getName());
-            addCommand(jasminCode);
         }
 
         convertToNonPrimitive = false;
-        return null;
+        return jasminCode;
     }
 
     @Override
@@ -517,17 +519,18 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(AssignmentStatement assignmentStatement) {
+        String jasminCode = "";
         for (Identifier id : assignmentStatement.getIds()) {
             id.accept(this);
         }
 
         convertToNonPrimitive = true;
-        addCommand(assignmentStatement.getAssigned().accept(this));
+        jasminCode += assignmentStatement.getAssigned().accept(this);
         convertToNonPrimitive = false;
 
-        addCommand(genrateStoreCode(assignmentStatement.getIds().getFirst()));
+        jasminCode += genrateStoreCode(assignmentStatement.getIds().getFirst());
 
-        return null;
+        return jasminCode;
     }
 
     @Override
@@ -586,8 +589,7 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(ExpressionStatement expressionStatement) {
-        expressionStatement.getExpression().accept(this);
-        return null;
+        return expressionStatement.getExpression().accept(this);
     }
 
     @Override
@@ -658,10 +660,11 @@ public class CodeGenerator extends Visitor<String> {
     @Override
     public String visit(CallExpression callExpression) {
         convertToNonPrimitive = true;
+        String jasminCode = "";
         if (Objects.equals(callExpression.getHandlerName(), "print")){
-            visit_print(callExpression);
+            jasminCode += visit_print(callExpression);
             convertToNonPrimitive = false;
-            return null;
+            return jasminCode;
         }
         if (callExpression.getExpressions() instanceof ExpressionList)
             for (Expression expression : ((ExpressionList) callExpression.getExpressions()).getExpressionList())
@@ -684,8 +687,7 @@ public class CodeGenerator extends Visitor<String> {
         jasminCode += "getstatic java/lang/System/out Ljava/io/PrintStream;\n";
         jasminCode += callExpression.getExpressions().accept(this);
         jasminCode += "invokevirtual java/io/PrintStream/println(Ljava/lang/Object;)V\n";
-        addCommand(jasminCode);
-        return null;
+        return jasminCode;
     }
 
     @Override
