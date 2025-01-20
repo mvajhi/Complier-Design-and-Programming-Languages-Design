@@ -611,35 +611,51 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(IfStatement ifStatement) {
-        if (ifStatement.getIfConds() instanceof ExpressionList)
-            for (Expression condition : ((ExpressionList) ifStatement.getIfConds()).getExpressionList())
-                condition.accept(this);
-        else
-            ifStatement.getIfConds().accept(this);
+//        TODO what is this?
+//        if (ifStatement.getIfConds() instanceof ExpressionList)
+//            for (Expression condition : ((ExpressionList) ifStatement.getIfConds()).getExpressionList())
+//                condition.accept(this);
+//        else
+//            ifStatement.getIfConds().accept(this);
 
+        String jasminCode = "";
+
+        String nIf = getFreshLabel();
+        String nElse = getFreshLabel();
+        String nEnd = getFreshLabel();
+
+        jasminCode += branch(ifStatement.getIfConds(), nIf, nElse);
+        jasminCode += nIf + ":\n";
 
         for (Statement statement : ifStatement.getIfBody()) {
-            statement.accept(this);
+            jasminCode += statement.accept(this);
         }
 
-        for (Expression elseIfConds : ifStatement.getElseIfBlocksConds()) {
-            elseIfConds.accept(this);
-//            for (Expression condition : elseIfConds) {
-//                condition.accept(this);
-//            }
-        }
+        jasminCode += "goto " + nEnd + "\n";
 
-        for (ArrayList<Statement> elseIfBody : ifStatement.getElseIfBlocksBody()) {
-            for (Statement statement : elseIfBody) {
-                statement.accept(this);
+        for (int i = 0; i < ifStatement.getElseIfBlocksConds().size(); i++) {
+            jasminCode += nElse + ":\n";
+            nIf = getFreshLabel();
+            nElse = getFreshLabel();
+            jasminCode += branch(ifStatement.getElseIfBlocksConds().get(i), nIf, nElse);
+            jasminCode += nIf + ":\n";
+            for (Statement statement : ifStatement.getElseIfBlocksBody().get(i)) {
+                jasminCode += statement.accept(this);
             }
+            jasminCode += "goto " + nEnd + "\n";
         }
+
+        jasminCode += nElse + ":\n";
 
         for (Statement statement : ifStatement.getElseBody()) {
-            statement.accept(this);
+            jasminCode += statement.accept(this);
         }
 
-        return null;
+        jasminCode += nEnd + ":\n";
+
+        jasminCode = cleanUpLabels(jasminCode);
+
+        return jasminCode;
     }
 
     @Override
