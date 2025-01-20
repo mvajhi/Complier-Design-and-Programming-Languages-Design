@@ -1,0 +1,8 @@
+main() {
+    bool a;
+    string b = "hi";
+    a = true;
+    print(a);
+    print(b);
+    print("Simba");
+}
