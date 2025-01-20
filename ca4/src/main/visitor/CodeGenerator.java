@@ -618,14 +618,13 @@ public class CodeGenerator extends Visitor<String> {
     }
 
     private String generateStoreCode(Identifier id) {
-        String jasminCode;
-
         VarDeclarationItem leftHand = getItemFromName(id.getName());
+        return generateStoreWithName(id.getName());
+    }
 
-        int index = slotOf(id.getName());
-        jasminCode = createIndexByteCode("astore", index);
-
-        return jasminCode;
+    private String generateStoreWithName(String name) {
+        int index = slotOf(name);
+        return createIndexByteCode("astore", index);
     }
 
     private String createIndexByteCode(String instraction, int index) {
@@ -795,7 +794,8 @@ public class CodeGenerator extends Visitor<String> {
     public String visit(Identifier identifier) {
 //        return createIndexByteCode("aload", slotOf(identifier.getName())) + "\n";
         String jasminCode = "";
-        jasminCode += createIndexByteCode("aload", slotOf(identifier.getName()));
+//        jasminCode += createIndexByteCode("aload", slotOf(identifier.getName()));
+        jasminCode += generateLoadCode(identifier);
         if (!convertToNonPrimitive) {
             if (getType(identifier) instanceof IntType) {
                 jasminCode += "invokevirtual java/lang/Integer/intValue()I\n";
@@ -804,6 +804,15 @@ public class CodeGenerator extends Visitor<String> {
             }
         }
         return jasminCode;
+    }
+
+    private String generateLoadCode(Identifier id) {
+        return generateLoadWithName(id.getName());
+    }
+
+    private String generateLoadWithName(String name) {
+        int index = slotOf(name);
+        return createIndexByteCode("aload", index);
     }
 
     private Type getType(Identifier identifier) {
