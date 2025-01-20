@@ -630,24 +630,24 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
+    @Override
+    public String visit(BreakStatement breakStatement) {
+        return "goto" + breakLabel + "\n";
+    }
+
+    @Override
+    public String visit(ContinueStatement continueStatement) {
+        return "goto" + continueStatement + "\n";
+    }
+
     private String visitBody(ArrayList<Statement> statements) {
         String jasminCode = "";
         String tmpAfter = afterLabel;
         afterLabel = "";
         for (Statement statement : statements) {
-            if (statement instanceof BreakStatement) {
-                jasminCode += "goto " + breakLabel + "\n";
-                break;
-            }
-            else if (statement instanceof ContinueStatement) {
-                jasminCode += "goto " + continueLabel + "\n";
-                break;
-            }
-            else {
-                String tmp = statement.accept(this);
-                if (tmp != null){
-                    jasminCode += tmp;
-                }
+            String tmp = statement.accept(this);
+            if (tmp != null){
+                jasminCode += tmp;
             }
         }
 
