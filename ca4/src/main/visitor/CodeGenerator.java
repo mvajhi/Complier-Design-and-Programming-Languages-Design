@@ -875,15 +875,43 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(WhileStatement whileStatement) {
-        if (whileStatement.getConditions() instanceof ExpressionList)
-            for (Expression condition : ((ExpressionList) whileStatement.getConditions()).getExpressionList())
-                condition.accept(this);
-        else
-            whileStatement.getConditions().accept(this);
+        String jasminCode = "";
 
-        visitBody(whileStatement.getBody());
+        String oldBreakLabel = breakLabel;
+        String oldContinueLabel = continueLabel;
+        String oldAfterLabel = afterLabel;
+        String nStart = getFreshLabel();
+        boolean tmpAfter = afterLabel.equals("");
+        if (tmpAfter) {
+            breakLabel = getFreshLabel();
+        }
+        else {
+            breakLabel = oldAfterLabel;
+        }
+        continueLabel = nStart;
+        afterLabel = nStart;
+        String nBody = getFreshLabel();
 
-        return null;
+        jasminCode += nStart + ":\n";
+
+        jasminCode += branch(whileStatement.getConditions(), nBody, breakLabel);
+
+        jasminCode += nBody + ":\n";
+
+        jasminCode += visitBody(whileStatement.getBody());
+
+        jasminCode += generateGoto(nStart);
+
+        if (tmpAfter) {
+            jasminCode += breakLabel + ":\n";
+        }
+
+        jasminCode = cleanUpLabels(jasminCode);
+
+        breakLabel = oldBreakLabel;
+        continueLabel = oldContinueLabel;
+        afterLabel = oldAfterLabel;
+        return jasminCode;
     }
 
     @Override
