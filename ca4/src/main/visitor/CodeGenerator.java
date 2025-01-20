@@ -652,19 +652,156 @@ public class CodeGenerator extends Visitor<String> {
         return expressionStatement.getExpression().accept(this);
     }
 
+    private String getIteratorName(ForStatement forStatement) {
+        return forStatement.getIterator().getName().getName();
+    }
+
+    private String createIterator(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += generateDefaultVal(forStatement.getIterator().getType());
+        jasminCode += generateStoreWithName(getIteratorName(forStatement));
+        return jasminCode;
+    }
+
+    private String getIteratorIndexName(ForStatement forStatement) {
+        return getIteratorName(forStatement) + "$index";
+    }
+
+    private String createIndexIterator(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += "ldc -1\n";
+        jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+        jasminCode += generateStoreWithName(getIteratorIndexName(forStatement));
+        return jasminCode;
+    }
+
+    private String getIteratorMaxName(ForStatement forStatement) {
+        return getIteratorName(forStatement) + "$max";
+    }
+
+    private String loadMaxList(Identifier list) {
+        String jasminCode = "";
+        jasminCode += generateLoadCode(list);
+        jasminCode += "invokevirtual List/getSize()I\n";
+        jasminCode += convertToInteger();
+        return jasminCode;
+    }
+
+    private String createMaxIterator(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += loadMaxList((Identifier)forStatement.getConditions().getFirst());
+        jasminCode += generateStoreWithName(getIteratorMaxName(forStatement));
+        return jasminCode;
+    }
+
+    private String initIterator(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += createIterator(forStatement);
+        jasminCode += createIndexIterator(forStatement);
+        jasminCode += createMaxIterator(forStatement);
+        return jasminCode;
+    }
+
+    private String incerementIndexIterator(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += generateLoadWithName(getIteratorIndexName(forStatement));
+        jasminCode += convertToint();
+        jasminCode += "iconst_1\n";
+        jasminCode += "iadd\n";
+        jasminCode += convertToInteger();
+        jasminCode += generateStoreWithName(getIteratorIndexName(forStatement));
+        return jasminCode;
+    }
+
+    private String compareWithMax(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += generateLoadWithName(getIteratorIndexName(forStatement));
+        jasminCode += convertToint();
+        jasminCode += generateLoadWithName(getIteratorMaxName(forStatement));
+        jasminCode += convertToint();
+        jasminCode += "if_icmpge " + breakLabel + "\n";
+        return jasminCode;
+    }
+
+    private String convertToInteger() {
+        return "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+    }
+
+    private String convertToint() {
+        return "invokevirtual java/lang/Integer/intValue()I\n";
+    }
+
+    private String generateCheckcast(Identifier listIdentifier) {
+        ArrayType arrayType = (ArrayType)getItemFromName(listIdentifier.getName()).getType();
+        Type type = arrayType.getType();
+        if (type instanceof IntType) {
+            return "checkcast java/lang/Integer\n";
+        } else if (type instanceof BooleanType) {
+            return "checkcast java/lang/Boolean\n";
+        } else if (type instanceof StringType) {
+            return "";
+        } else {
+            return "";
+        }
+    }
+
+    private String setValueIterator(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += generateLoadCode((Identifier)forStatement.getConditions().getFirst());
+        jasminCode += generateLoadWithName(getIteratorIndexName(forStatement));
+        jasminCode += convertToint();
+        jasminCode += "invokevirtual List/getElement(I)Ljava/lang/Object;\n";
+        jasminCode += generateCheckcast((Identifier)forStatement.getConditions().getFirst());
+        jasminCode += generateStoreWithName(getIteratorName(forStatement));
+        return jasminCode;
+    }
+
+    private String handleForIterator(ForStatement forStatement) {
+        String jasminCode = "";
+        jasminCode += incerementIndexIterator(forStatement);
+        jasminCode += compareWithMax(forStatement);
+        jasminCode += setValueIterator(forStatement);
+        return jasminCode;
+    }
+
     @Override
     public String visit(ForStatement forStatement) {
-        if (forStatement.getIterator() != null) {
-            forStatement.getIterator().accept(this);
+        String jasminCode = "";
+
+        String oldBreakLabel = breakLabel;
+        String oldContinueLabel = continueLabel;
+        String oldAfterLabel = afterLabel;
+        String nStart = getFreshLabel();
+        boolean tmpAfter = afterLabel.equals("");
+        if (tmpAfter) {
+            breakLabel = getFreshLabel();
+        }
+        else {
+            breakLabel = oldAfterLabel;
+        }
+        continueLabel = nStart;
+        afterLabel = nStart;
+
+        jasminCode += initIterator(forStatement);
+
+        jasminCode += nStart + ":\n";
+
+        jasminCode += handleForIterator(forStatement);
+
+        jasminCode += visitBody(forStatement.getBody());
+
+        jasminCode += "goto " + nStart + "\n";
+
+        if (tmpAfter) {
+            jasminCode += breakLabel + ":\n";
         }
 
-        for (Expression condition : forStatement.getConditions()) {
-            condition.accept(this);
-        }
+        jasminCode = cleanUpLabels(jasminCode);
 
-        visitBody(forStatement.getBody());
-
-        return null;
+        breakLabel = oldBreakLabel;
+        continueLabel = oldContinueLabel;
+        afterLabel = oldAfterLabel;
+        return jasminCode;
     }
 
     @Override
