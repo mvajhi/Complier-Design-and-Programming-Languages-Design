@@ -1,22 +1,4 @@
 main() {
-    int a = 0;
-    if (a > 10) {
-        print("a is greater than 10");
-    } else if (a > 7 || a == 0) {
-        print ("in a > 7 || a == 0");
-        if (a > 7) {
-            print("a is greater than 7");
-        } else {
-            print("a is equal to 0");
-        }
-        print("test");
-    } else if (a > 5) {
-        print("a is less than or equal to 7 and greater than 5");
-    } else if (a > 3) {
-        print("a is less than or equal to 5 and greater than 3");
-    } else if (a > 1) {
-        print("a is less than or equal to 3 and greater than 1");
-    } else {
-        print("a is less than or equal to 1");
-    }
+    int[] intList = [1, 2];
+    print("hi");
 }

@@ -2,24 +2,26 @@
 .super java/lang/Object
 
 .field public elements Ljava/util/ArrayList;
+  .signature "Ljava/util/ArrayList<Ljava/lang/Object;>;"
+  .end field
 
 .method public <init>(Ljava/util/ArrayList;)V
-  .limit stack 32
-  .limit locals 32
+  .limit stack 128
+  .limit locals 128
   .var 0 is this LList; from Label0 to Label52
   .var 1 is newElements Ljava/util/ArrayList; signature "Ljava/util/ArrayList<Ljava/lang/Object;>;" from Label0 to Label52
   .var 3 is newElement Ljava/lang/Object; from Label36 to Label49
 Label0:
-  .line 7
+  .line 6
   0: aload_0
   1: invokespecial java/lang/Object/<init>()V
-  .line 8
+  .line 7
   4: aload_0
   5: new java/util/ArrayList
   8: dup
   9: invokespecial java/util/ArrayList/<init>()V
   12: putfield List/elements Ljava/util/ArrayList;
-  .line 9
+  .line 8
   15: aload_1
   16: invokevirtual java/util/ArrayList/iterator()Ljava/util/Iterator;
   19: astore_2
@@ -31,7 +33,7 @@ Label20:
   30: invokeinterface java/util/Iterator/next()Ljava/lang/Object; 1
   35: astore_3
 Label36:
-  .line 10
+  .line 9
   36: aload_0
   37: getfield List/elements Ljava/util/ArrayList;
   40: aload_0
@@ -42,37 +44,37 @@ Label36:
 Label49:
   49: goto Label20
 Label52:
-  .line 11
+  .line 10
   52: return
 .end method
 
 .method public <init>(LList;)V
-  .limit stack 32
-  .limit locals 32
+  .limit stack 128
+  .limit locals 128
   .var 0 is this LList; from Label0 to Label8
   .var 1 is that LList; from Label0 to Label8
 Label0:
-  .line 14
+  .line 13
   0: aload_0
   1: aload_1
   2: getfield List/elements Ljava/util/ArrayList;
   5: invokespecial List/<init>(Ljava/util/ArrayList;)V
 Label8:
-  .line 15
+  .line 14
   8: return
 .end method
 
 .method private getNewObject(Ljava/lang/Object;)Ljava/lang/Object;
-  .limit stack 33
-  .limit locals 32
+  .limit stack 128
+  .limit locals 128
   .var 0 is this LList; from Label0 to Label20
   .var 1 is o Ljava/lang/Object; from Label0 to Label20
 Label0:
-  .line 18
+  .line 17
   0: aload_1
   1: instanceof List
   4: ifeq Label19
-  .line 19
+  .line 18
   7: new List
   10: dup
   11: aload_1
@@ -80,25 +82,56 @@ Label0:
   15: invokespecial List/<init>(LList;)V
   18: areturn
 Label19:
-  .line 21
+  .line 20
   19: aload_1
 Label20:
   20: areturn
 .end method
 
 .method public getElement(I)Ljava/lang/Object;
-  .limit stack 32
-  .limit locals 32
+  .limit stack 128
+  .limit locals 128
   .var 0 is this LList; from Label0 to Label8
   .var 1 is index I from Label0 to Label8
 Label0:
-  .line 25
+  .line 24
   0: aload_0
   1: getfield List/elements Ljava/util/ArrayList;
   4: iload_1
   5: invokevirtual java/util/ArrayList/get(I)Ljava/lang/Object;
 Label8:
   8: areturn
+.end method
+
+.method public getSize()I
+  .limit stack 128
+  .limit locals 128
+  .var 0 is this LList; from Label0 to Label7
+Label0:
+  .line 27
+  0: aload_0
+  1: getfield List/elements Ljava/util/ArrayList;
+  4: invokevirtual java/util/ArrayList/size()I
+Label7:
+  7: ireturn
+.end method
+
+.method public addElement(Ljava/lang/Object;)V
+  .limit stack 3
+  .limit locals 2
+  .var 0 is this LList; from Label0 to Label13
+  .var 1 is o Ljava/lang/Object; from Label0 to Label13
+Label0:
+  .line 29
+  0: aload_0
+  1: getfield List/elements Ljava/util/ArrayList;
+  4: aload_0
+  5: aload_1
+  6: invokevirtual List/getNewObject(Ljava/lang/Object;)Ljava/lang/Object;
+  9: invokevirtual java/util/ArrayList/add(Ljava/lang/Object;)Z
+  12: pop
+Label13:
+  13: return
 .end method
 
 .method public setElement(ILjava/lang/Object;)V
@@ -121,4 +154,3 @@ Label14:
   .line 30
   14: return
 .end method
-

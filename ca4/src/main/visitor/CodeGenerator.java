@@ -454,6 +454,37 @@ public class CodeGenerator extends Visitor<String> {
     }
 
     @Override
+    public String visit(ExpressionList expressionList) {
+        String jasminCode = "";
+        jasminCode += createList();
+        jasminCode += addElements(expressionList.getExpressionList());
+        return jasminCode;
+    }
+
+    private String addElements(ArrayList<Expression> expressions) {
+        String jasminCode = "";
+        for (Expression expression : expressions) {
+            jasminCode += "dup\n";
+            jasminCode += expression.accept(this);
+            jasminCode += "invokevirtual List/addElement(Ljava/lang/Object;)V\n";
+        }
+        return jasminCode;
+    }
+
+    private String createList() {
+        String jasminCode = "";
+        jasminCode += """
+                    new List
+                    dup
+                    new java/util/ArrayList
+                    dup
+                    invokespecial java/util/ArrayList/<init>()V
+                    invokespecial List/<init>(Ljava/util/ArrayList;)V
+                    """;
+        return jasminCode;
+    }
+
+    @Override
     public String visit(InitStatement initStatement) {
         convertToNonPrimitive = true;
         String jasminCode = "";
