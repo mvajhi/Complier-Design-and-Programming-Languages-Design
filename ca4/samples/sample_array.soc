@@ -1,4 +1,6 @@
 main() {
+    % doesnt handle in ast (type is int instead of int[])
+    % int t[10];
     int[] intList = [1, 2];
     % doesnt handle in grammar
     % intList[7] = 82;
