@@ -1,5 +1,5 @@
 main() {
-    bool a;
+    boolean a;
     string b = "hi";
     a = true;
     print(a);
