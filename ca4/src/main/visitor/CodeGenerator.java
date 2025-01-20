@@ -9,9 +9,7 @@ import main.ast.nodes.expression.value.BoolValue;
 import main.ast.nodes.expression.value.IntValue;
 import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.statements.*;
-import main.ast.nodes.type.BooleanType;
-import main.ast.nodes.type.IntType;
-import main.ast.nodes.type.Type;
+import main.ast.nodes.type.*;
 import main.symbolTable.SymbolTable;
 import main.symbolTable.items.VarDeclarationItem;
 
@@ -230,21 +228,44 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
+    private String visitAccessExpression(BinaryExpression binaryExpression) {
+        String jasminCode = "";
+        jasminCode += binaryExpression.getLeftOperand().accept(this);
+        jasminCode += binaryExpression.getRightOperand().accept(this);
+        jasminCode += "invokevirtual List/getElement(I)Ljava/lang/Object;\n";
+        return jasminCode;
+    }
+
+    private Type getArrayElementsType(Identifier identifier) {
+        Type tmp = getItemFromName(identifier.getName()).getType();
+        return ((ArrayType)tmp).getType();
+    }
+
     @Override
     public String visit(BinaryExpression binaryExpression) {
-//        TODO handle index
         boolean isConvToNP = convertToNonPrimitive;
         convertToNonPrimitive = false;
         String jasminCode = "";
         if (Arrays.asList(BinaryOperator.PLUS, BinaryOperator.MINUS,
-                BinaryOperator.MULT, BinaryOperator.DIVIDE, BinaryOperator.MULT)
+                BinaryOperator.MULT, BinaryOperator.DIVIDE, BinaryOperator.MOD)
                 .contains(binaryExpression.getBinaryOperator())) {
             jasminCode += visitIntBinExp(binaryExpression);
             if (isConvToNP) {
                 jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
             }
-        }
-        else {
+        } else if (binaryExpression.getBinaryOperator() == BinaryOperator.INDEXING) {
+            jasminCode += visitAccessExpression(binaryExpression);
+            if (!isConvToNP) {
+                Type type = getArrayElementsType((Identifier) binaryExpression.getLeftOperand());
+                if (type instanceof IntType) {
+                    jasminCode += "checkcast java/lang/Integer\n";
+                    jasminCode += "invokevirtual java/lang/Integer/intValue()I\n";
+                } else if (type instanceof BooleanType) {
+                    jasminCode += "checkcast java/lang/Boolean\n";
+                    jasminCode += "invokevirtual java/lang/Boolean/booleanValue()Z\n";
+                }
+            }
+        } else {
             jasminCode += visitBoolExp(binaryExpression);
             if (isConvToNP) {
                 jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
@@ -292,7 +313,7 @@ public class CodeGenerator extends Visitor<String> {
             if (unaryExpression.getOperand() instanceof Identifier) {
                 jasminCode += "dup\n";
                 jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
-                jasminCode += genrateStoreCode((Identifier) unaryExpression.getOperand());
+                jasminCode += generateStoreCode((Identifier) unaryExpression.getOperand());
             }
         }
         else if (unaryExpression.getOperand() instanceof Identifier) {
@@ -300,7 +321,7 @@ public class CodeGenerator extends Visitor<String> {
             jasminCode += "iconst_1\n";
             jasminCode += (is_plus ? "iadd" : "isub") + "\n";
             jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
-            jasminCode += genrateStoreCode((Identifier) unaryExpression.getOperand());
+            jasminCode += generateStoreCode((Identifier) unaryExpression.getOperand());
         }
         return jasminCode;
     }
@@ -484,13 +505,30 @@ public class CodeGenerator extends Visitor<String> {
         return jasminCode;
     }
 
+    private String generateDefaultVal(Type type) {
+        String jasminCode = "";
+        if (type instanceof IntType) {
+            jasminCode += "iconst_0\n";
+            jasminCode += "invokestatic java/lang/Integer/valueOf(I)Ljava/lang/Integer;\n";
+        } else if (type instanceof BooleanType) {
+            jasminCode += "ldc 0\n";
+            jasminCode += "invokestatic java/lang/Boolean/valueOf(Z)Ljava/lang/Boolean;\n";
+        } else if (type instanceof StringType) {
+            jasminCode += "ldc \"\"\n";
+        }
+        return jasminCode;
+    }
+
     @Override
     public String visit(InitStatement initStatement) {
         convertToNonPrimitive = true;
         String jasminCode = "";
         if (initStatement.getAssigned() != null) {
             jasminCode += initStatement.getAssigned().accept(this);
-            jasminCode += genrateStoreCode(initStatement.getAssignee().getName());
+            jasminCode += generateStoreCode(initStatement.getAssignee().getName());
+        } else {
+            jasminCode += generateDefaultVal(initStatement.getAssignee().getType());
+            jasminCode += generateStoreCode(initStatement.getAssignee().getName());
         }
 
         convertToNonPrimitive = false;
@@ -551,7 +589,7 @@ public class CodeGenerator extends Visitor<String> {
         jasminCode += assignmentStatement.getAssigned().accept(this);
         convertToNonPrimitive = false;
 
-        jasminCode += genrateStoreCode(assignmentStatement.getIds().getFirst());
+        jasminCode += generateStoreCode(assignmentStatement.getIds().getFirst());
 
         return jasminCode;
     }
@@ -579,7 +617,7 @@ public class CodeGenerator extends Visitor<String> {
         return "ldc " + stringValue.getStr() + "\n";
     }
 
-    private String genrateStoreCode(Identifier id) {
+    private String generateStoreCode(Identifier id) {
         String jasminCode;
 
         VarDeclarationItem leftHand = getItemFromName(id.getName());
