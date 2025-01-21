@@ -815,6 +815,9 @@ public class CodeGenerator extends Visitor<String> {
             if (tmp != null){
                 jasminCode += tmp;
             }
+            if (statement instanceof ContinueStatement || statement instanceof BreakStatement) {
+                break;
+            }
         }
 
         if (!tmpAfter.equals("")) {
