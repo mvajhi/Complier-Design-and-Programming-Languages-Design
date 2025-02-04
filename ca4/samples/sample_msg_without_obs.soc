@@ -10,11 +10,6 @@ Actor X {
     }
 
     msgRcv sendMessage(string msgContent, ID receiver, ID observer) {
-        % print(name + " sends message: " + msgContent);
-        % receiver.receiveMessage(msgContent) @observers(private(observer, receiver));
-        % receiver.receiveMessage(msgContent);
-        % receiver.receiveMessage(msgContent, t);
-        % receiver.receiveMessage();
         print("in X send to Y");
         receiver.receiveMessage(msgContent);
         print("in X send to Z");
