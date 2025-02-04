@@ -59,7 +59,7 @@ public class CodeGenerator extends Visitor<String> {
         Op2ByteCode.put(BinaryOperator.GREATER_EQUAL_THAN, "if_icmpge");
     }
 
-    private void prepareOutputFolder(){
+    private void prepareOutputFolder() {
         String jasminPath = "utilities/jarFiles/jasmin.jar";
         String listClassPath = "utilities/codeGenerationUtilityClasses/List.j";
         String fptrClassPath = "utilities/codeGenerationUtilityClasses/Fptr.j";
@@ -77,7 +77,8 @@ public class CodeGenerator extends Visitor<String> {
         copyFile(jasminPath, this.outputPath + "jasmin.jar");
         copyFile(listClassPath, this.outputPath + "List.j");
         copyFile(fptrClassPath, this.outputPath + "Fptr.j");
-        copyFile(fptrClassPath, this.outputPath + "MethodInvoker.java");
+        String invockClassPath = "utilities/codeGenerationUtilityClasses/MethodInvoker.class";
+        copyFile(invockClassPath, this.outputPath + "MethodInvoker.class");
 
         try {
             String path = outputPath + "Main.j";
@@ -168,7 +169,6 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
-    //************************************************************************************************
     @Override
     public String visit(ActorDec actorDec) {
         FileWriter prev_file = currentFile;
@@ -281,7 +281,6 @@ public class CodeGenerator extends Visitor<String> {
     public String visit(VarDeclaration varDeclaration) {
         return null;
     }
-    //************************************************************************************************
 
     @Override
     public String visit(Main main) {
