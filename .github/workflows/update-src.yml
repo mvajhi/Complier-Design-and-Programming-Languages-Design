@@ -17,10 +17,8 @@ jobs:
         run: |
           git clone https://mvajhi:$ORG_TOKEN@github.com/PLC-UT/phase-4-null.git org-repo
           rm -rf org-repo/src/
-          cp -r ca2/src org-repo/
-          mkdir org-repo/src/parsers
-          cp -r ca2/gen/main/grammar/* org-repo/src/parsers/
-          ls ./ca2/src -R
+          cp -r ca4/src org-repo/
+          ls ./ca4/src -R
           cd org-repo
           ls ./src -R
           git config user.name "GitHub Action"
