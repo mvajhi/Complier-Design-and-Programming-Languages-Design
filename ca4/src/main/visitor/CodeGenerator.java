@@ -195,9 +195,10 @@ public class CodeGenerator extends Visitor<String> {
             } else {
                 typeDescriptor = "Ljava/lang/Object;";
             }
-
             String classVar = ".field private " + varDeclaration.getName().getName() + " " + typeDescriptor + "\n";
             commands += classVar;
+
+            varDeclaration.accept(this);
         }
 
         // Declare handler methods with arguments and body
@@ -228,11 +229,11 @@ public class CodeGenerator extends Visitor<String> {
             commands += methodSignature.toString();
             commands += ".limit stack 128\n";
             commands += ".limit locals 128\n";
-
             commands += visitBody(handler.getBody());
-
             commands += "return\n";
             commands += ".end method\n";
+
+            handler.accept(this);
         }
 
         addCommand(commands);
@@ -246,6 +247,9 @@ public class CodeGenerator extends Visitor<String> {
         // Call the superclass constructor
         commands += "aload_0\n";
         commands += "invokespecial java/lang/Object/<init>()V\n";
+        // Call object static method
+        commands += "aload_0\n";
+        commands += "invokestatic MethodInvoker/addObject(Ljava/lang/Object;)V\n";
 
         // Initialize default values
         for (VarDeclaration varDeclaration : actorDec.getActorVars()) {
@@ -263,15 +267,6 @@ public class CodeGenerator extends Visitor<String> {
                 commands += "aconst_null\n"; // Default for String and Object
                 commands += "putfield " + actor_name + "/" + varName + " " + (type instanceof StringType ? "Ljava/lang/String;" : "Ljava/lang/Object;") + "\n";
             }
-        }
-
-
-        for (VarDeclaration varDeclaration : actorDec.getActorVars()) {
-            varDeclaration.accept(this);
-        }
-
-        for (Handler handler : actorDec.getMsgHandlers()) {
-            handler.accept(this);
         }
 
         commands += "return\n";
