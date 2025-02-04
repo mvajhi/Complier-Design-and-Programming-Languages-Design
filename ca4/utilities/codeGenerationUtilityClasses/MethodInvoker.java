@@ -43,35 +43,29 @@ public class MethodInvoker {
             }
         }
     }
-
-    public static void main(String[] args) {
-        SampleClass obj1 = new SampleClass();
-        SampleClass2 obj2 = new SampleClass2();
-
-        addObject(obj1);
-        addObject(obj2);
-
-        invokeMethod(obj2,"greet", "John");
-        invokeMethodPrivate(obj1, obj1, obj2,"greet", "John");
-        invokeMethodPublic(obj2, obj1, obj1,"greet", "John");
-    }
 }
 
 class SampleClass {
-    public void greet(String name) {
-        System.out.println("Hello, " + name);
+    public SampleClass(){
+        MethodInvoker.addObject(this);
+    }
+    public void greet(String name, Integer i) {
+        System.out.println("Hello, " + name + i);
     }
 
-    public void _msgObs_greet(String name) {
-        System.out.println("_msgObs_Hello, " + name);
+    public void _msgObs_greet(String name, Integer i) {
+        System.out.println("_msgObs_Hello, " + name + i);
     }
 }
 
 class SampleClass2 {
-    public void greet(String name) {
-        System.out.println("Hello2, " + name);
+    public SampleClass2(){
+        MethodInvoker.addObject(this);
     }
-    public void _msgObs_greet(String name) {
-        System.out.println("_msgObs_Hello2, " + name);
+    public void greet(String name, Integer i) {
+        System.out.println("Hello2, " + name + i);
+    }
+    public void _msgObs_greet(String name, Integer i) {
+        System.out.println("_msgObs_Hello2, " + name + i);
     }
 }
