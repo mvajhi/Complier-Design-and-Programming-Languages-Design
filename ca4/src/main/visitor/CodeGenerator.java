@@ -211,9 +211,15 @@ public class CodeGenerator extends Visitor<String> {
                 handlerName = '_' + MsgObs + '_' + handlerName;
             }
 
+            restSlots();
+            slotOf("self");
+
             StringBuilder methodSignature = new StringBuilder();
             methodSignature.append(".method public ").append(handlerName).append("(");
             for (VarDeclaration arg : handlerArgs) {
+
+                slotOf(arg.getName().getName());
+
                 Type argType = arg.getType();
                 if (argType instanceof IntType) {
                     methodSignature.append("I");
@@ -230,11 +236,14 @@ public class CodeGenerator extends Visitor<String> {
             commands += methodSignature.toString();
             commands += ".limit stack 128\n";
             commands += ".limit locals 128\n";
+            SymbolTable old = currentSymbolTable;
+            currentSymbolTable = handler.getSymbolTable();
             commands += visitBody(handler.getBody());
+            currentSymbolTable = old;
             commands += "return\n";
             commands += ".end method\n";
 
-            handler.accept(this);
+//            handler.accept(this);
         }
 
         addCommand(commands);
