@@ -45,27 +45,3 @@ public class MethodInvoker {
     }
 }
 
-class SampleClass {
-    public SampleClass(){
-        MethodInvoker.addObject(this);
-    }
-    public void greet(String name, Integer i) {
-        System.out.println("Hello, " + name + i);
-    }
-
-    public void _msgObs_greet(String name, Integer i) {
-        System.out.println("_msgObs_Hello, " + name + i);
-    }
-}
-
-class SampleClass2 {
-    public SampleClass2(){
-        MethodInvoker.addObject(this);
-    }
-    public void greet(String name, Integer i) {
-        System.out.println("Hello2, " + name + i);
-    }
-    public void _msgObs_greet(String name, Integer i) {
-        System.out.println("_msgObs_Hello2, " + name + i);
-    }
-}

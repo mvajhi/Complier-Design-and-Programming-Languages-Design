@@ -76,6 +76,7 @@ public class CodeGenerator extends Visitor<String> {
         copyFile(jasminPath, this.outputPath + "jasmin.jar");
         copyFile(listClassPath, this.outputPath + "List.j");
         copyFile(fptrClassPath, this.outputPath + "Fptr.j");
+        copyFile(fptrClassPath, this.outputPath + "MethodInvoker.java");
 
         try {
             String path = outputPath + "Main.j";
