@@ -692,6 +692,71 @@ public class CodeGenerator extends Visitor<String> {
     }
 
     @Override
+    public String visit(AccessExpression accessExpression) {
+        String jasminCode = "";
+        jasminCode += accessExpression.getLeft().accept(this);
+        jasminCode += "ldc \"" + ((CallExpression)accessExpression.getRight()).getIdentifier().getName() + "\"\n";
+        jasminCode += visitArgsList(((CallExpression)accessExpression.getRight()).getExpressions());
+        jasminCode += "invokestatic MethodInvoker/invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)V\n";
+        return jasminCode;
+    }
+
+    public String visitArgsList(Expression expression) {
+        convertToNonPrimitive = true;
+        String jasminCode = "";
+
+        int size = getCountOfArgs(expression);
+        jasminCode += "ldc " + size + "\n";
+
+        jasminCode += "anewarray java/lang/Object\n";
+
+        if (expression == null) {
+        }
+        else if (expression instanceof ExpressionList) {
+            jasminCode += handelArgsList((ExpressionList) expression);
+        }
+        else {
+            jasminCode += handleArg(expression);
+        }
+
+        convertToNonPrimitive = false;
+        return jasminCode;
+    }
+
+    private static int getCountOfArgs(Expression expression) {
+        int size = 1;
+        if (expression == null){
+            size = 0;
+        }
+        else if (expression instanceof ExpressionList){
+            size = ((ExpressionList) expression).getExpressionList().size();
+        }
+        return size;
+    }
+
+    private String handleArg(Expression expression) {
+        String jasminCode = "";
+        jasminCode += "dup\n";
+        jasminCode += "iconst_0\n";
+        jasminCode += expression.accept(this);
+        jasminCode += "aastore\n";
+        return jasminCode;
+    }
+
+    private String handelArgsList(ExpressionList expressionList) {
+        String jasminCode = "";
+        int index = 0;
+        for (Expression subExp : expressionList.getExpressionList()){
+            jasminCode += "dup\n";
+            jasminCode += "ldc " + index + "\n";
+            jasminCode += subExp.accept(this);
+            jasminCode += "aastore\n";
+            index++;
+        }
+        return jasminCode;
+    }
+
+    @Override
     public String visit(IntValue intValue) {
         String jasminCode = "ldc " + intValue.getIntVal() + "\n";
         if (convertToNonPrimitive) {
