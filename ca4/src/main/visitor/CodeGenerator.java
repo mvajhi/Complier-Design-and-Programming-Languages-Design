@@ -29,6 +29,7 @@ public class CodeGenerator extends Visitor<String> {
     private String breakLabel = "";
     private String continueLabel = "";
     private int labelCounter = 0;
+    private String MsgObs = "msgObs";
 
     public CodeGenerator() {
         outputPath = "./codeGenOutput/";
@@ -204,6 +205,10 @@ public class CodeGenerator extends Visitor<String> {
             String handlerName = handler.getName().getName();
             List<VarDeclaration> handlerArgs = handler.getArgs();
 
+            if(handler instanceof  ObserveHandler){
+                handlerName = '_' + MsgObs + '_' + handlerName;
+            }
+
             StringBuilder methodSignature = new StringBuilder();
             methodSignature.append(".method public ").append(handlerName).append("(");
             for (VarDeclaration arg : handlerArgs) {
@@ -232,7 +237,6 @@ public class CodeGenerator extends Visitor<String> {
 
         addCommand(commands);
         commands = "";
-
 
         // Constructor without arguments
         commands += ".method public <init>()V\n";
