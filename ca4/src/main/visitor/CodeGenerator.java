@@ -622,6 +622,17 @@ public class CodeGenerator extends Visitor<String> {
     }
 
     @Override
+    public String visit(ConstructorExpression constructorExpression) {
+        String jasminCode = "";
+//        TODO handle args
+        String actorName = constructorExpression.getId().getName();
+        jasminCode += "new " + actorName + "\n";
+        jasminCode += "dup\n";
+        jasminCode += "invokespecial " + actorName + "/<init>()V\n";
+        return jasminCode;
+    }
+
+    @Override
     public String visit(ServiceHandler serviceHandler) {
         for (VarDeclaration arg : serviceHandler.getArgs()) {
             arg.accept(this);
