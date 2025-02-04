@@ -40,6 +40,7 @@ public class SOACT {
             File dir = new File("./codeGenOutput");
 //            Process process = Runtime.getRuntime().exec("java -jar jasmin.jar *.j", null, dir);
             Process process = Runtime.getRuntime().exec(new String[]{ "/usr/bin/sh", "-c", "java -jar jasmin.jar *.j" }, null, dir);
+//            Process process2 = Runtime.getRuntime().exec(new String[]{ "/usr/bin/sh", "-c", "javac -g *.java" }, null, dir);
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {}
