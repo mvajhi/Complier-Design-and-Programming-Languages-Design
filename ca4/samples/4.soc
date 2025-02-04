@@ -1,0 +1,47 @@
+Actor X {
+    actorVars {
+        string name;
+        int id;
+    }
+
+    X(string name, int id) {
+        this.name = name;
+        this.id = id;
+        print("ActorX created: Name = " + name + ", ID = " + id);
+    }
+}
+
+Actor Y {
+    actorVars {
+        string name;
+        int id;
+    }
+
+    Y(string name, int id) {
+        this.name = name;
+        this.id = id;
+        print("ActorY created: Name = " + name + ", ID = " + id);
+    }
+
+    msgRcv receiveMessage(string msgContent) {
+    }
+}
+
+Actor Z {
+    actorVars {
+        string name;
+        int id;
+    }
+
+    Z(string name, int id) {
+        this.name = name;
+        this.id = id;
+        print("ActorZ created: Name = " + name + ", ID = " + id);
+    }
+}
+
+main() {
+    X senderActor = new X("Alice", 101);
+    Y receiverActor = new Y("Bob", 102);
+    Z observerActor = new Z("Charlie", 103);
+}
