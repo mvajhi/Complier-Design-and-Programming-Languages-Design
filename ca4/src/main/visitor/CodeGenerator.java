@@ -199,6 +199,41 @@ public class CodeGenerator extends Visitor<String> {
             commands += classVar;
         }
 
+        // Declare handler methods with arguments and body
+        for (Handler handler : actorDec.getMsgHandlers()) {
+            String handlerName = handler.getName().getName();
+            List<VarDeclaration> handlerArgs = handler.getArgs();
+
+            StringBuilder methodSignature = new StringBuilder();
+            methodSignature.append(".method public ").append(handlerName).append("(");
+            for (VarDeclaration arg : handlerArgs) {
+                Type argType = arg.getType();
+                if (argType instanceof IntType) {
+                    methodSignature.append("I");
+                } else if (argType instanceof BooleanType) {
+                    methodSignature.append("Z");
+                } else if (argType instanceof StringType) {
+                    methodSignature.append("Ljava/lang/String;");
+                } else {
+                    methodSignature.append("Ljava/lang/Object;");
+                }
+            }
+            methodSignature.append(")V\n");
+
+            commands += methodSignature.toString();
+            commands += ".limit stack 128\n";
+            commands += ".limit locals 128\n";
+
+            commands += visitBody(handler.getBody());
+
+            commands += "return\n";
+            commands += ".end method\n";
+        }
+
+        addCommand(commands);
+        commands = "";
+
+
         // Constructor without arguments
         commands += ".method public <init>()V\n";
         commands += ".limit stack 128\n";
@@ -226,8 +261,6 @@ public class CodeGenerator extends Visitor<String> {
             }
         }
 
-
-        //
 
         for (VarDeclaration varDeclaration : actorDec.getActorVars()) {
             varDeclaration.accept(this);
