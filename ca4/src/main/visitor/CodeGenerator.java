@@ -11,6 +11,7 @@ import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.statements.*;
 import main.ast.nodes.type.*;
 import main.symbolTable.SymbolTable;
+import main.symbolTable.items.SymbolTableItem;
 import main.symbolTable.items.VarDeclarationItem;
 
 import java.io.*;
@@ -173,6 +174,9 @@ public class CodeGenerator extends Visitor<String> {
     public String visit(ActorDec actorDec) {
         FileWriter prev_file = currentFile;
         currentSymbolTable = actorDec.getSymbolTable();
+        SymbolTable prev_table = currentSymbolTable;
+        currentSymbolTable = actorDec.getSymbolTable();
+
         restSlots();
         String commands = "";
         String actor_name = actorDec.getName().getName();
@@ -184,71 +188,24 @@ public class CodeGenerator extends Visitor<String> {
 
         // Declare actor variable fields with default values
         for (VarDeclaration varDeclaration : actorDec.getActorVars()) {
-            Type type = varDeclaration.getType();
-            String typeDescriptor;
-
-            if (type instanceof IntType) {
-                typeDescriptor = "I";
-            } else if (type instanceof BooleanType) {
-                typeDescriptor = "Z";
-            } else if (type instanceof StringType) {
-                typeDescriptor = "Ljava/lang/String;";
-            } else {
-                typeDescriptor = "Ljava/lang/Object;";
-            }
-            String classVar = ".field private " + varDeclaration.getName().getName() + " " + typeDescriptor + "\n";
-            commands += classVar;
-
-            varDeclaration.accept(this);
+            commands += visitVarActor(varDeclaration);
         }
 
         // Declare handler methods with arguments and body
         for (Handler handler : actorDec.getMsgHandlers()) {
-            String handlerName = handler.getName().getName();
-            List<VarDeclaration> handlerArgs = handler.getArgs();
-
-            if(handler instanceof  ObserveHandler){
-                handlerName = '_' + MsgObs + '_' + handlerName;
-            }
-
-            restSlots();
-            slotOf("self");
-
-            StringBuilder methodSignature = new StringBuilder();
-            methodSignature.append(".method public ").append(handlerName).append("(");
-            for (VarDeclaration arg : handlerArgs) {
-
-                slotOf(arg.getName().getName());
-
-                Type argType = arg.getType();
-                if (argType instanceof IntType) {
-                    methodSignature.append("I");
-                } else if (argType instanceof BooleanType) {
-                    methodSignature.append("Z");
-                } else if (argType instanceof StringType) {
-                    methodSignature.append("Ljava/lang/String;");
-                } else {
-                    methodSignature.append("Ljava/lang/Object;");
-                }
-            }
-            methodSignature.append(")V\n");
-
-            commands += methodSignature.toString();
-            commands += ".limit stack 128\n";
-            commands += ".limit locals 128\n";
-            SymbolTable old = currentSymbolTable;
-            currentSymbolTable = handler.getSymbolTable();
-            commands += visitBody(handler.getBody());
-            currentSymbolTable = old;
-            commands += "return\n";
-            commands += ".end method\n";
-
-//            handler.accept(this);
+            commands += handler.accept(this);
         }
 
-        addCommand(commands);
-        commands = "";
+        commands += generateDefaultConstructor(actorDec, actor_name);
 
+        addCommand(commands);
+        currentFile = prev_file;
+        currentSymbolTable = prev_table;
+        return null;
+    }
+
+    private static String generateDefaultConstructor(ActorDec actorDec, String actor_name) {
+        String commands = "";
         // Constructor without arguments
         commands += ".method public <init>()V\n";
         commands += ".limit stack 128\n";
@@ -263,29 +220,48 @@ public class CodeGenerator extends Visitor<String> {
 
         // Initialize default values
         for (VarDeclaration varDeclaration : actorDec.getActorVars()) {
-            Type type = varDeclaration.getType();
-            String varName = varDeclaration.getName().getName();
-
-            commands += "aload_0\n";
-            if (type instanceof IntType) {
-                commands += "iconst_0\n"; // Default int value
-                commands += "putfield " + actor_name + "/" + varName + " I\n";
-            } else if (type instanceof BooleanType) {
-                commands += "iconst_0\n"; // Default boolean value (false)
-                commands += "putfield " + actor_name + "/" + varName + " Z\n";
-            } else {
-                commands += "aconst_null\n"; // Default for String and Object
-                commands += "putfield " + actor_name + "/" + varName + " " + (type instanceof StringType ? "Ljava/lang/String;" : "Ljava/lang/Object;") + "\n";
-            }
+            commands += generateDefaultValAttr(actor_name, varDeclaration.getType(), varDeclaration.getName().getName());
         }
 
         commands += "return\n";
         commands += ".end method\n";
-        addCommand(commands);
-        currentFile = prev_file;
-        return null;
+        return commands;
     }
-    
+
+    private static String generateDefaultValAttr(String actor_name, Type type, String varName) {
+        String commands = "aload_0\n";
+        if (type instanceof IntType) {
+            commands += "iconst_0\n"; // Default int value
+            commands += "putfield " + actor_name + "/" + varName + " I\n";
+        } else if (type instanceof BooleanType) {
+            commands += "iconst_0\n"; // Default boolean value (false)
+            commands += "putfield " + actor_name + "/" + varName + " Z\n";
+        } else {
+            commands += "aconst_null\n"; // Default for String and Object
+            commands += "putfield " + actor_name + "/" + varName + " " + (type instanceof StringType ? "Ljava/lang/String;" : "Ljava/lang/Object;") + "\n";
+        }
+        return commands;
+    }
+
+    private static String visitVarActor(VarDeclaration varDeclaration) {
+        String commands = "";
+        Type type = varDeclaration.getType();
+        String typeDescriptor;
+
+        if (type instanceof IntType) {
+            typeDescriptor = "I";
+        } else if (type instanceof BooleanType) {
+            typeDescriptor = "Z";
+        } else if (type instanceof StringType) {
+            typeDescriptor = "Ljava/lang/String;";
+        } else {
+            typeDescriptor = "Ljava/lang/Object;";
+        }
+        String classVar = ".field private " + varDeclaration.getName().getName() + " " + typeDescriptor + "\n";
+        commands += classVar;
+        return commands;
+    }
+
     @Override
     public String visit(VarDeclaration varDeclaration) {
         return null;
@@ -632,34 +608,70 @@ public class CodeGenerator extends Visitor<String> {
         return jasminCode;
     }
 
+    public String visit_handler(Handler handler) {
+        String commands = "";
+
+        SymbolTable old = currentSymbolTable;
+        currentSymbolTable = handler.getSymbolTable();
+
+        String handlerName = handler.getName().getName();
+        if(handler instanceof  ObserveHandler){
+            handlerName = '_' + MsgObs + '_' + handlerName;
+        }
+
+        restSlots();
+        slotOf("self");
+
+        commands += createSignAndArgs(handlerName, handler.getArgs());
+
+        commands += getHandlerBody(handler);
+
+        currentSymbolTable = old;
+        return commands;
+    }
+
+    private String getHandlerBody(Handler handler) {
+        String commands = "";
+        commands += ".limit stack 128\n";
+        commands += ".limit locals 128\n";
+
+        commands += visitBody(handler.getBody());
+
+        commands += "return\n";
+        commands += ".end method\n";
+        return commands;
+    }
+
+    private String createSignAndArgs(String handlerName, List<VarDeclaration> handlerArgs) {
+        StringBuilder methodSignature = new StringBuilder();
+        methodSignature.append(".method public ").append(handlerName).append("(");
+        for (VarDeclaration arg : handlerArgs) {
+
+            slotOf(arg.getName().getName());
+
+            Type argType = arg.getType();
+            if (argType instanceof IntType) {
+                methodSignature.append("I");
+            } else if (argType instanceof BooleanType) {
+                methodSignature.append("Z");
+            } else if (argType instanceof StringType) {
+                methodSignature.append("Ljava/lang/String;");
+            } else {
+                methodSignature.append("Ljava/lang/Object;");
+            }
+        }
+        methodSignature.append(")V\n");
+        return methodSignature.toString();
+    }
+
     @Override
     public String visit(ServiceHandler serviceHandler) {
-        for (VarDeclaration arg : serviceHandler.getArgs()) {
-            arg.accept(this);
-        }
-
-        visitBody(serviceHandler.getBody());
-
-        for (Expression expr : serviceHandler.getAuthorizationExpressions()) {
-            expr.accept(this);
-        }
-
-        return null;
+        return visit_handler(serviceHandler);
     }
 
     @Override
     public String visit(ObserveHandler observeHandler) {
-        for (VarDeclaration arg : observeHandler.getArgs()) {
-            arg.accept(this);
-        }
-
-        visitBody(observeHandler.getBody());
-
-        for (Expression expr : observeHandler.getAuthorizationExpressions()) {
-            expr.accept(this);
-        }
-
-        return null;
+        return visit_handler(observeHandler);
     }
 
     private int slotOf(String var) {
