@@ -59,7 +59,7 @@ public class CodeGenerator extends Visitor<String> {
         Op2ByteCode.put(BinaryOperator.GREATER_EQUAL_THAN, "if_icmpge");
     }
 
-    private void prepareOutputFolder(){
+    private void prepareOutputFolder() {
         String jasminPath = "utilities/jarFiles/jasmin.jar";
         String listClassPath = "utilities/codeGenerationUtilityClasses/List.j";
         String fptrClassPath = "utilities/codeGenerationUtilityClasses/Fptr.j";
@@ -77,7 +77,8 @@ public class CodeGenerator extends Visitor<String> {
         copyFile(jasminPath, this.outputPath + "jasmin.jar");
         copyFile(listClassPath, this.outputPath + "List.j");
         copyFile(fptrClassPath, this.outputPath + "Fptr.j");
-        copyFile(fptrClassPath, this.outputPath + "MethodInvoker.java");
+        String invockClassPath = "utilities/codeGenerationUtilityClasses/MethodInvoker.class";
+        copyFile(invockClassPath, this.outputPath + "MethodInvoker.class");
 
         try {
             String path = outputPath + "Main.j";
@@ -168,7 +169,6 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
-    //************************************************************************************************
     @Override
     public String visit(ActorDec actorDec) {
         FileWriter prev_file = currentFile;
@@ -211,9 +211,15 @@ public class CodeGenerator extends Visitor<String> {
                 handlerName = '_' + MsgObs + '_' + handlerName;
             }
 
+            restSlots();
+            slotOf("self");
+
             StringBuilder methodSignature = new StringBuilder();
             methodSignature.append(".method public ").append(handlerName).append("(");
             for (VarDeclaration arg : handlerArgs) {
+
+                slotOf(arg.getName().getName());
+
                 Type argType = arg.getType();
                 if (argType instanceof IntType) {
                     methodSignature.append("I");
@@ -230,11 +236,14 @@ public class CodeGenerator extends Visitor<String> {
             commands += methodSignature.toString();
             commands += ".limit stack 128\n";
             commands += ".limit locals 128\n";
+            SymbolTable old = currentSymbolTable;
+            currentSymbolTable = handler.getSymbolTable();
             commands += visitBody(handler.getBody());
+            currentSymbolTable = old;
             commands += "return\n";
             commands += ".end method\n";
 
-            handler.accept(this);
+//            handler.accept(this);
         }
 
         addCommand(commands);
@@ -281,7 +290,6 @@ public class CodeGenerator extends Visitor<String> {
     public String visit(VarDeclaration varDeclaration) {
         return null;
     }
-    //************************************************************************************************
 
     @Override
     public String visit(Main main) {
@@ -614,6 +622,17 @@ public class CodeGenerator extends Visitor<String> {
     }
 
     @Override
+    public String visit(ConstructorExpression constructorExpression) {
+        String jasminCode = "";
+//        TODO handle args
+        String actorName = constructorExpression.getId().getName();
+        jasminCode += "new " + actorName + "\n";
+        jasminCode += "dup\n";
+        jasminCode += "invokespecial " + actorName + "/<init>()V\n";
+        return jasminCode;
+    }
+
+    @Override
     public String visit(ServiceHandler serviceHandler) {
         for (VarDeclaration arg : serviceHandler.getArgs()) {
             arg.accept(this);
@@ -669,6 +688,71 @@ public class CodeGenerator extends Visitor<String> {
 
         jasminCode += generateStoreCode(assignmentStatement.getIds().getFirst());
 
+        return jasminCode;
+    }
+
+    @Override
+    public String visit(AccessExpression accessExpression) {
+        String jasminCode = "";
+        jasminCode += accessExpression.getLeft().accept(this);
+        jasminCode += "ldc \"" + ((CallExpression)accessExpression.getRight()).getIdentifier().getName() + "\"\n";
+        jasminCode += visitArgsList(((CallExpression)accessExpression.getRight()).getExpressions());
+        jasminCode += "invokestatic MethodInvoker/invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)V\n";
+        return jasminCode;
+    }
+
+    public String visitArgsList(Expression expression) {
+        convertToNonPrimitive = true;
+        String jasminCode = "";
+
+        int size = getCountOfArgs(expression);
+        jasminCode += "ldc " + size + "\n";
+
+        jasminCode += "anewarray java/lang/Object\n";
+
+        if (expression == null) {
+        }
+        else if (expression instanceof ExpressionList) {
+            jasminCode += handelArgsList((ExpressionList) expression);
+        }
+        else {
+            jasminCode += handleArg(expression);
+        }
+
+        convertToNonPrimitive = false;
+        return jasminCode;
+    }
+
+    private static int getCountOfArgs(Expression expression) {
+        int size = 1;
+        if (expression == null){
+            size = 0;
+        }
+        else if (expression instanceof ExpressionList){
+            size = ((ExpressionList) expression).getExpressionList().size();
+        }
+        return size;
+    }
+
+    private String handleArg(Expression expression) {
+        String jasminCode = "";
+        jasminCode += "dup\n";
+        jasminCode += "iconst_0\n";
+        jasminCode += expression.accept(this);
+        jasminCode += "aastore\n";
+        return jasminCode;
+    }
+
+    private String handelArgsList(ExpressionList expressionList) {
+        String jasminCode = "";
+        int index = 0;
+        for (Expression subExp : expressionList.getExpressionList()){
+            jasminCode += "dup\n";
+            jasminCode += "ldc " + index + "\n";
+            jasminCode += subExp.accept(this);
+            jasminCode += "aastore\n";
+            index++;
+        }
         return jasminCode;
     }
 

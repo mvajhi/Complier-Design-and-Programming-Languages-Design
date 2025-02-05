@@ -9,18 +9,34 @@ public class MethodInvoker {
     public static void invokeMethod(Object x, String methodName, Object... args) {
         try {
             Class<?> clazz = x.getClass();
-            Class<?>[] paramTypes = new Class<?>[args.length];
+            Method method = findCompatibleMethod(clazz, methodName, args);
 
-            for (int i = 0; i < args.length; i++) {
-                paramTypes[i] = args[i].getClass();
+            if (method != null) {
+                method.invoke(x, args);
             }
-
-            Method method = clazz.getMethod(methodName, paramTypes);
-            method.invoke(x, args);
-        } catch (NoSuchMethodException e) {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static Method findCompatibleMethod(Class<?> clazz, String methodName, Object... args) {
+        for (Method method : clazz.getMethods()) {
+            if (method.getName().equals(methodName) && isCompatible(method.getParameterTypes(), args)) {
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private static boolean isCompatible(Class<?>[] paramTypes, Object[] args) {
+        if (paramTypes.length != args.length) return false;
+
+        for (int i = 0; i < paramTypes.length; i++) {
+            if (!paramTypes[i].isAssignableFrom(args[i].getClass())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void addObject(Object obj) {
