@@ -1,0 +1,13 @@
+in X send
+rcv Y
+obs Z
+Hello, Bob!
+obs Z
+obs Y
+rcv X
+obs X
+obs Y
+obs Z
+Hello, Bob!
+obs Z
+rcv Y
