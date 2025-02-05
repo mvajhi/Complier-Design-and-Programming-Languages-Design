@@ -165,8 +165,8 @@ arrayType returns [Type arrayTypeRet]:
 accesslevels returns [ArrayList<Expression> accessLevelsRet]:
     {$accessLevelsRet = new ArrayList<>();}
     (
-        (PUBLIC) |
-        (PRIVATE)
+        (PUBLIC {$accessLevelsRet.add(new BoolValue(true));}) |
+        (PRIVATE {$accessLevelsRet.add(new BoolValue(false));})
     )
     LPAR
     p = accesslevelsParam {$accessLevelsRet.addAll($p.accessLevelsParamRet);}
@@ -188,7 +188,7 @@ accesslevelsParam returns [ArrayList<Expression> accessLevelsParamRet]:
     (
     id = IDENTIFIER {$accessLevelsParamRet.add(Identifier.createId($id.text, $id.line));}|
     NULL |
-    SELF |
+    s = SELF {$accessLevelsParamRet.add(Identifier.createId($s.text, $s.line));}|
     a = accesslevels {$accessLevelsParamRet.addAll($a.accessLevelsRet);}
     )
 ;
@@ -393,14 +393,15 @@ observeStatement returns [ObserveStatement observeRet]:
         (
         id1 = IDENTIFIER {line = $id1.line;
                           $observeRet.addId(Identifier.createId($id1.text, $id1.line));} |
-        s = SELF {line = $s.line;}
+        s = SELF {line = $s.line;
+                    $observeRet.addId(Identifier.createId($s.text, $s.line));}
         )
         DOT
     )?
     id = IDENTIFIER {if(line == -1)
                          line = $id.line;
                      $observeRet.setLine(line);
-                     $observeRet.addId(Identifier.createId($id1.text, $id1.line));}
+                     $observeRet.addId(Identifier.createId($id.text, $id.line));}
     LPAR
     (exp = expression {$observeRet.setArgs($exp.expRet);})?
     RPAR
