@@ -676,7 +676,6 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(ObserveHandler observeHandler) {
-        return visit_handler(observeHandler);
         return visitHandler(observeHandler);
     }
     }
