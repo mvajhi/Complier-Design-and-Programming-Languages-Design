@@ -246,8 +246,16 @@ public class CodeGenerator extends Visitor<String> {
     private static String visitVarActor(VarDeclaration varDeclaration) {
         String commands = "";
         Type type = varDeclaration.getType();
-        String typeDescriptor;
 
+        String typeDescriptor = getTypeDescriptor(type);
+
+        String classVar = ".field private " + varDeclaration.getName().getName() + " " + typeDescriptor + "\n";
+        commands += classVar;
+        return commands;
+    }
+
+    private static String getTypeDescriptor(Type type) {
+        String typeDescriptor;
         if (type instanceof IntType) {
             typeDescriptor = "I";
         } else if (type instanceof BooleanType) {
@@ -257,9 +265,7 @@ public class CodeGenerator extends Visitor<String> {
         } else {
             typeDescriptor = "Ljava/lang/Object;";
         }
-        String classVar = ".field private " + varDeclaration.getName().getName() + " " + typeDescriptor + "\n";
-        commands += classVar;
-        return commands;
+        return typeDescriptor;
     }
 
     @Override
