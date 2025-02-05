@@ -678,6 +678,51 @@ public class CodeGenerator extends Visitor<String> {
     public String visit(ObserveHandler observeHandler) {
         return visitHandler(observeHandler);
     }
+
+    private String generateInvoker(Expression status) {
+        String jasminCode = "";
+        boolean isPublic = ((BoolValue)status).getBool();
+        if (isPublic) {
+            jasminCode = "invokestatic MethodInvoker/invokeMethodPublic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)V\n";
+        } else {
+            jasminCode = "invokestatic MethodInvoker/invokeMethodPrivate(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)V\n";
+        }
+        return jasminCode;
+    }
+
+    @Override
+    public String visit(ObserveStatement observeStatement) {
+        convertToNonPrimitive = true;
+        String jasminCode = "";
+
+        jasminCode += observeStatement.getIds().getFirst().accept(this);
+
+        jasminCode += generateObs(observeStatement.getObservers());
+
+        jasminCode += "ldc \"" + observeStatement.getIds().getLast().getName() + "\"\n";
+
+        jasminCode += visitArgsList(observeStatement.getArgs());
+
+        jasminCode += generateInvoker(observeStatement.getObservers().getFirst());
+
+        convertToNonPrimitive = false;
+        return jasminCode;
+    }
+
+    private String generateObs(ArrayList<Expression> obs) {
+        String jasminCode = "";
+        try {
+            jasminCode += obs.get(1).accept(this);
+        } catch (Exception e) {
+            jasminCode += "ldc \"\"\n";
+        }
+        try {
+            jasminCode += obs.get(2).accept(this);
+        } catch (Exception e) {
+            jasminCode += "ldc \"\"\n";
+        }
+
+        return jasminCode;
     }
 
     private int slotOf(String var) {
