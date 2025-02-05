@@ -11,7 +11,6 @@ import main.ast.nodes.expression.value.StringValue;
 import main.ast.nodes.statements.*;
 import main.ast.nodes.type.*;
 import main.symbolTable.SymbolTable;
-import main.symbolTable.items.SymbolTableItem;
 import main.symbolTable.items.VarDeclarationItem;
 
 import java.io.*;
@@ -614,7 +613,7 @@ public class CodeGenerator extends Visitor<String> {
         return jasminCode;
     }
 
-    public String visit_handler(Handler handler) {
+    public String visitHandler(Handler handler) {
         String commands = "";
 
         SymbolTable old = currentSymbolTable;
@@ -672,12 +671,14 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(ServiceHandler serviceHandler) {
-        return visit_handler(serviceHandler);
+        return visitHandler(serviceHandler);
     }
 
     @Override
     public String visit(ObserveHandler observeHandler) {
         return visit_handler(observeHandler);
+        return visitHandler(observeHandler);
+    }
     }
 
     private int slotOf(String var) {
@@ -1102,7 +1103,7 @@ public class CodeGenerator extends Visitor<String> {
         convertToNonPrimitive = true;
         String jasminCode = "";
         if (Objects.equals(callExpression.getHandlerName(), "print")){
-            jasminCode += visit_print(callExpression);
+            jasminCode += visitPrint(callExpression);
             convertToNonPrimitive = false;
             return jasminCode;
         }
@@ -1122,7 +1123,7 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
-    private String visit_print(CallExpression callExpression) {
+    private String visitPrint(CallExpression callExpression) {
         String jasminCode = "";
         jasminCode += "getstatic java/lang/System/out Ljava/io/PrintStream;\n";
         jasminCode += callExpression.getExpressions().accept(this);
