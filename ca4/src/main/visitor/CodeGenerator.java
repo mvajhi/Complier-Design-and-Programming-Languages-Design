@@ -173,6 +173,43 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
+    private String getLoadInstruction(Type type) {
+        if (type instanceof IntType || type instanceof BooleanType) return "iload";
+        return "aload";
+    }
+
+    private String generateParameterizedConstructor(ActorDec actorDec, String actor_name) {
+        StringBuilder commands = new StringBuilder();
+
+
+        commands.append(".method public <init>(");
+        for (int i = 0; i < actorDec.getConstructorArgs().size(); i++) {
+            commands.append("Ljava/lang/Object;");
+        }
+        commands.append(")V\n");
+
+        commands.append(".limit stack 128\n");
+        commands.append(".limit locals 128\n");
+
+        commands.append("aload_0\n");
+        commands.append("invokespecial java/lang/Object/<init>()V\n");
+
+        int paramIndex = 1;
+        for (VarDeclaration var : actorDec.getConstructorArgs()) {
+            commands.append("aload_0\n");
+            commands.append(createIndexByteCode("aload", paramIndex));
+            commands.append("putfield ").append(actor_name).append("/").append(var.getName().getName())
+                    .append(" Ljava/lang/Object;\n");
+            paramIndex++;
+        }
+
+        commands.append("return\n");
+        commands.append(".end method\n");
+
+        return commands.toString();
+    }
+
+
     @Override
     public String visit(ActorDec actorDec) {
         FileWriter prev_file = currentFile;
@@ -202,6 +239,9 @@ public class CodeGenerator extends Visitor<String> {
         }
 
         commands += generateDefaultConstructor(actorDec, actor_name);
+
+        if(actorDec.isHasConstructor())
+            commands += generateParameterizedConstructor(actorDec , actor_name);
 
         addCommand(commands);
         currentFile = prev_file;
