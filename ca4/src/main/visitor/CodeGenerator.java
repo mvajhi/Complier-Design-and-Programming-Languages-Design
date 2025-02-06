@@ -185,8 +185,8 @@ public class CodeGenerator extends Visitor<String> {
         commands.append(".method public <init>(");
 
 
-        for (int i = 0; i < actorDec.getConstructorArgs().size(); i++) {
-            commands.append("Ljava/lang/Object;");
+        for (VarDeclaration var : actorDec.getConstructorArgs()) {
+            commands.append(getTypeDescriptor(var.getType()));
         }
         commands.append(")V\n");
 
@@ -204,8 +204,8 @@ public class CodeGenerator extends Visitor<String> {
         for (VarDeclaration var : actorDec.getConstructorArgs()) {
             commands.append("aload_0\n");
             commands.append(createIndexByteCode("aload", paramIndex));
-            commands.append("putfield ").append(actor_name).append("/").append(var.getName().getName())
-                    .append(" Ljava/lang/Object;\n");
+            commands.append("putfield ").append(actor_name).append("/").append(var.getName().getName()).append(" ")
+                    .append(getTypeDescriptor(var.getType())).append("\n");
             paramIndex++;
         }
 
@@ -398,24 +398,20 @@ public class CodeGenerator extends Visitor<String> {
 
 
     private String StringBuilderForConcat() {
-        return "new java/lang/StringBuilder\n" +  // 🚀 ایجاد `StringBuilder`
+        return "new java/lang/StringBuilder\n" +
                 "dup\n" +
-                "invokespecial java/lang/StringBuilder/<init>()V\n"; // مقداردهی اولیه
+                "invokespecial java/lang/StringBuilder/<init>()V\n";
     }
 
     private String visitStringConcat(BinaryExpression binaryExpression) {
         StringBuilder code = new StringBuilder();
 
-
         code.append(StringBuilderForConcat());
 
-        // پردازش عملوند چپ
         code.append(handleOperandForConcat(binaryExpression.getLeftOperand()));
 
-        // پردازش عملوند راست
         code.append(handleOperandForConcat(binaryExpression.getRightOperand()));
 
-        // تبدیل به `String`
         code.append("invokevirtual java/lang/StringBuilder/toString()Ljava/lang/String;\n");
 
         return code.toString();
@@ -727,6 +723,71 @@ public class CodeGenerator extends Visitor<String> {
         return jasminCode;
     }
 
+    private String loadArgs(Expression expression) {
+        convertToNonPrimitive = true;
+        String jasminCode = "";
+
+        if (expression == null) {
+        }
+        else if (expression instanceof ExpressionList) {
+            for (Expression subExp : ((ExpressionList) expression).getExpressionList()){
+                jasminCode += subExp.accept(this);
+            }
+        }
+        else {
+            jasminCode += expression.accept(this);
+        }
+
+        convertToNonPrimitive = false;
+        return jasminCode;
+    }
+
+    private String getSign(Expression expression) {
+        Type type;
+        if (expression instanceof IntValue) {
+            return "Ljava/lang/Integer;";
+        } else if (expression instanceof BoolValue) {
+            return "Ljava/lang/Boolean;";
+        } else if (expression instanceof StringValue) {
+            return "Ljava/lang/String;";
+        } else if (expression instanceof Identifier) {
+            Identifier identifier = (Identifier) expression;
+            if (actorVars != null && isIdInActVar(identifier)) {
+                type = getTypeActVar(identifier);
+            } else {
+                type = getType(identifier);
+            }
+        } else {
+            type = getExprType(expression);
+        }
+
+        if (type instanceof IntType) {
+            return "Ljava/lang/Integer;";
+        } else if (type instanceof BooleanType) {
+            return "Ljava/lang/Boolean;";
+        } else if (type instanceof StringType) {
+            return "Ljava/lang/String;";
+        }
+//       TODO handel expression as arg
+        return "Ljava/lang/Object;";
+    }
+
+    private String generateSignArg(Expression expression) {
+        String sign = "";
+
+        if (expression == null) {
+        }
+        else if (expression instanceof ExpressionList) {
+            for (Expression subExp : ((ExpressionList) expression).getExpressionList()){
+                sign += getSign(subExp);
+            }
+        }
+        else {
+            sign += getSign(expression);
+        }
+        return sign;
+    }
+
     @Override
     public String visit(ConstructorExpression constructorExpression) {
         String jasminCode = "";
@@ -734,7 +795,8 @@ public class CodeGenerator extends Visitor<String> {
         String actorName = constructorExpression.getId().getName();
         jasminCode += "new " + actorName + "\n";
         jasminCode += "dup\n";
-        jasminCode += "invokespecial " + actorName + "/<init>()V\n";
+        jasminCode += loadArgs(constructorExpression.getArgs());
+        jasminCode += "invokespecial " + actorName + "/<init>(" + generateSignArg(constructorExpression.getArgs()) + ")V\n";
         return jasminCode;
     }
 
