@@ -30,6 +30,8 @@ public class CodeGenerator extends Visitor<String> {
     private String continueLabel = "";
     private int labelCounter = 0;
     private String MsgObs = "msgObs";
+    private ArrayList<VarDeclaration> actorVars;
+    private String actorName;
 
     public CodeGenerator() {
         outputPath = "./codeGenOutput/";
@@ -175,6 +177,8 @@ public class CodeGenerator extends Visitor<String> {
         currentSymbolTable = actorDec.getSymbolTable();
         SymbolTable prev_table = currentSymbolTable;
         currentSymbolTable = actorDec.getSymbolTable();
+        actorVars = actorDec.getActorVars();
+        actorName = actorDec.getName().getName();
 
         restSlots();
         String commands = "";
@@ -200,6 +204,7 @@ public class CodeGenerator extends Visitor<String> {
         addCommand(commands);
         currentFile = prev_file;
         currentSymbolTable = prev_table;
+        actorVars = null;
         return null;
     }
 
@@ -1187,8 +1192,62 @@ public class CodeGenerator extends Visitor<String> {
         return jasminCode;
     }
 
+    private boolean isIdInActVar(Identifier identifier) {
+        for (VarDeclaration i : actorVars) {
+            if (i.getName().getName().equals(identifier.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Type getTypeActVar(Identifier identifier) {
+        for (VarDeclaration i : actorVars) {
+            if (i.getName().getName().equals(identifier.getName())) {
+                return i.getType();
+            }
+        }
+        return null;
+    }
+
+    private String generateLoadCodeActVar(Identifier identifier) {
+        String jasminCode = "";
+        Type type = getTypeActVar(identifier);
+        String varName = identifier.getName();
+        jasminCode += "aload_0\n";
+        if (type instanceof IntType) {
+            jasminCode += "getfield " + actorName + "/" + varName + " Ljava/lang/Integer;\n";
+        } else if (type instanceof BooleanType) {
+            jasminCode += "getfield " + actorName + "/" + varName + " Ljava/lang/Boolean;\n";
+        } else {
+            jasminCode += "getfield " + actorName + "/" + varName + " " + (type instanceof StringType ? "Ljava/lang/String;" : "Ljava/lang/Object;") + "\n";
+        }
+        return jasminCode;
+    }
+
+    private String visitActVar(Identifier identifier) {
+        String jasminCode = "";
+        jasminCode += generateLoadCodeActVar(identifier);
+        if (!convertToNonPrimitive) {
+            if (getTypeActVar(identifier) instanceof IntType) {
+                jasminCode += convertToint();
+            } else if (getTypeActVar(identifier) instanceof BooleanType) {
+                jasminCode += convertTobool();
+            }
+        }
+        return jasminCode;
+    }
+
     @Override
     public String visit(Identifier identifier) {
+        if (actorVars != null && isIdInActVar(identifier)) {
+            return visitActVar(identifier);
+        } else {
+            return visitVar(identifier);
+        }
+    }
+
+    private String visitVar(Identifier identifier) {
         String jasminCode = "";
         jasminCode += generateLoadCode(identifier);
         if (!convertToNonPrimitive) {
