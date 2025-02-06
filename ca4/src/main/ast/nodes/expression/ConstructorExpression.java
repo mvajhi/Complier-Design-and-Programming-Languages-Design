@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 public class ConstructorExpression extends Expression{
     private Identifier Id ;
+
+    public Expression getArgs() {
+        return args;
+    }
+
     private Expression args;
 
     public ConstructorExpression(Identifier _id, int _line) {
