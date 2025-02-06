@@ -983,6 +983,8 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(ForStatement forStatement) {
+        SymbolTable oldST = currentSymbolTable;
+        currentSymbolTable = forStatement.getSymbolTable();
         String jasminCode = "";
 
         String oldBreakLabel = breakLabel;
@@ -1018,6 +1020,8 @@ public class CodeGenerator extends Visitor<String> {
         breakLabel = oldBreakLabel;
         continueLabel = oldContinueLabel;
         afterLabel = oldAfterLabel;
+
+        currentSymbolTable = oldST;
         return jasminCode;
     }
 
@@ -1103,6 +1107,10 @@ public class CodeGenerator extends Visitor<String> {
 
     @Override
     public String visit(WhileStatement whileStatement) {
+//        ast bug
+//        SymbolTable oldST = currentSymbolTable;
+//        currentSymbolTable = whileStatement.getSymbolTable();
+
         String jasminCode = "";
 
         String oldBreakLabel = breakLabel;
@@ -1139,6 +1147,8 @@ public class CodeGenerator extends Visitor<String> {
         breakLabel = oldBreakLabel;
         continueLabel = oldContinueLabel;
         afterLabel = oldAfterLabel;
+
+//        currentSymbolTable = oldST;
         return jasminCode;
     }
 
