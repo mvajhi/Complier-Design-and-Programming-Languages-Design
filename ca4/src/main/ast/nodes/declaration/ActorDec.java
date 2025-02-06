@@ -2,6 +2,7 @@ package main.ast.nodes.declaration;
 
 import main.ast.nodes.expression.Expression;
 import main.ast.nodes.expression.Identifier;
+import main.ast.nodes.statements.Statement;
 import main.symbolTable.SymbolTable;
 import main.utils.ConstructorDto;
 import main.visitor.IVisitor;
@@ -16,6 +17,7 @@ public class ActorDec extends Declaration {
     private String constructorName;
     private ArrayList<VarDeclaration> constructorArgs = new ArrayList<>();
     private ArrayList<Handler> msgHandlers = new ArrayList<>();
+    private ArrayList<Statement> constructorBody = new ArrayList<>();
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
@@ -42,6 +44,7 @@ public class ActorDec extends Declaration {
     public void setConstructor (ConstructorDto constructor){
         constructorName = constructor.name;
         hasConstructor = true;
+        constructorBody.addAll(constructor.body);
         constructorArgs.addAll(constructor.args);
     }
 
@@ -90,6 +93,7 @@ public class ActorDec extends Declaration {
         return constructorName;
     }
 
+
     public void setConstructorName(String constructorName) {
         this.constructorName = constructorName;
     }
@@ -97,6 +101,8 @@ public class ActorDec extends Declaration {
     public ArrayList<VarDeclaration> getConstructorArgs() {
         return constructorArgs;
     }
+
+    public  ArrayList<Statement> getConstructorBody() {return constructorBody; }
 
     public void setConstructorArgs(ArrayList<VarDeclaration> constructorArgs) {
         this.constructorArgs = constructorArgs;

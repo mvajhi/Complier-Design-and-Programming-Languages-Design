@@ -181,39 +181,42 @@ public class CodeGenerator extends Visitor<String> {
     private String generateParameterizedConstructor(ActorDec actorDec, String actor_name) {
         StringBuilder commands = new StringBuilder();
 
-
+        // تعریف امضای متد با پارامترهای مشخص
         commands.append(".method public <init>(");
-
-
         for (VarDeclaration var : actorDec.getConstructorArgs()) {
             commands.append(getTypeDescriptor(var.getType()));
         }
         commands.append(")V\n");
 
+        // تنظیم stack و locals
         commands.append(".limit stack 128\n");
         commands.append(".limit locals 128\n");
 
+        // فراخوانی کانستراکتور کلاس پایه
         commands.append("aload_0\n");
         commands.append("invokespecial java/lang/Object/<init>()V\n");
 
-        // Call object static method
+        // اضافه کردن آبجکت به `MethodInvoker`
         commands.append("aload_0\n");
         commands.append("invokestatic MethodInvoker/addObject(Ljava/lang/Object;)V\n");
 
+        // **فقط پردازش آرگومان‌ها، بدون مقداردهی مستقیم**
         int paramIndex = 1;
         for (VarDeclaration var : actorDec.getConstructorArgs()) {
-            commands.append("aload_0\n");
-            commands.append(createIndexByteCode("aload", paramIndex));
-            commands.append("putfield ").append(actor_name).append("/").append(var.getName().getName()).append(" ")
-                    .append(getTypeDescriptor(var.getType())).append("\n");
+            slotOf(var.getName().getName());  // رزرو slot برای آرگومان
+            commands.append(createIndexByteCode("aload", paramIndex));  // بارگذاری مقدار آرگومان در استک
             paramIndex++;
         }
+        
+        commands.append(visitBody(actorDec.getConstructorBody()));
 
         commands.append("return\n");
         commands.append(".end method\n");
 
         return commands.toString();
     }
+
+
 
 
     @Override
