@@ -17,7 +17,9 @@ jobs:
         run: |
           git clone https://mvajhi:$ORG_TOKEN@github.com/PLC-UT/phase-4-null.git org-repo
           rm -rf org-repo/src/
+          rm -rf org-repo/utilities/codeGenerationUtilityClasses
           cp -r ca4/src org-repo/
+          cp -r ca4/utilities/codeGenerationUtilityClasses org-repo/utilities
           ls ./ca4/src -R
           cd org-repo
           ls ./src -R

@@ -1,4 +1,4 @@
-// Generated from D:/9/TA/Compiler/Fall-1403-project/Phase2/Project/src/main/grammar/SOACT.g4 by ANTLR 4.13.1
+// Generated from /home/mvajhi/code/Complier-Design-and-Programming-Languages-Design/ca4/src/main/grammar/SOACT.g4 by ANTLR 4.13.2
 package parsers;
 
     import main.ast.nodes.*;
@@ -22,7 +22,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
 public class SOACTLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
