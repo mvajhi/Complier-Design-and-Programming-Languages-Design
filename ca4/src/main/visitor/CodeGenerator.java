@@ -203,7 +203,7 @@ public class CodeGenerator extends Visitor<String> {
         return null;
     }
 
-    private static String generateDefaultConstructor(ActorDec actorDec, String actor_name) {
+    private String generateDefaultConstructor(ActorDec actorDec, String actor_name) {
         String commands = "";
         // Constructor without arguments
         commands += ".method public <init>()V\n";
@@ -227,14 +227,16 @@ public class CodeGenerator extends Visitor<String> {
         return commands;
     }
 
-    private static String generateDefaultValAttr(String actor_name, Type type, String varName) {
+    private String generateDefaultValAttr(String actor_name, Type type, String varName) {
         String commands = "aload_0\n";
         if (type instanceof IntType) {
             commands += "iconst_0\n"; // Default int value
-            commands += "putfield " + actor_name + "/" + varName + " I\n";
+            commands += convertToInteger();
+            commands += "putfield " + actor_name + "/" + varName + " Ljava/lang/Integer;\n";
         } else if (type instanceof BooleanType) {
             commands += "iconst_0\n"; // Default boolean value (false)
-            commands += "putfield " + actor_name + "/" + varName + " Z\n";
+            commands += convertToBoolean();
+            commands += "putfield " + actor_name + "/" + varName + " Ljava/lang/Boolean;\n";
         } else {
             commands += "aconst_null\n"; // Default for String and Object
             commands += "putfield " + actor_name + "/" + varName + " " + (type instanceof StringType ? "Ljava/lang/String;" : "Ljava/lang/Object;") + "\n";
@@ -242,7 +244,7 @@ public class CodeGenerator extends Visitor<String> {
         return commands;
     }
 
-    private static String visitVarActor(VarDeclaration varDeclaration) {
+    private String visitVarActor(VarDeclaration varDeclaration) {
         String commands = "";
         Type type = varDeclaration.getType();
 
@@ -253,12 +255,12 @@ public class CodeGenerator extends Visitor<String> {
         return commands;
     }
 
-    private static String getTypeDescriptor(Type type) {
+    private String getTypeDescriptor(Type type) {
         String typeDescriptor;
         if (type instanceof IntType) {
-            typeDescriptor = "I";
+            typeDescriptor = "Ljava/lang/Integer;";
         } else if (type instanceof BooleanType) {
-            typeDescriptor = "Z";
+            typeDescriptor = "Ljava/lang/Boolean;";
         } else if (type instanceof StringType) {
             typeDescriptor = "Ljava/lang/String;";
         } else {
