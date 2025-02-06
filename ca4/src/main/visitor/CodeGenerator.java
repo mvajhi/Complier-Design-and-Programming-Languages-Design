@@ -31,6 +31,8 @@ public class CodeGenerator extends Visitor<String> {
     private int labelCounter = 0;
     private String MsgObs = "msgObs";
 
+    private boolean isCncat = false;
+
     public CodeGenerator() {
         outputPath = "./codeGenOutput/";
         prepareOutputFolder();
@@ -327,17 +329,87 @@ public class CodeGenerator extends Visitor<String> {
         return ((ArrayType)tmp).getType();
     }
 
+    private Type getExprType(Expression expr) {
+        if (expr instanceof Identifier) {
+            Type type = getType((Identifier) expr);
+            if (type == null)
+                throw new RuntimeException("Error: Identifier type is null!");
+            return type;
+        }
+        if (expr instanceof IntValue)
+            return new IntType();
+        if (expr instanceof BoolValue)
+            return new BooleanType();
+        if (expr instanceof StringValue)
+            return new StringType();
+        return null;
+    }
+
+    private String handleOperandForConcat(Expression operand) {
+        StringBuilder code = new StringBuilder();
+
+        code.append(operand.accept(this)).append("\n");
+
+        Type operandType = getExprType(operand);
+
+        if (operandType instanceof IntType) {
+            code.append("invokestatic java/lang/String/valueOf(I)Ljava/lang/String;\n");
+        }
+        if (operandType instanceof BooleanType) {
+            code.append("invokestatic java/lang/String/valueOf(Z)Ljava/lang/String;\n");
+        }
+        code.append("invokevirtual java/lang/StringBuilder/append(Ljava/lang/String;)Ljava/lang/StringBuilder;\n");
+        return code.toString();
+    }
+
+
+    private String StringBuilderForConcat() {
+        return "new java/lang/StringBuilder\n" +  // 🚀 ایجاد `StringBuilder`
+                "dup\n" +
+                "invokespecial java/lang/StringBuilder/<init>()V\n"; // مقداردهی اولیه
+    }
+
+    private String visitStringConcat(BinaryExpression binaryExpression) {
+        StringBuilder code = new StringBuilder();
+
+
+        code.append(StringBuilderForConcat());
+
+        // پردازش عملوند چپ
+        code.append(handleOperandForConcat(binaryExpression.getLeftOperand()));
+
+        // پردازش عملوند راست
+        code.append(handleOperandForConcat(binaryExpression.getRightOperand()));
+
+        // تبدیل به `String`
+        code.append("invokevirtual java/lang/StringBuilder/toString()Ljava/lang/String;\n");
+
+        return code.toString();
+    }
+
+
+
     @Override
     public String visit(BinaryExpression binaryExpression) {
         boolean isConvToNP = convertToNonPrimitive;
         convertToNonPrimitive = false;
         String jasminCode = "";
-        if (Arrays.asList(BinaryOperator.PLUS, BinaryOperator.MINUS,
+
+        if (Arrays.asList(BinaryOperator.MINUS,BinaryOperator.PLUS,
                 BinaryOperator.MULT, BinaryOperator.DIVIDE, BinaryOperator.MOD)
-                .contains(binaryExpression.getBinaryOperator())) {
-            jasminCode += visitIntBinExp(binaryExpression);
-            if (isConvToNP) {
-                jasminCode += convertToInteger();
+                .contains(binaryExpression.getBinaryOperator()))
+        {
+            if(isCncat) {
+                jasminCode += visitStringConcat(binaryExpression);
+            }
+
+            else {
+                jasminCode += visitIntBinExp(binaryExpression);
+
+
+                if (isConvToNP) {
+                    jasminCode += convertToInteger();
+                }
             }
         } else if (binaryExpression.getBinaryOperator() == BinaryOperator.INDEXING) {
             jasminCode += visitAccessExpression(binaryExpression);
@@ -837,6 +909,7 @@ public class CodeGenerator extends Visitor<String> {
         return jasminCode;
     }
 
+
     private String getIteratorMaxName(ForStatement forStatement) {
         return getIteratorName(forStatement) + "$max";
     }
@@ -1082,10 +1155,13 @@ public class CodeGenerator extends Visitor<String> {
     @Override
     public String visit(CallExpression callExpression) {
         convertToNonPrimitive = true;
+        isCncat = false;
         String jasminCode = "";
         if (Objects.equals(callExpression.getHandlerName(), "print")){
+            isCncat = true;
             jasminCode += visit_print(callExpression);
             convertToNonPrimitive = false;
+            isCncat = false;
             return jasminCode;
         }
         if (callExpression.getExpressions() instanceof ExpressionList)
