@@ -183,6 +183,8 @@ public class CodeGenerator extends Visitor<String> {
 
 
         commands.append(".method public <init>(");
+
+
         for (int i = 0; i < actorDec.getConstructorArgs().size(); i++) {
             commands.append("Ljava/lang/Object;");
         }
@@ -193,6 +195,10 @@ public class CodeGenerator extends Visitor<String> {
 
         commands.append("aload_0\n");
         commands.append("invokespecial java/lang/Object/<init>()V\n");
+
+        // Call object static method
+        commands.append("aload_0\n");
+        commands.append("invokestatic MethodInvoker/addObject(Ljava/lang/Object;)V\n");
 
         int paramIndex = 1;
         for (VarDeclaration var : actorDec.getConstructorArgs()) {
@@ -237,7 +243,7 @@ public class CodeGenerator extends Visitor<String> {
         for (Handler handler : actorDec.getMsgHandlers()) {
             commands += handler.accept(this);
         }
-
+        
         commands += generateDefaultConstructor(actorDec, actor_name);
 
         if(actorDec.isHasConstructor())
